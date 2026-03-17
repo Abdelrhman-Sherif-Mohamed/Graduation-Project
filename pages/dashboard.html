@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - عيادة الشفاء</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body class="page-dashboard">
+<div class="d-flex">
+
+    <!-- ===== Sidebar ===== -->
+    <div class="sidebar p-3 d-flex flex-column" id="sidebar">
+        <div class="text-center mb-3 pt-1">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                 style="width:58px;height:58px;background:rgba(255,255,255,.15)">
+                <i class="bi bi-person-badge-fill fs-2 text-white"></i>
+            </div>
+            <p class="text-white fw-bold mb-0 small" id="sidebarName">...</p>
+            <small class="text-white opacity-75" id="sidebarSpec">جاري التحميل...</small>
+        </div>
+        <hr class="border-light opacity-25 my-2">
+
+        <span class="nav-section">القائمة الرئيسية</span>
+        <a href="#" class="mb-1 active" data-view="overview" onclick="switchView('overview',this)">
+            <i class="bi bi-grid-fill"></i>الرئيسية
+        </a>
+        <a href="#" class="mb-1" data-view="today" onclick="switchView('today',this)">
+            <i class="bi bi-calendar-check"></i>حجوزات اليوم
+        </a>
+        <a href="#" class="mb-1" data-view="all" onclick="switchView('all',this)">
+            <i class="bi bi-list-check"></i>كل الحجوزات
+        </a>
+        <a href="#" class="mb-1" data-view="patients" onclick="switchView('patients',this)">
+            <i class="bi bi-people-fill"></i>المرضى
+        </a>
+
+        <!-- Specialty-specific links (hidden until loaded) -->
+        <div id="specNavLinks" class="d-none">
+            <hr class="border-light opacity-25 my-2">
+            <span class="nav-section" id="specNavTitle">تخصصي</span>
+            <!-- يتعبى ديناميكياً -->
+        </div>
+
+        <hr class="border-light opacity-25 my-2 mt-auto">
+        <a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i>تسجيل الخروج</a>
+    </div>
+
+    <!-- ===== Main ===== -->
+    <div class="flex-grow-1 p-3 p-md-4" style="min-width:0">
+
+        <!-- Topbar -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-outline-secondary rounded-3" id="sidebarToggle"
+                        onclick="document.getElementById('sidebar').classList.toggle('show')">
+                    <i class="bi bi-list fs-5"></i>
+                </button>
+                <h5 class="mb-0 fw-bold" style="color:var(--secondary-blue)" id="pageTitle">لوحة التحكم</h5>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-person-circle fs-4" style="color:var(--secondary-blue)"></i>
+                <span class="fw-semibold small" id="topName">...</span>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingState" class="text-center py-5">
+            <div class="spinner-border" style="color:var(--secondary-blue)"></div>
+            <p class="text-muted mt-3">جاري تحميل البيانات...</p>
+        </div>
+
+        <!-- ======= VIEW: Overview ======= -->
+        <div id="view-overview" class="view d-none">
+
+            <!-- Specialty Banner -->
+            <div class="spec-banner d-flex align-items-center gap-3" id="specBanner">
+                <i class="spec-icon" id="specBannerIcon"></i>
+                <div>
+                    <h5 class="mb-0 fw-bold" id="specBannerName"></h5>
+                    <small class="opacity-75" id="specBannerDesc"></small>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-lg-3">
+                    <div class="card stat-card shadow-sm p-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="stat-icon" style="background:#e3f2fd">
+                                <i class="bi bi-calendar-check" style="color:var(--secondary-blue)"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-0" id="todayCount">-</h4>
+                                <small class="text-muted">حجوزات اليوم</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card stat-card shadow-sm p-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="stat-icon" style="background:#e8f5e9">
+                                <i class="bi bi-people-fill text-success"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-0" id="totalPatients">-</h4>
+                                <small class="text-muted">إجمالي المرضى</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card stat-card shadow-sm p-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="stat-icon" style="background:#fff8e1">
+                                <i class="bi bi-clock-history text-warning"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-0" id="pendingCount">-</h4>
+                                <small class="text-muted">في الانتظار</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card stat-card shadow-sm p-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="stat-icon" style="background:#e8f5e9">
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-0" id="confirmedCount">-</h4>
+                                <small class="text-muted">مؤكدة</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialty-specific overview panel -->
+            <div id="specOverviewPanel"></div>
+
+            <!-- Quick: today's appointments preview -->
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center py-3"
+                     style="background:var(--secondary-blue)">
+                    <h6 class="text-white mb-0"><i class="bi bi-calendar-check me-2"></i>حجوزات اليوم</h6>
+                    <span class="badge bg-white text-primary" id="todayBadge">0</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr>
+                                <th>#</th><th>الاسم</th><th>الهاتف</th>
+                                <th>الوقت</th><th>الحالة</th><th>إجراء</th>
+                            </tr></thead>
+                            <tbody id="todayTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= VIEW: Today ======= -->
+        <div id="view-today" class="view d-none">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center py-3"
+                     style="background:var(--secondary-blue)">
+                    <h6 class="text-white mb-0"><i class="bi bi-calendar-check me-2"></i>حجوزات اليوم</h6>
+                    <span class="badge bg-white text-primary" id="todayBadge2">0</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr>
+                                <th>#</th><th>الاسم</th><th>الهاتف</th>
+                                <th>الواتساب</th><th>العنوان</th>
+                                <th>الوقت</th><th>الحالة</th><th>إجراء</th>
+                            </tr></thead>
+                            <tbody id="todayFullTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= VIEW: All Appointments ======= -->
+        <div id="view-all" class="view d-none">
+            <!-- Filter tabs -->
+            <ul class="nav view-tabs mb-3 gap-1">
+                <li class="nav-item"><a class="nav-link active" href="#" onclick="filterAll('all',this)">الكل</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="filterAll('pending',this)">انتظار</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="filterAll('confirmed',this)">مؤكدة</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="filterAll('cancelled',this)">ملغية</a></li>
+            </ul>
+            <div class="card shadow-sm">
+                <div class="card-header py-3" style="background:var(--secondary-blue)">
+                    <h6 class="text-white mb-0"><i class="bi bi-list-check me-2"></i>كل الحجوزات</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr>
+                                <th>#</th><th>الاسم</th><th>التاريخ</th>
+                                <th>الوقت</th><th>الحالة</th><th>إجراء</th>
+                            </tr></thead>
+                            <tbody id="allTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= VIEW: Patients ======= -->
+        <div id="view-patients" class="view d-none">
+            <div class="card shadow-sm">
+                <div class="card-header py-3" style="background:var(--secondary-blue)">
+                    <h6 class="text-white mb-0"><i class="bi bi-people-fill me-2"></i>قائمة المرضى</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr>
+                                <th>#</th><th>الاسم</th><th>الهاتف</th>
+                                <th>العنوان</th><th>آخر حجز</th><th>الحالة</th>
+                            </tr></thead>
+                            <tbody id="patientsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= VIEW: Specialty-specific ======= -->
+        <div id="view-specialty" class="view d-none">
+            <div id="specDetailPanel"></div>
+        </div>
+
+    </div><!-- /main -->
+</div><!-- /d-flex -->
+
+<script type="module">
+import { auth, db } from "../js/firebase-config.js";
+import { onAuthStateChanged, signOut }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ===== Specialty config =====
+const SPEC_CONFIG = {
+    heart:      { icon:'bi-heart-pulse-fill', color:'#e53935', bg:'#ffebee', desc:'أمراض القلب والأوعية الدموية',
+                  extraCols: ['ضغط الدم','معدل القلب'], extraNav: [] },
+    dentist:    { icon:'bi-emoji-smile',       color:'#1e88e5', bg:'#e3f2fd', desc:'طب الأسنان التجميلي والعلاجي',
+                  extraCols: ['نوع العلاج','السن المعالج'], extraNav: [] },
+    bones:      { icon:'bi-bandaid-fill',      color:'#6d4c41', bg:'#efebe9', desc:'جراحة العظام والمفاصل',
+                  extraCols: ['المنطقة المصابة','نوع الإصابة'], extraNav: [] },
+    children:   { icon:'bi-balloon-heart-fill',color:'#e91e63', bg:'#fce4ec', desc:'طب الأطفال والرضّع',
+                  extraCols: ['العمر','الوزن'], extraNav: [] },
+    neuro:      { icon:'bi-activity',          color:'#7b1fa2', bg:'#f3e5f5', desc:'المخ والأعصاب',
+                  extraCols: ['نوع الشكوى','مدة الأعراض'], extraNav: [] },
+    internal:   { icon:'bi-lungs-fill',        color:'#00897b', bg:'#e0f2f1', desc:'الباطنة والمناعة',
+                  extraCols: ['التشخيص','الأدوية الحالية'], extraNav: [] },
+    derma:      { icon:'bi-stars',             color:'#f57c00', bg:'#fff3e0', desc:'الجلدية والتجميل',
+                  extraCols: ['منطقة الجلد','نوع المشكلة'], extraNav: [] },
+    eye:        { icon:'bi-eye-fill',          color:'#0288d1', bg:'#e1f5fe', desc:'طب العيون',
+                  extraCols: ['العين المصابة','درجة النظر'], extraNav: [] },
+    gynecology: { icon:'bi-gender-female',     color:'#d81b60', bg:'#fce4ec', desc:'النساء والتوليد',
+                  extraCols: ['أسابيع الحمل','آخر دورة'], extraNav: [] },
+    urology:    { icon:'bi-droplet-fill',      color:'#1565c0', bg:'#e3f2fd', desc:'المسالك البولية',
+                  extraCols: ['موضع الألم','نوع الحصوة'], extraNav: [] },
+    radiology:  { icon:'bi-radioactive',       color:'#37474f', bg:'#eceff1', desc:'الأشعة التشخيصية',
+                  extraCols: ['نوع الأشعة','منطقة الفحص'], extraNav: [] },
+    emergency:  { icon:'bi-hospital-fill',     color:'#c62828', bg:'#ffebee', desc:'الطوارئ والإسعاف',
+                  extraCols: ['درجة الطوارئ','الحالة عند الوصول'], extraNav: [] },
+};
+
+// ===== State =====
+let allAppointments = [];
+let currentSpecId   = '';
+
+// ===== Auth =====
+onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+
+    let data = null;
+
+    // 1. جرب users/{uid} أولاً
+    try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists() && snap.data().role === 'doctor') {
+            data = snap.data();
+        }
+    } catch(e) {}
+
+    // 2. لو مش موجود في users كـ doctor، ابحث في doctors بالـ email
+    if (!data) {
+        try {
+            const q    = query(collection(db, 'doctors'), where('email', '==', user.email));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+                data = snap.docs[0].data();
+                // احفظ في users للمرة الجاية
+                try {
+                    await setDoc(doc(db, 'users', user.uid), {
+                        ...data, uid: user.uid, doctorId: data.id, role: 'doctor'
+                    });
+                } catch(e) {}
+            }
+        } catch(e) {}
+    }
+
+    // 3. لو مش طبيب خالص
+    if (!data || data.role !== 'doctor') {
+        window.location.href = 'patient.html'; return;
+    }
+
+    const name = data.name || user.displayName || user.email;
+    currentSpecId = data.specId || data.specialtyId || '';
+
+    document.getElementById('sidebarName').textContent = name;
+    document.getElementById('sidebarSpec').textContent = data.specialty || data.specName || 'طبيب';
+    document.getElementById('topName').textContent     = name;
+
+    setupSpecialtyUI(currentSpecId, data.specialty || data.specName || '');
+
+    const doctorId = data.doctorId || data.id || user.uid;
+    await loadData(doctorId);
+});
+
+document.getElementById('logoutBtn').onclick = async (e) => {
+    e.preventDefault();
+    await signOut(auth);
+    localStorage.removeItem('currentUser');
+    window.location.href = 'login.html';
+};
+
+// ===== Setup specialty UI =====
+function setupSpecialtyUI(specId, specName) {
+    const cfg = SPEC_CONFIG[specId] || { icon:'bi-hospital-fill', color:'var(--secondary-blue)', bg:'#e3f2fd', desc:'' };
+
+    // Banner
+    document.getElementById('specBannerIcon').className = `bi ${cfg.icon} spec-icon`;
+    document.getElementById('specBannerIcon').style.color = cfg.color;
+    document.getElementById('specBannerName').textContent = specName;
+    document.getElementById('specBannerDesc').textContent = cfg.desc;
+
+    // Specialty nav link
+    if (specId) {
+        const navLinks = document.getElementById('specNavLinks');
+        navLinks.classList.remove('d-none');
+        document.getElementById('specNavTitle').textContent = specName;
+        navLinks.insertAdjacentHTML('beforeend', `
+            <a href="#" class="mb-1" data-view="specialty" onclick="switchView('specialty',this)">
+                <i class="bi ${cfg.icon}"></i>بيانات ${specName}
+            </a>`);
+    }
+}
+
+// ===== Load data =====
+async function loadData(doctorId) {
+    try {
+        const q    = query(collection(db, 'appointments'), where('doctorId', '==', doctorId));
+        const snap = await getDocs(q);
+        allAppointments = snap.docs
+            .map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+        document.getElementById('loadingState').classList.add('d-none');
+        renderAll();
+        switchView('overview', document.querySelector('[data-view="overview"]'));
+    } catch (err) {
+        document.getElementById('loadingState').innerHTML =
+            `<p class="text-danger text-center py-4">حدث خطأ: ${err.message}</p>`;
+    }
+}
+
+// ===== Render all views =====
+function renderAll() {
+    const today      = new Date().toISOString().split('T')[0];
+    const todayAppts = allAppointments.filter(a => a.date === today);
+
+    // Stats
+    document.getElementById('todayCount').textContent    = todayAppts.length;
+    document.getElementById('totalPatients').textContent = new Set(allAppointments.map(a => a.patientId)).size;
+    document.getElementById('pendingCount').textContent  = allAppointments.filter(a => a.status === 'pending').length;
+    document.getElementById('confirmedCount').textContent= allAppointments.filter(a => a.status === 'confirmed').length;
+    document.getElementById('todayBadge').textContent    = todayAppts.length;
+    document.getElementById('todayBadge2').textContent   = todayAppts.length;
+
+    // Today preview (overview)
+    renderTable('todayTableBody', todayAppts, 'short');
+    // Today full
+    renderTable('todayFullTable', todayAppts, 'full');
+    // All
+    renderTable('allTableBody', allAppointments, 'all');
+    // Patients
+    renderPatientsTable();
+    // Specialty panel
+    renderSpecialtyPanel();
+}
+
+// ===== Render table =====
+function renderTable(tbodyId, appts, mode) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    if (!appts.length) {
+        const cols = mode === 'full' ? 8 : mode === 'all' ? 6 : 6;
+        tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center text-muted py-4">لا توجد حجوزات</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = appts.map((a, i) => {
+        if (mode === 'full') {
+            return `<tr id="row-${a.id}">
+                <td>${i+1}</td>
+                <td class="fw-semibold">${a.patientName||'—'}</td>
+                <td>${a.phone||'—'}</td>
+                <td>${a.whatsapp||'—'}</td>
+                <td>${a.address||'—'}</td>
+                <td>${a.time||'—'}</td>
+                <td>${statusBadge(a.status)}</td>
+                <td>${actionBtns(a.id, a.status, 'row')}</td>
+            </tr>`;
+        } else if (mode === 'all') {
+            return `<tr id="arow-${a.id}">
+                <td>${i+1}</td>
+                <td class="fw-semibold">${a.patientName||'—'}</td>
+                <td>${a.date||'—'}</td>
+                <td>${a.time||'—'}</td>
+                <td>${statusBadge(a.status)}</td>
+                <td>${actionBtns(a.id, a.status, 'arow')}</td>
+            </tr>`;
+        } else {
+            return `<tr id="srow-${a.id}">
+                <td>${i+1}</td>
+                <td class="fw-semibold">${a.patientName||'—'}</td>
+                <td>${a.phone||'—'}</td>
+                <td>${a.time||'—'}</td>
+                <td>${statusBadge(a.status)}</td>
+                <td>${actionBtns(a.id, a.status, 'srow')}</td>
+            </tr>`;
+        }
+    }).join('');
+}
+
+// ===== Patients table =====
+function renderPatientsTable() {
+    const seen = new Map();
+    allAppointments.forEach(a => { if (!seen.has(a.patientId)) seen.set(a.patientId, a); });
+    const patients = [...seen.values()];
+    const tbody = document.getElementById('patientsTableBody');
+    tbody.innerHTML = patients.length
+        ? patients.map((a, i) => `
+            <tr>
+                <td>${i+1}</td>
+                <td class="fw-semibold">${a.patientName||'—'}</td>
+                <td>${a.phone||'—'}</td>
+                <td>${a.address||'—'}</td>
+                <td>${a.date||'—'}</td>
+                <td>${statusBadge(a.status)}</td>
+            </tr>`).join('')
+        : '<tr><td colspan="6" class="text-center text-muted py-4">لا يوجد مرضى بعد</td></tr>';
+}
+
+// ===== Specialty panel =====
+function renderSpecialtyPanel() {
+    const cfg     = SPEC_CONFIG[currentSpecId];
+    const panel   = document.getElementById('specDetailPanel');
+    const oPanel  = document.getElementById('specOverviewPanel');
+    if (!cfg || !currentSpecId) { panel.innerHTML = ''; oPanel.innerHTML = ''; return; }
+
+    // Overview mini-card
+    oPanel.innerHTML = `
+        <div class="card shadow-sm mb-4 p-3 d-flex flex-row align-items-center gap-3"
+             style="border-right:4px solid ${cfg.color};border-radius:12px">
+            <div class="stat-icon" style="background:${cfg.bg};color:${cfg.color};font-size:1.6rem">
+                <i class="bi ${cfg.icon}"></i>
+            </div>
+            <div>
+                <p class="mb-0 fw-semibold">${document.getElementById('sidebarSpec').textContent}</p>
+                <small class="text-muted">${cfg.desc}</small>
+            </div>
+            <a href="#" class="btn btn-sm ms-auto rounded-5 text-white"
+               style="background:${cfg.color}" onclick="switchView('specialty',null)">
+               عرض التفاصيل
+            </a>
+        </div>`;
+
+    // Specialty detail view — جدول الحجوزات مع الأعمدة الخاصة بالتخصص
+    const extraHeaders = cfg.extraCols.map(c => `<th>${c}</th>`).join('');
+    const rows = allAppointments.map((a, i) => {
+        const extras = cfg.extraCols.map(c => `<td><span class="text-muted small">—</span></td>`).join('');
+        return `<tr id="sprow-${a.id}">
+            <td>${i+1}</td>
+            <td class="fw-semibold">${a.patientName||'—'}</td>
+            <td>${a.date||'—'}</td>
+            <td>${a.time||'—'}</td>
+            ${extras}
+            <td>${statusBadge(a.status)}</td>
+            <td>${actionBtns(a.id, a.status, 'sprow')}</td>
+        </tr>`;
+    }).join('') || `<tr><td colspan="${6 + cfg.extraCols.length}" class="text-center text-muted py-4">لا توجد حجوزات</td></tr>`;
+
+    panel.innerHTML = `
+        <div class="spec-banner d-flex align-items-center gap-3 mb-4"
+             style="background:linear-gradient(135deg,${cfg.color},${cfg.color}cc)">
+            <i class="bi ${cfg.icon} spec-icon"></i>
+            <div>
+                <h5 class="mb-0 fw-bold">${document.getElementById('sidebarSpec').textContent}</h5>
+                <small class="opacity-75">${cfg.desc}</small>
+            </div>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header py-3" style="background:${cfg.color}">
+                <h6 class="text-white mb-0">
+                    <i class="bi ${cfg.icon} me-2"></i>حجوزات ${document.getElementById('sidebarSpec').textContent}
+                </h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead><tr>
+                            <th>#</th><th>الاسم</th><th>التاريخ</th><th>الوقت</th>
+                            ${extraHeaders}
+                            <th>الحالة</th><th>إجراء</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>`;
+}
+
+// ===== Filter all appointments =====
+window.filterAll = (status, el) => {
+    document.querySelectorAll('.view-tabs .nav-link').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+    const filtered = status === 'all' ? allAppointments : allAppointments.filter(a => a.status === status);
+    renderTable('allTableBody', filtered, 'all');
+};
+
+// ===== Switch view =====
+window.switchView = (viewName, el) => {
+    document.querySelectorAll('.view').forEach(v => v.classList.add('d-none'));
+    const target = document.getElementById(`view-${viewName}`);
+    if (target) target.classList.remove('d-none');
+
+    document.querySelectorAll('.sidebar a[data-view]').forEach(a => a.classList.remove('active'));
+    if (el) el.classList.add('active');
+
+    const titles = {
+        overview: 'لوحة التحكم', today: 'حجوزات اليوم',
+        all: 'كل الحجوزات', patients: 'المرضى', specialty: 'بيانات التخصص'
+    };
+    document.getElementById('pageTitle').textContent = titles[viewName] || 'لوحة التحكم';
+    return false;
+};
+
+// ===== Status badge =====
+function statusBadge(s) {
+    const m = {
+        pending:   '<span class="badge badge-pending px-2 py-1 rounded-3">انتظار</span>',
+        confirmed: '<span class="badge badge-confirmed px-2 py-1 rounded-3">مؤكد</span>',
+        cancelled: '<span class="badge badge-cancelled px-2 py-1 rounded-3">ملغي</span>',
+    };
+    return m[s] || m.pending;
+}
+
+// ===== Action buttons =====
+function actionBtns(id, status, prefix) {
+    if (status === 'cancelled') return '<span class="text-muted small">ملغي</span>';
+    if (status === 'confirmed') return `
+        <button class="btn btn-danger btn-sm rounded-3" onclick="cancelAppt('${id}','${prefix}')">إلغاء</button>`;
+    // pending
+    return `
+        <button class="btn btn-success btn-sm rounded-3 me-1" onclick="confirmAppt('${id}','${prefix}')">تأكيد</button>
+        <button class="btn btn-danger btn-sm rounded-3" onclick="cancelAppt('${id}','${prefix}')">إلغاء</button>`;
+}
+
+// ===== Confirm / Cancel =====
+window.confirmAppt = async (id, prefix) => {
+    try {
+        await updateDoc(doc(db, 'appointments', id), { status: 'confirmed' });
+        updateRowUI(id, prefix, 'confirmed');
+        // update state
+        const a = allAppointments.find(x => x.id === id);
+        if (a) a.status = 'confirmed';
+        updateStats();
+    } catch { alert('حدث خطأ'); }
+};
+
+window.cancelAppt = async (id, prefix) => {
+    if (!confirm('إلغاء هذا الحجز؟')) return;
+    try {
+        await updateDoc(doc(db, 'appointments', id), { status: 'cancelled' });
+        updateRowUI(id, prefix, 'cancelled');
+        const a = allAppointments.find(x => x.id === id);
+        if (a) a.status = 'cancelled';
+        updateStats();
+    } catch { alert('حدث خطأ'); }
+};
+
+function updateRowUI(id, prefix, status) {
+    const prefixes = [prefix, 'row', 'arow', 'srow', 'sprow'];
+    prefixes.forEach(p => {
+        const row = document.getElementById(`${p}-${id}`);
+        if (!row) return;
+        const cells = row.querySelectorAll('td');
+        cells[cells.length - 2].innerHTML = statusBadge(status);
+        cells[cells.length - 1].innerHTML = status === 'cancelled' ? '—' : actionBtns(id, status, p);
+    });
+}
+
+function updateStats() {
+    document.getElementById('pendingCount').textContent   = allAppointments.filter(a => a.status === 'pending').length;
+    document.getElementById('confirmedCount').textContent = allAppointments.filter(a => a.status === 'confirmed').length;
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

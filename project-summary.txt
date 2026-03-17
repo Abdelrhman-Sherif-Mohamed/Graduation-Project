@@ -1,0 +1,217 @@
+========================================================
+   عيادة الشفاء — ملخص المشروع الكامل
+   Al-Shifa Clinic — Project Summary
+========================================================
+
+----------------------------------------------------------
+معلومات المشروع
+----------------------------------------------------------
+الاسم     : عيادة الشفاء
+التقنيات  : HTML / CSS / JavaScript (Vanilla) — بدون Framework
+Firebase  : Authentication + Firestore فقط
+Bootstrap : 5.3.8
+Icons     : Bootstrap Icons 1.13.1
+
+Firebase Config:
+  apiKey            : AIzaSyCOwMMVo4uyqY4g_pDcDFTvwmq1mXzlsbU
+  authDomain        : al-shifa-clinic-a7816.firebaseapp.com
+  projectId         : al-shifa-clinic-a7816
+  storageBucket     : al-shifa-clinic-a7816.firebasestorage.app
+  messagingSenderId : 867976308051
+  appId             : 1:867976308051:web:b8fcfe1c879ed5c8e42da6
+
+Admin Email : abdelrhmansherif140@gmail.com
+Doctor Pass : Doctor@123  (كلمة مرور افتراضية لكل الأطباء)
+Doctor Email: {doctorId}@alshifa-clinic.com
+
+----------------------------------------------------------
+هيكل الملفات
+----------------------------------------------------------
+/
+├── index.html                  الصفحة الرئيسية
+├── css/
+│   └── style.css               كل الـ CSS للمشروع
+├── js/
+│   ├── firebase-config.js      إعداد Firebase
+│   ├── doctors-data.js         بيانات الأطباء والتخصصات (23 طبيب، 12 تخصص)
+│   └── script.js               سكريبت عام
+├── pages/
+│   ├── login.html              تسجيل الدخول
+│   ├── register.html           إنشاء حساب مريض
+│   ├── patient.html            داش بورد المريض (حجوزاته)
+│   ├── dashboard.html          داش بورد الطبيب
+│   ├── appointment.html        فورم حجز موعد
+│   ├── doctors.html            صفحة عرض الأطباء مع فلتر
+│   ├── specialties.html        صفحة التخصصات
+│   ├── manage-doctors.html     إدارة الأطباء (admin)
+│   ├── create-doctors.html     إنشاء حسابات الأطباء (admin)
+│   └── seed.html               رفع البيانات على Firebase
+├── imges/
+│   ├── img/                    صور عامة
+│   ├── logo/                   لوجو العيادة
+│   └── specialties/            صور التخصصات المحلية (6 صور)
+└── firestore.rules             قواعد Firestore
+
+----------------------------------------------------------
+التخصصات الـ 12
+----------------------------------------------------------
+heart       أمراض القلب          — د. أحمد محمد، د. كريم حسن
+dentist     طب الأسنان           — د. سارة خالد، د. هناء رضا
+bones       جراحة العظام         — د. محمد علي، د. طارق سامي
+children    طب الأطفال           — د. منى إبراهيم، د. عمر فاروق
+neuro       المخ والأعصاب        — د. نورا سعيد، د. ياسر منصور
+internal    الباطنة والمناعة     — د. حسن الشريف، د. دينا مصطفى
+derma       الجلدية والتجميل     — د. رانيا فؤاد، د. وائل نجيب
+eye         طب العيون            — د. سامح عبدالله، د. إيمان حمدي
+gynecology  النساء والتوليد      — د. هبة الله أحمد، د. نادية سليم
+urology     المسالك البولية      — د. أشرف كمال، د. شريف منير
+radiology   الأشعة التشخيصية    — د. مجدي سعد
+emergency   الطوارئ              — د. عادل رشاد، د. ليلى منصور
+
+----------------------------------------------------------
+Redirect Logic (بعد تسجيل الدخول)
+----------------------------------------------------------
+role = doctor  → dashboard.html
+role = admin   → create-doctors.html
+role = patient → patient.html
+
+----------------------------------------------------------
+المميزات المُنجزة
+----------------------------------------------------------
+
+[1] الصفحة الرئيسية (index.html)
+    ✓ Navbar مع Mega Menu للتخصصات (4 columns، كل تخصص بلونه)
+    ✓ Hero section مع إحصائيات
+    ✓ قسم التخصصات: 12 كارت بأيقونات ملونة مع hover animation
+    ✓ قسم الأطباء: 4 أطباء مميزين
+    ✓ قسم المزايا: 6 خدمات
+    ✓ فورم حجز سريع
+    ✓ Footer مع بيانات التواصل
+    ✓ حل مشكلة الـ horizontal scroll (overflow-x: hidden)
+
+[2] Firebase Authentication + Firestore
+    ✓ تسجيل دخول حقيقي بـ Firebase Auth
+    ✓ جلب الـ role من users/{uid} أو fallback من doctors collection بالـ email
+    ✓ حفظ بيانات المستخدم في users تلقائياً عند أول دخول
+    ✓ Redirect تلقائي حسب الـ role
+    ✓ نسيت كلمة المرور (Password Reset Email)
+
+[3] صفحة تسجيل الدخول (login.html)
+    ✓ Firebase Auth حقيقي
+    ✓ Toggle password visibility
+    ✓ رسائل خطأ واضحة لكل حالة
+    ✓ Loading spinner أثناء التحقق
+
+[4] صفحة التسجيل (register.html)
+    ✓ إنشاء حساب مريض جديد
+    ✓ حفظ: الاسم، البريد، الرقم القومي، الهاتف، الواتساب، العنوان
+    ✓ role: "patient" تلقائياً في Firestore
+
+[5] داش بورد المريض (patient.html)
+    ✓ عرض كل حجوزات المريض من Firestore
+    ✓ إحصائيات: إجمالي / انتظار / مؤكدة / ملغية
+    ✓ إلغاء حجز مباشرة
+    ✓ Redirect تلقائي لو doctor أو admin
+
+[6] داش بورد الطبيب (dashboard.html)
+    ✓ Sidebar بـ 4 روابط ثابتة + رابط خاص بتخصص الطبيب
+    ✓ Banner بلون وأيقونة التخصص
+    ✓ 5 views: الرئيسية / حجوزات اليوم / كل الحجوزات / المرضى / بيانات التخصص
+    ✓ كل تخصص ليه أعمدة خاصة بيه في جدول البيانات
+    ✓ تأكيد وإلغاء الحجوزات
+    ✓ Responsive sidebar مع toggle button
+    ✓ يدعم 12 تخصص مختلف بألوان مختلفة
+    ✓ Fallback: لو مش موجود في users يبحث في doctors بالـ email
+
+[7] فورم الحجز (appointment.html)
+    ✓ 4 خطوات: بيانات شخصية / تخصص وطبيب / تاريخ ووقت / ملاحظات
+    ✓ Specialty → Doctor filter ديناميكي
+    ✓ Doctor preview card بعد الاختيار
+    ✓ Visual time slots (18 وقت)
+    ✓ حفظ الحجز في Firestore
+    ✓ Success state بعد الحجز
+    ✓ الـ select يبدأ بـ "اختر التخصص" دايماً (مش بيتحدد تلقائياً من URL)
+    ✓ لو جاي بـ ?doctor=xxx بيحدد الطبيب تلقائياً فقط
+
+[8] صفحة الأطباء (doctors.html)
+    ✓ عرض 23 طبيب مع فلتر بالتخصص
+    ✓ كل كارت فيه صورة + اسم + تخصص + زرار حجز
+
+[9] صفحة التخصصات (specialties.html)
+    ✓ 12 تخصص مع صور محلية للـ 6 الأساسيين
+    ✓ زرار "احجز الآن" لكل تخصص
+
+[10] إدارة الأطباء (manage-doctors.html)
+    ✓ عرض كل الأطباء مع فلتر بالتخصص
+    ✓ حذف طبيب مع تأكيد
+    ✓ إضافة طبيب جديد مع معاينة الصورة
+    ✓ البيانات محفوظة في localStorage
+
+[11] إنشاء حسابات الأطباء (create-doctors.html)
+    ✓ تسجيل دخول Admin أولاً
+    ✓ اختيار تخصص أو أكثر أو كل التخصصات
+    ✓ إنشاء حسابات Firebase Auth للأطباء
+    ✓ حفظ البيانات في doctors + users في Firestore
+    ✓ Log box يعرض تفاصيل العملية
+    ✓ Redirect تلقائي: doctor → dashboard، patient → patient
+
+[12] رفع البيانات (seed.html)
+    ✓ رفع 12 تخصص + 23 طبيب على Firestore
+    ✓ إنشاء حسابات Auth للأطباء
+    ✓ Progress bar
+    ✓ Log box ملون
+
+[13] CSS Architecture
+    ✓ كل الـ CSS في ملف واحد css/style.css
+    ✓ لا يوجد <style> blocks داخل الصفحات
+    ✓ كل صفحة ليها body class خاص:
+        page-auth       → login.html, register.html
+        page-patient    → patient.html
+        page-dashboard  → dashboard.html
+        page-appointment→ appointment.html
+        page-admin      → seed.html, create-doctors.html
+        page-manage     → manage-doctors.html
+    ✓ CSS Variables في :root للألوان
+
+----------------------------------------------------------
+المشاكل اللي اتحلت
+----------------------------------------------------------
+
+[M1] Horizontal Scroll في index.html
+     السبب  : الـ mega menu كان بيستخدم transform: translateX(-50%) فبيطلع برا الـ viewport
+     الحل   : شيل الـ transform وخلي left: 0 + overflow-x: hidden على body
+
+[M2] الطبيب بيدخل على create-doctors.html بدل dashboard.html
+     السبب  : الـ role مش بيتجيب صح من Firestore
+     الحل   : إضافة fallback — لو مش موجود في users يبحث في doctors بالـ email
+               ويحفظ في users تلقائياً للمرة الجاية
+
+[M3] Firestore فشل عند إنشاء حساب طبيب (Missing permissions)
+     السبب  : بعد createUserWithEmailAndPassword بيتعمل login تلقائي للطبيب
+               والطبيب مش عنده permission يكتب في Firestore
+     الحل   : بعد حفظ البيانات فوراً، يرجع يعمل signIn بحساب الـ admin
+
+[M4] التخصص بيتحدد تلقائياً على "طب العيون" في فورم الحجز
+     السبب  : الـ URL params كانت بتحدد التخصص لو جاي من صفحة التخصصات
+     الحل   : شيل الـ ?specialty= handling وخلي بس ?doctor= يشتغل
+
+[M5] الـ <style> blocks موزعة في كل صفحة
+     الحل   : نقل كل الـ CSS لـ css/style.css مع scoping بـ body classes
+
+[M6] body background بيتعارض بين الصفحات
+     السبب  : كل صفحة عندها body { background: ... } مختلف
+     الحل   : استخدام class على الـ body لكل صفحة بدل selector عام
+
+[M7] الـ dropdown في الـ navbar طويل جداً (قائمة واحدة بكل الأطباء)
+     الحل   : تحويله لـ Mega Menu بـ 4 columns منظمة
+
+----------------------------------------------------------
+ملاحظات مهمة
+----------------------------------------------------------
+- الفولدر اسمه "imges" مش "images"
+- Firebase للـ Auth والـ Firestore فقط (مفيش Storage)
+- الأطباء بيسجلوا بـ {doctorId}@alshifa-clinic.com
+- لازم تشغل seed.html أو create-doctors.html مرة واحدة عشان ترفع البيانات
+- Firestore rules لازم تسمح بالكتابة للـ authenticated users
+
+========================================================

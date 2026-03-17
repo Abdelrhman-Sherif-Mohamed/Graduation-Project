@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الأطباء - عيادة الشفاء</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body class="page-manage">
+
+    <!-- Header -->
+    <div class="page-header text-white py-4 mb-4">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h4 class="fw-bold mb-1"><i class="bi bi-person-badge-fill me-2"></i>إدارة الأطباء</h4>
+                <p class="opacity-75 mb-0 small">إضافة وحذف أطباء العيادة</p>
+            </div>
+            <div class="d-flex gap-2">
+                <span class="badge bg-white text-primary fs-6 px-3 py-2" id="totalCount">0 طبيب</span>
+                <a href="../index.html" class="btn btn-outline-light rounded-5">
+                    <i class="bi bi-house me-1"></i>الرئيسية
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row g-4">
+
+            <!-- فورم الإضافة -->
+            <div class="col-12 col-lg-4">
+                <div class="card form-card p-4 sticky-top" style="top:20px">
+                    <h5 class="fw-bold mb-4 text-primary"><i class="bi bi-plus-circle-fill me-2"></i>إضافة طبيب جديد</h5>
+
+                    <!-- معاينة الصورة -->
+                    <div class="mb-3 text-center">
+                        <div class="img-placeholder" id="imgPlaceholder"><i class="bi bi-person-circle"></i></div>
+                        <img id="imgPreview" class="img-preview" alt="معاينة">
+                    </div>
+
+                    <form id="addDoctorForm" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">رابط صورة الطبيب</label>
+                            <input type="url" class="form-control" id="docImg" placeholder="https://..." oninput="previewImg(this.value)">
+                            <div class="form-text">أو اتركه فارغاً لصورة افتراضية</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">اسم الطبيب <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="docName" placeholder="د. الاسم الكامل" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">التخصص <span class="text-danger">*</span></label>
+                            <select class="form-select" id="docSpec" required>
+                                <option value="">اختر التخصص</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">اللقب الوظيفي <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="docTitle" placeholder="أخصائي / استشاري ..." required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">الخبرة</label>
+                            <input type="text" class="form-control" id="docExp" placeholder="خبرة X سنوات في ...">
+                        </div>
+                        <button type="submit" class="btn w-100 text-white fw-bold rounded-5 py-2" style="background:var(--secondary-blue)">
+                            <i class="bi bi-plus-lg me-2"></i>إضافة الطبيب
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- قائمة الأطباء -->
+            <div class="col-12 col-lg-8">
+
+                <!-- فلتر -->
+                <div class="d-flex flex-wrap gap-2 mb-4" id="filterBtns">
+                    <button class="filter-btn active" onclick="filterCards('all', this)">الكل</button>
+                </div>
+
+                <!-- الكروت -->
+                <div class="row g-3" id="doctorsGrid"></div>
+
+                <!-- حالة فارغة -->
+                <div id="emptyState" class="text-center py-5">
+                    <i class="bi bi-person-x text-muted" style="font-size:4rem"></i>
+                    <p class="text-muted mt-3 fs-5">لا يوجد أطباء في هذا التخصص</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast إشعار -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+        <div id="toast" class="toast align-items-center text-white border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold" id="toastMsg"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/doctors-data.js"></script>
+    <script>
+    // ===== تحميل البيانات من localStorage أو من الملف الأصلي =====
+    let doctors = JSON.parse(localStorage.getItem('managedDoctors') || 'null');
+    if (!doctors) {
+        doctors = SPECIALTIES.flatMap(s => s.doctors.map(d => ({
+            ...d,
+            specId:   s.id,
+            specName: s.name
+        })));
+        saveData();
+    }
+
+    function saveData() {
+        localStorage.setItem('managedDoctors', JSON.stringify(doctors));
+    }
+
+    // ===== بناء فلاتر التخصصات =====
+    function buildFilters() {
+        const specs = [...new Set(doctors.map(d => d.specId))];
+        const container = document.getElementById('filterBtns');
+        container.innerHTML = '<button class="filter-btn active" onclick="filterCards(\'all\', this)">الكل</button>';
+        specs.forEach(sid => {
+            const spec = SPECIALTIES.find(s => s.id === sid);
+            if (!spec) return;
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn';
+            btn.textContent = spec.name;
+            btn.onclick = function() { filterCards(sid, this); };
+            container.appendChild(btn);
+        });
+    }
+
+    // ===== رسم الكروت =====
+    function renderCards(filter = 'all') {
+        const grid = document.getElementById('doctorsGrid');
+        const list = filter === 'all' ? doctors : doctors.filter(d => d.specId === filter);
+        document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
+        document.getElementById('totalCount').textContent = doctors.length + ' طبيب';
+
+        grid.innerHTML = list.map(doc => `
+            <div class="col-12 col-sm-6 col-xl-4" data-id="${doc.id}">
+                <div class="card doctor-card shadow-sm h-100 card-wrap">
+                    <button class="btn btn-danger btn-sm rounded-circle btn-delete" onclick="deleteDoctor('${doc.id}')" title="حذف">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                    <img src="${doc.img || defaultImg(doc.name)}"
+                         alt="${doc.name}"
+                         onerror="this.src='${defaultImg(doc.name)}'">
+                    <div class="card-body text-center p-3">
+                        <span class="spec-badge mb-2 d-inline-block">${doc.specName}</span>
+                        <h6 class="fw-bold mt-2 mb-1">${doc.name}</h6>
+                        <p class="text-muted small mb-2">${doc.title}</p>
+                        <p class="text-muted" style="font-size:.78rem">${doc.exp || ''}</p>
+                    </div>
+                </div>
+            </div>`).join('');
+    }
+
+    function defaultImg(name) {
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=300&background=1565C8&color=fff&bold=true&font-size=0.38`;
+    }
+
+    // ===== فلترة =====
+    let currentFilter = 'all';
+    function filterCards(spec, btn) {
+        currentFilter = spec;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCards(spec);
+    }
+
+    // ===== حذف طبيب =====
+    function deleteDoctor(id) {
+        const doc = doctors.find(d => d.id === id);
+        if (!doc) return;
+        if (!confirm(`هل تريد حذف ${doc.name}؟`)) return;
+        doctors = doctors.filter(d => d.id !== id);
+        saveData();
+        buildFilters();
+        renderCards(currentFilter);
+        showToast(`تم حذف ${doc.name}`, 'danger');
+    }
+
+    // ===== إضافة طبيب =====
+    document.getElementById('addDoctorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name  = document.getElementById('docName').value.trim();
+        const specId= document.getElementById('docSpec').value;
+        const title = document.getElementById('docTitle').value.trim();
+        const exp   = document.getElementById('docExp').value.trim();
+        const img   = document.getElementById('docImg').value.trim();
+
+        if (!name || !specId || !title) {
+            showToast('يرجى ملء الحقول المطلوبة', 'warning'); return;
+        }
+
+        const spec = SPECIALTIES.find(s => s.id === specId);
+        const newDoc = {
+            id:       'doc_' + Date.now(),
+            name, title, exp,
+            img:      img || defaultImg(name),
+            specId,
+            specName: spec.name
+        };
+
+        doctors.push(newDoc);
+        saveData();
+        buildFilters();
+        renderCards(currentFilter);
+        showToast(`تمت إضافة ${name} بنجاح`, 'success');
+        this.reset();
+        document.getElementById('imgPreview').style.display = 'none';
+        document.getElementById('imgPlaceholder').style.display = 'flex';
+    });
+
+    // ===== معاينة الصورة =====
+    function previewImg(url) {
+        const preview = document.getElementById('imgPreview');
+        const placeholder = document.getElementById('imgPlaceholder');
+        if (url) {
+            preview.src = url;
+            preview.style.display = 'block';
+            placeholder.style.display = 'none';
+        } else {
+            preview.style.display = 'none';
+            placeholder.style.display = 'flex';
+        }
+    }
+
+    // ===== Toast =====
+    function showToast(msg, type = 'success') {
+        const colors = { success:'#1565C8', danger:'#c62828', warning:'#e65100' };
+        const el = document.getElementById('toast');
+        el.style.background = colors[type] || colors.success;
+        document.getElementById('toastMsg').textContent = msg;
+        bootstrap.Toast.getOrCreateInstance(el, { delay: 3000 }).show();
+    }
+
+    // ===== ملء قائمة التخصصات في الفورم =====
+    function populateSpecSelect() {
+        const sel = document.getElementById('docSpec');
+        SPECIALTIES.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            opt.textContent = s.name;
+            sel.appendChild(opt);
+        });
+    }
+
+    // ===== تشغيل =====
+    populateSpecSelect();
+    buildFilters();
+    renderCards();
+    </script>
+</body>
+</html>

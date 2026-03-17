@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل البيانات - عيادة الشفاء</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body class="page-admin d-flex align-items-center justify-content-center p-3">
+<div class="seed-card card p-4 p-md-5" style="width:100%;max-width:700px;">
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+             style="width:70px;height:70px;background:var(--light-blue)">
+            <i class="bi bi-cloud-upload-fill fs-2" style="color:var(--secondary-blue)"></i>
+        </div>
+        <h4 class="fw-bold mb-1" style="color:var(--secondary-blue)">تحميل البيانات على Firebase</h4>
+        <p class="text-muted small mb-0">يرفع التخصصات والأطباء وحسابات الأطباء دفعة واحدة</p>
+    </div>
+
+    <!-- Auth check -->
+    <div id="authSection">
+        <div class="alert alert-info rounded-3 small mb-3">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            أول مرة؟ اضغط <strong>"إنشاء حساب Admin"</strong> — بعدين استخدمه للدخول
+        </div>
+        <div class="row g-2 mb-3">
+            <div class="col-12 col-md-6">
+                <input type="email" class="form-control" id="adminEmail" placeholder="البريد الإلكتروني">
+            </div>
+            <div class="col-12 col-md-6">
+                <input type="password" class="form-control" id="adminPass" placeholder="كلمة المرور (6 أحرف+)">
+            </div>
+        </div>
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn flex-grow-1 text-white rounded-5" style="background:var(--secondary-blue)" id="loginBtn">
+                <i class="bi bi-box-arrow-in-right me-2"></i>تسجيل الدخول
+            </button>
+            <button class="btn btn-outline-primary rounded-5" id="createAdminBtn" title="إنشاء حساب admin جديد">
+                <i class="bi bi-person-plus-fill me-1"></i>إنشاء Admin
+            </button>
+        </div>
+    </div>
+
+    <!-- Seed options -->
+    <div id="seedSection" class="d-none">
+        <div class="alert alert-success rounded-3 small mb-3" id="userInfo">
+            <i class="bi bi-check-circle-fill me-2"></i>تم تسجيل الدخول بنجاح
+        </div>
+
+        <div class="mb-3">
+            <p class="fw-semibold small mb-2">البيانات التي سيتم رفعها:</p>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="section-badge"><i class="bi bi-grid me-1"></i>12 تخصص</span>
+                <span class="section-badge"><i class="bi bi-person-badge me-1"></i>23 طبيب</span>
+                <span class="section-badge"><i class="bi bi-person-circle me-1"></i>حسابات الأطباء في Auth</span>
+                <span class="section-badge"><i class="bi bi-database me-1"></i>بيانات المستخدمين في Firestore</span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold small">كلمة المرور الافتراضية للأطباء</label>
+            <input type="text" class="form-control" id="defaultPass" value="Doctor@123">
+            <div class="form-text">كل الأطباء هيتسجلوا بنفس الكلمة دي — يغيروها بعدين</div>
+        </div>
+
+        <div class="mb-3 d-none" id="progressWrap">
+            <div class="d-flex justify-content-between small mb-1">
+                <span id="progressLabel">جاري الرفع...</span>
+                <span id="progressPct">0%</span>
+            </div>
+            <div class="progress rounded-3" style="height:10px">
+                <div class="progress-bar" id="progressBar" style="width:0%;background:var(--secondary-blue)"></div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn flex-grow-1 text-white rounded-5 fw-bold" style="background:var(--secondary-blue)" id="seedBtn">
+                <i class="bi bi-cloud-upload me-2"></i>ابدأ الرفع
+            </button>
+            <button class="btn btn-outline-danger rounded-5" id="clearBtn" title="حذف كل البيانات">
+                <i class="bi bi-trash3"></i>
+            </button>
+            <button class="btn btn-outline-secondary rounded-5" id="logoutBtn">
+                <i class="bi bi-box-arrow-left"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Log -->
+    <div class="log-box" id="logBox">
+        <span class="info">// جاهز للرفع — سجّل دخولك أولاً</span>
+    </div>
+
+    <!-- Summary -->
+    <div id="summaryBox" class="mt-3 d-none">
+        <div class="alert alert-success rounded-3 small">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>تم الرفع بنجاح!</strong>
+            <span id="summaryText"></span>
+        </div>
+        <div class="text-center">
+            <a href="login.html" class="btn text-white rounded-5 px-4" style="background:var(--secondary-blue)">
+                <i class="bi bi-box-arrow-in-right me-2"></i>اذهب لتسجيل الدخول
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script src="../js/doctors-data.js"></script>
+<script type="module">
+import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword,
+         createUserWithEmailAndPassword, signOut }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, collection,
+         getDocs, writeBatch, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey:            "AIzaSyCOwMMVo4uyqY4g_pDcDFTvwmq1mXzlsbU",
+    authDomain:        "al-shifa-clinic-a7816.firebaseapp.com",
+    projectId:         "al-shifa-clinic-a7816",
+    storageBucket:     "al-shifa-clinic-a7816.firebasestorage.app",
+    messagingSenderId: "867976308051",
+    appId:             "1:867976308051:web:b8fcfe1c879ed5c8e42da6"
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// ===== Helpers =====
+function log(msg, type = 'ok') {
+    const box  = document.getElementById('logBox');
+    const line = document.createElement('div');
+    line.className   = type;
+    line.textContent = `[${new Date().toLocaleTimeString('ar')}] ${msg}`;
+    box.appendChild(line);
+    box.scrollTop = box.scrollHeight;
+}
+
+function setProgress(pct, label) {
+    document.getElementById('progressBar').style.width   = pct + '%';
+    document.getElementById('progressPct').textContent   = pct + '%';
+    document.getElementById('progressLabel').textContent = label;
+}
+
+function onLoginSuccess(user) {
+    document.getElementById('authSection').classList.add('d-none');
+    document.getElementById('seedSection').classList.remove('d-none');
+    document.getElementById('userInfo').innerHTML =
+        `<i class="bi bi-check-circle-fill me-2"></i>مرحباً <strong>${user.email}</strong>`;
+    log(`تم تسجيل الدخول: ${user.email}`, 'info');
+}
+
+// ===== Login =====
+document.getElementById('loginBtn').onclick = async () => {
+    const email = document.getElementById('adminEmail').value.trim();
+    const pass  = document.getElementById('adminPass').value;
+    if (!email || !pass) { log('أدخل البريد وكلمة المرور', 'warn'); return; }
+    try {
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        onLoginSuccess(cred.user);
+    } catch (err) {
+        const msgs = {
+            'auth/invalid-credential': 'البريد أو كلمة المرور غلط — أو الحساب مش موجود، اضغط "إنشاء Admin"',
+            'auth/user-not-found':     'الحساب مش موجود — اضغط "إنشاء Admin" أولاً',
+            'auth/wrong-password':     'كلمة المرور غلط',
+            'auth/invalid-email':      'صيغة البريد غلط',
+            'auth/too-many-requests':  'كتير أوي — انتظر شوية',
+        };
+        log(msgs[err.code] || `خطأ: ${err.message}`, 'err');
+    }
+};
+
+// ===== Create Admin =====
+document.getElementById('createAdminBtn').onclick = async () => {
+    const email = document.getElementById('adminEmail').value.trim();
+    const pass  = document.getElementById('adminPass').value;
+    if (!email || !pass) { log('أدخل البريد وكلمة المرور أولاً', 'warn'); return; }
+    if (pass.length < 6)  { log('كلمة المرور لازم تكون 6 أحرف على الأقل', 'warn'); return; }
+    try {
+        log(`جاري إنشاء حساب admin: ${email}...`, 'info');
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await setDoc(doc(db, 'users', cred.user.uid), {
+            email, role: 'admin', name: 'Admin', createdAt: serverTimestamp()
+        });
+        log(`✓ تم إنشاء الحساب: ${email}`, 'ok');
+        onLoginSuccess(cred.user);
+    } catch (err) {
+        const msgs = {
+            'auth/email-already-in-use': 'الحساب موجود مسبقاً — استخدم "تسجيل الدخول"',
+            'auth/invalid-email':        'صيغة البريد غلط',
+            'auth/weak-password':        'كلمة المرور ضعيفة جداً',
+        };
+        log(msgs[err.code] || `خطأ: ${err.message}`, 'err');
+    }
+};
+
+// ===== Logout =====
+document.getElementById('logoutBtn').onclick = async () => {
+    await signOut(auth);
+    document.getElementById('authSection').classList.remove('d-none');
+    document.getElementById('seedSection').classList.add('d-none');
+    log('تم تسجيل الخروج', 'warn');
+};
+
+// ===== Clear =====
+document.getElementById('clearBtn').onclick = async () => {
+    if (!confirm('هل تريد حذف كل بيانات التخصصات والأطباء من Firestore؟\nلن يتم حذف حسابات Auth.')) return;
+    log('جاري حذف البيانات...', 'warn');
+    try {
+        for (const col of ['specialties', 'doctors']) {
+            const snap  = await getDocs(collection(db, col));
+            const batch = writeBatch(db);
+            snap.docs.forEach(d => batch.delete(d.ref));
+            await batch.commit();
+            log(`تم حذف: ${col} (${snap.size} document)`, 'warn');
+        }
+        log('تم الحذف بنجاح ✓', 'ok');
+    } catch (err) {
+        log(`خطأ في الحذف: ${err.message}`, 'err');
+    }
+};
+
+// ===== SEED =====
+document.getElementById('seedBtn').onclick = async () => {
+    const defaultPass = document.getElementById('defaultPass').value || 'Doctor@123';
+    const btn = document.getElementById('seedBtn');
+    btn.disabled = true;
+    document.getElementById('progressWrap').classList.remove('d-none');
+    document.getElementById('summaryBox').classList.add('d-none');
+
+    const allDoctors = SPECIALTIES.flatMap(s =>
+        s.doctors.map(d => ({ ...d, specId: s.id, specName: s.name }))
+    );
+    const total = SPECIALTIES.length + allDoctors.length;
+    let done = 0, createdAuth = 0, skippedAuth = 0;
+
+    log('═══════════════════════════════════', 'info');
+    log('بدء رفع البيانات على Firebase...', 'info');
+    log('═══════════════════════════════════', 'info');
+
+    // 1. رفع التخصصات
+    log('① رفع التخصصات...', 'info');
+    for (const spec of SPECIALTIES) {
+        try {
+            await setDoc(doc(db, 'specialties', spec.id), {
+                id:        spec.id,
+                name:      spec.name,
+                icon:      spec.icon,
+                img:       spec.img,
+                desc:      spec.desc,
+                createdAt: serverTimestamp()
+            });
+            done++;
+            setProgress(Math.round(done / total * 100), `تخصص: ${spec.name}`);
+            log(`✓ تخصص: ${spec.name}`, 'ok');
+        } catch (err) {
+            log(`✗ فشل تخصص ${spec.name}: ${err.message}`, 'err');
+        }
+    }
+
+    // 2. رفع الأطباء + إنشاء حسابات Auth
+    log('② رفع بيانات الأطباء وإنشاء حساباتهم...', 'info');
+    for (const doctor of allDoctors) {
+        const email = `${doctor.id}@alshifa-clinic.com`;
+        let uid = null;
+
+        // إنشاء حساب Auth
+        try {
+            const cred = await createUserWithEmailAndPassword(auth, email, defaultPass);
+            uid = cred.user.uid;
+            createdAuth++;
+            log(`✓ Auth: ${email}`, 'ok');
+        } catch (err) {
+            if (err.code === 'auth/email-already-in-use') {
+                skippedAuth++;
+                log(`↷ موجود مسبقاً: ${email}`, 'warn');
+            } else {
+                log(`✗ Auth فشل ${email}: ${err.message}`, 'err');
+            }
+        }
+
+        // حفظ بيانات الطبيب في Firestore
+        try {
+            const docData = {
+                id:        doctor.id,
+                name:      doctor.name,
+                title:     doctor.title,
+                exp:       doctor.exp,
+                img:       doctor.img,
+                specId:    doctor.specId,
+                specName:  doctor.specName,
+                email,
+                role:      'doctor',
+                specialty: doctor.specName,
+                createdAt: serverTimestamp()
+            };
+
+            // حفظ في doctors collection بـ doctorId كـ document ID
+            await setDoc(doc(db, 'doctors', doctor.id), docData);
+
+            // لو عندنا uid جديد، احفظ في users بـ uid
+            if (uid) {
+                await setDoc(doc(db, 'users', uid), { ...docData, uid, doctorId: doctor.id });
+            }
+
+            done++;
+            setProgress(Math.round(done / total * 100), `طبيب: ${doctor.name}`);
+            log(`✓ Firestore: ${doctor.name} (${doctor.specName})`, 'ok');
+        } catch (err) {
+            log(`✗ Firestore فشل ${doctor.name}: ${err.message}`, 'err');
+        }
+    }
+
+    // النهاية
+    setProgress(100, 'اكتمل الرفع ✓');
+    log('═══════════════════════════════════', 'info');
+    log(`✅ انتهى — تخصصات: ${SPECIALTIES.length} | أطباء: ${allDoctors.length} | Auth جديد: ${createdAuth} | موجود مسبقاً: ${skippedAuth}`, 'ok');
+    log('═══════════════════════════════════', 'info');
+
+    document.getElementById('summaryBox').classList.remove('d-none');
+    document.getElementById('summaryText').textContent =
+        ` رُفع ${SPECIALTIES.length} تخصص و${allDoctors.length} طبيب — كلمة مرور الأطباء: ${defaultPass}`;
+    btn.disabled = false;
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

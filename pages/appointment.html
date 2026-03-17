@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز موعد - عيادة الشفاء</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body class="page-appointment">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-nav sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="../index.html">
+            <i class="bi bi-hospital text-white"></i>
+            <span class="text-white fw-bold ms-1">عيادة الشفاء</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link text-white" href="../index.html">الرئيسية</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="specialties.html">التخصصات</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="doctors.html">أطباؤنا</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-semibold" href="appointment.html">حجز موعد</a></li>
+            </ul>
+            <a href="login.html" class="btn btn-outline-light rounded-5 btn-sm px-3" id="navLoginBtn">دخول</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="appt-hero">
+    <div class="container text-center">
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+             style="width:64px;height:64px;background:rgba(255,255,255,.15)">
+            <i class="bi bi-calendar2-heart text-white fs-2"></i>
+        </div>
+        <h2 class="text-white fw-bold mb-2">احجز موعدك الآن</h2>
+        <p class="text-white opacity-75 mb-0">اختر طبيبك والوقت المناسب — نتواصل معك لتأكيد الحجز</p>
+    </div>
+</div>
+
+<!-- Form Card -->
+<div class="container pb-5">
+    <div class="appt-card card p-4 p-md-5 mx-auto" style="max-width:700px">
+
+        <!-- Doctor preview (hidden by default) -->
+        <div id="doctorInfo" class="doctor-preview d-none mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <img id="previewImg" src="" alt="">
+                <div>
+                    <p class="fw-bold mb-0" id="previewName"></p>
+                    <small class="text-muted" id="previewTitle"></small>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-5 ms-auto"
+                        onclick="clearDoctorPreview()">
+                    <i class="bi bi-x"></i> تغيير
+                </button>
+            </div>
+        </div>
+
+        <form id="appointmentForm" novalidate>
+
+            <!-- Step 1: Personal info -->
+            <div class="step-label"><i class="bi bi-person-fill"></i> البيانات الشخصية</div>
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6">
+                    <div class="input-icon-wrap">
+                        <i class="bi bi-person"></i>
+                        <input type="text" class="form-control p-3" id="patientName"
+                               placeholder="الاسم الكامل" required>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="input-icon-wrap">
+                        <i class="bi bi-telephone"></i>
+                        <input type="tel" class="form-control p-3" id="patientPhone"
+                               placeholder="رقم الهاتف  01xxxxxxxxx" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Specialty & Doctor -->
+            <div class="step-label"><i class="bi bi-hospital"></i> التخصص والطبيب</div>
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6">
+                    <div class="input-icon-wrap">
+                        <i class="bi bi-grid"></i>
+                        <select class="form-select p-3" id="specialtySelect" required>
+                            <option value="">اختر التخصص</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="input-icon-wrap">
+                        <i class="bi bi-person-badge"></i>
+                        <select class="form-select p-3" id="doctorSelect" required>
+                            <option value="">اختر الطبيب أولاً</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Date & Time -->
+            <div class="step-label"><i class="bi bi-calendar3"></i> التاريخ والوقت</div>
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                    <div class="input-icon-wrap">
+                        <i class="bi bi-calendar-date"></i>
+                        <input type="date" class="form-control p-3" id="apptDate" required>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="input-icon-wrap">
+                        <i class="bi bi-clock"></i>
+                        <select class="form-select p-3" id="apptTimeSelect" required>
+                            <option value="">اختر الوقت</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time slots visual -->
+            <div id="timeSlotsWrap" class="mb-4 d-none">
+                <p class="small text-muted mb-2"><i class="bi bi-clock me-1"></i>أو اختر من المواعيد المتاحة:</p>
+                <div class="time-slots" id="timeSlots"></div>
+            </div>
+
+            <!-- Step 4: Notes -->
+            <div class="step-label"><i class="bi bi-chat-text"></i> ملاحظات إضافية</div>
+            <div class="mb-4">
+                <textarea class="form-control p-3" id="apptNotes" rows="3"
+                          placeholder="أي ملاحظات أو استفسارات تريد إضافتها..." style="border-radius:12px"></textarea>
+            </div>
+
+            <!-- Alert -->
+            <div id="formAlert" class="alert d-none rounded-3 small mb-3"></div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-submit w-100 text-white" id="submitBtn">
+                <span id="submitText"><i class="bi bi-calendar-check me-2"></i>تأكيد الحجز</span>
+                <span id="submitSpinner" class="d-none">
+                    <span class="spinner-border spinner-border-sm me-2"></span>جاري الحجز...
+                </span>
+            </button>
+        </form>
+
+        <!-- Success -->
+        <div id="successBox" class="success-box d-none">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+                 style="width:72px;height:72px;background:#e8f5e9">
+                <i class="bi bi-check-circle-fill text-success" style="font-size:2.2rem"></i>
+            </div>
+            <h5 class="fw-bold mb-2">تم تأكيد حجزك بنجاح!</h5>
+            <p class="text-muted mb-4">سنتواصل معك قريباً لتأكيد الموعد</p>
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+                <a href="patient.html" class="btn text-white rounded-5 px-4" style="background:var(--secondary-blue)">
+                    <i class="bi bi-calendar2-heart me-2"></i>حجوزاتي
+                </a>
+                <button class="btn btn-outline-secondary rounded-5 px-4" onclick="resetForm()">
+                    <i class="bi bi-plus-circle me-2"></i>حجز جديد
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-nav py-3 text-center">
+    <p class="text-white mb-0 small">© 2026 عيادة الشفاء. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/doctors-data.js"></script>
+<script src="../js/script.js"></script>
+<script type="module">
+import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey:"AIzaSyCOwMMVo4uyqY4g_pDcDFTvwmq1mXzlsbU",
+    authDomain:"al-shifa-clinic-a7816.firebaseapp.com",
+    projectId:"al-shifa-clinic-a7816",
+    storageBucket:"al-shifa-clinic-a7816.firebasestorage.app",
+    messagingSenderId:"867976308051",
+    appId:"1:867976308051:web:b8fcfe1c879ed5c8e42da6"
+};
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+let currentUser  = null;
+let selectedTime = '';
+
+// ===== Auth =====
+onAuthStateChanged(auth, u => {
+    currentUser = u;
+    if (u) document.getElementById('navLoginBtn').innerHTML =
+        `<i class="bi bi-person-circle me-1"></i>${u.email.split('@')[0]}`;
+});
+
+// ===== Build specialty dropdown =====
+const specSel = document.getElementById('specialtySelect');
+SPECIALTIES.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.id; opt.textContent = s.name;
+    specSel.appendChild(opt);
+});
+
+// ===== Specialty → Doctor filter =====
+specSel.addEventListener('change', function () {
+    const docSel = document.getElementById('doctorSelect');
+    docSel.innerHTML = '<option value="">اختر الطبيب</option>';
+    const spec = SPECIALTIES.find(s => s.id === this.value);
+    if (!spec) return;
+    spec.doctors.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.id; opt.textContent = d.name;
+        docSel.appendChild(opt);
+    });
+    clearDoctorPreview();
+});
+
+// ===== Doctor → Preview =====
+document.getElementById('doctorSelect').addEventListener('change', function () {
+    const d = getDoctorById(this.value);
+    if (!d) { clearDoctorPreview(); return; }
+    document.getElementById('previewImg').src   = d.img;
+    document.getElementById('previewName').textContent  = d.name;
+    document.getElementById('previewTitle').textContent = d.title + ' — ' + d.specialty;
+    document.getElementById('doctorInfo').classList.remove('d-none');
+});
+
+window.clearDoctorPreview = () => {
+    document.getElementById('doctorInfo').classList.add('d-none');
+    document.getElementById('doctorSelect').value = '';
+};
+
+// ===== Date → Time slots =====
+const TIME_SLOTS = ['09:00 ص','09:30 ص','10:00 ص','10:30 ص','11:00 ص','11:30 ص',
+                    '12:00 م','12:30 م','01:00 م','01:30 م','02:00 م','02:30 م',
+                    '03:00 م','03:30 م','04:00 م','04:30 م','05:00 م','05:30 م'];
+
+// Fill time select
+const timeSel = document.getElementById('apptTimeSelect');
+TIME_SLOTS.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    timeSel.appendChild(opt);
+});
+
+document.getElementById('apptDate').addEventListener('change', function () {
+    if (!this.value) return;
+    // Build visual time slots
+    const wrap  = document.getElementById('timeSlotsWrap');
+    const slots = document.getElementById('timeSlots');
+    wrap.classList.remove('d-none');
+    slots.innerHTML = TIME_SLOTS.map(t => `
+        <div class="time-slot${t === selectedTime ? ' selected' : ''}"
+             onclick="selectTime('${t}', this)">${t}</div>`).join('');
+});
+
+window.selectTime = (t, el) => {
+    selectedTime = t;
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('apptTimeSelect').value = t;
+};
+
+timeSel.addEventListener('change', function () {
+    selectedTime = this.value;
+    document.querySelectorAll('.time-slot').forEach(s => {
+        s.classList.toggle('selected', s.textContent.trim() === this.value);
+    });
+});
+
+// ===== Set min date =====
+document.getElementById('apptDate').min = new Date().toISOString().split('T')[0];
+
+// ===== Fill from URL params (doctor only) =====
+const params = new URLSearchParams(window.location.search);
+if (params.get('doctor')) {
+    const d = getDoctorById(params.get('doctor'));
+    if (d) {
+        document.getElementById('specialtySelect').value = d.specialtyId;
+        document.getElementById('specialtySelect').dispatchEvent(new Event('change'));
+        setTimeout(() => {
+            document.getElementById('doctorSelect').value = d.id;
+            document.getElementById('doctorSelect').dispatchEvent(new Event('change'));
+        }, 50);
+    }
+}
+
+// ===== Submit =====
+document.getElementById('appointmentForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name     = document.getElementById('patientName').value.trim();
+    const phone    = document.getElementById('patientPhone').value.trim();
+    const doctorId = document.getElementById('doctorSelect').value;
+    const specId   = document.getElementById('specialtySelect').value;
+    const date     = document.getElementById('apptDate').value;
+    const time     = document.getElementById('apptTimeSelect').value;
+    const notes    = document.getElementById('apptNotes').value.trim();
+
+    if (!name || !phone || !doctorId || !specId || !date || !time) {
+        showAlert('يرجى ملء جميع الحقول المطلوبة', 'danger'); return;
+    }
+
+    const doctor = getDoctorById(doctorId);
+    setLoading(true);
+
+    try {
+        await addDoc(collection(db, 'appointments'), {
+            patientId:   currentUser?.uid || 'guest',
+            patientName: name,
+            phone,
+            doctorId,
+            doctorName:  doctor?.name || doctorId,
+            specialty:   doctor?.specialty || specId,
+            specId,
+            date,
+            time,
+            notes,
+            status:    'pending',
+            createdAt: serverTimestamp()
+        });
+        document.getElementById('appointmentForm').classList.add('d-none');
+        document.getElementById('successBox').classList.remove('d-none');
+    } catch (err) {
+        showAlert('حدث خطأ: ' + err.message, 'danger');
+    } finally {
+        setLoading(false);
+    }
+});
+
+function setLoading(on) {
+    document.getElementById('submitText').classList.toggle('d-none', on);
+    document.getElementById('submitSpinner').classList.toggle('d-none', !on);
+    document.getElementById('submitBtn').disabled = on;
+}
+
+function showAlert(msg, type) {
+    const el = document.getElementById('formAlert');
+    el.className = `alert alert-${type} rounded-3 small`;
+    el.textContent = msg;
+    el.classList.remove('d-none');
+    setTimeout(() => el.classList.add('d-none'), 4000);
+}
+
+window.resetForm = () => {
+    document.getElementById('appointmentForm').classList.remove('d-none');
+    document.getElementById('successBox').classList.add('d-none');
+    document.getElementById('appointmentForm').reset();
+    clearDoctorPreview();
+    selectedTime = '';
+    document.getElementById('timeSlotsWrap').classList.add('d-none');
+};
+</script>
+</body>
+</html>

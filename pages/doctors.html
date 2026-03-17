@@ -1,0 +1,542 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أطباؤنا - عيادة الشفاء</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .doctor-card { border:none; border-radius:16px; overflow:hidden; transition: transform .3s, box-shadow .3s; }
+        .doctor-card:hover { transform:translateY(-6px); box-shadow:0 12px 28px rgba(13,71,161,.18); }
+        .doctor-card img { height:260px; object-fit:cover; object-position:top center; width:100%; }
+        .spec-badge { background:var(--light-blue); color:var(--secondary-blue); font-size:.78rem; border-radius:20px; padding:3px 12px; }
+        .section-hero { background:linear-gradient(135deg,var(--secondary-blue),var(--dark-blue)); padding:60px 0 40px; }
+        .filter-btn { border-radius:20px; border:2px solid var(--secondary-blue); color:var(--secondary-blue); background:transparent; padding:5px 18px; transition:.3s; }
+        .filter-btn.active, .filter-btn:hover { background:var(--secondary-blue); color:#fff; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-nav sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html"><i class="bi bi-hospital text-white"> <span>عيادة الشفاء</span></i></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link text-white" href="../index.html">الرئيسية</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="specialties.html" role="button" data-bs-toggle="dropdown">التخصصات</a>
+                        <ul class="dropdown-menu dropdown-menu-dark" id="specialtiesDropdown">
+                            <li><a class="dropdown-item" href="specialties.html">كل التخصصات</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link active text-white" href="doctors.html">أطباؤنا</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="appointment.html">حجز موعد</a></li>
+                </ul>
+                <a href="login.html" class="btn btn-outline-light rounded-5 ms-2">دخول</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="section-hero text-center text-white">
+        <h1 class="fs-1 fw-bold mb-2">فريقنا الطبي</h1>
+        <p class="opacity-75 fs-5">نخبة من أفضل الأطباء المتخصصين في مختلف المجالات</p>
+        <!-- فلتر التخصصات -->
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <button class="filter-btn active" onclick="filterDoctors('all', this)">الكل</button>
+            <button class="filter-btn" onclick="filterDoctors('heart', this)">القلب</button>
+            <button class="filter-btn" onclick="filterDoctors('dentist', this)">الأسنان</button>
+            <button class="filter-btn" onclick="filterDoctors('bones', this)">العظام</button>
+            <button class="filter-btn" onclick="filterDoctors('children', this)">الأطفال</button>
+            <button class="filter-btn" onclick="filterDoctors('neuro', this)">المخ والأعصاب</button>
+            <button class="filter-btn" onclick="filterDoctors('internal', this)">الباطنة</button>
+            <button class="filter-btn" onclick="filterDoctors('derma', this)">الجلدية</button>
+            <button class="filter-btn" onclick="filterDoctors('eye', this)">العيون</button>
+            <button class="filter-btn" onclick="filterDoctors('gynecology', this)">النساء والتوليد</button>
+            <button class="filter-btn" onclick="filterDoctors('urology', this)">المسالك البولية</button>
+            <button class="filter-btn" onclick="filterDoctors('radiology', this)">الأشعة</button>
+            <button class="filter-btn" onclick="filterDoctors('emergency', this)">الطوارئ</button>
+        </div>
+    </div>
+
+    <main class="container py-5">
+        <div class="row g-4" id="doctorsGrid">
+
+            <!-- أمراض القلب -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="heart" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face" alt="د. أحمد محمد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">أمراض القلب</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. أحمد محمد</h5>
+                        <p class="text-muted small mb-3">أخصائي جراحة قلب — خبرة 15 عاماً</p>
+                        <a href="appointment.html?doctor=ahmed" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="heart" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=400&fit=crop&crop=face" alt="د. كريم حسن">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">أمراض القلب</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. كريم حسن</h5>
+                        <p class="text-muted small mb-3">استشاري أمراض القلب — خبرة 10 سنوات</p>
+                        <a href="appointment.html?doctor=karim" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- طب الأسنان -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="dentist" data-aos="fade-up" data-aos-delay="200">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face" alt="د. سارة خالد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">طب الأسنان</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. سارة خالد</h5>
+                        <p class="text-muted small mb-3">أخصائية طب أسنان — بورد أمريكي</p>
+                        <a href="appointment.html?doctor=sara" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="dentist" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop&crop=face" alt="د. هناء رضا">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">طب الأسنان</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. هناء رضا</h5>
+                        <p class="text-muted small mb-3">أخصائية تقويم أسنان — خبرة 8 سنوات</p>
+                        <a href="appointment.html?doctor=hana" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- جراحة العظام -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="bones" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&h=400&fit=crop&crop=face" alt="د. محمد علي">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">جراحة العظام</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. محمد علي</h5>
+                        <p class="text-muted small mb-3">أخصائي عظام ومفاصل — خبرة 12 عاماً</p>
+                        <a href="appointment.html?doctor=mohamed" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="bones" data-aos="fade-up" data-aos-delay="200">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop&crop=face" alt="د. طارق سامي">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">جراحة العظام</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. طارق سامي</h5>
+                        <p class="text-muted small mb-3">أخصائي جراحة العمود الفقري — خبرة 9 سنوات</p>
+                        <a href="appointment.html?doctor=tarek" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- طب الأطفال -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="children" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&h=400&fit=crop&crop=face" alt="د. منى إبراهيم">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">طب الأطفال</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. منى إبراهيم</h5>
+                        <p class="text-muted small mb-3">أخصائية طب أطفال — خبرة 11 عاماً</p>
+                        <a href="appointment.html?doctor=mona" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="children" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=400&fit=crop&crop=face" alt="د. عمر فاروق">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">طب الأطفال</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. عمر فاروق</h5>
+                        <p class="text-muted small mb-3">استشاري طب الأطفال — خبرة 14 عاماً</p>
+                        <a href="appointment.html?doctor=omar" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المخ والأعصاب -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="neuro" data-aos="fade-up" data-aos-delay="200">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=400&h=400&fit=crop&crop=face" alt="د. نورا سعيد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">المخ والأعصاب</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. نورا سعيد</h5>
+                        <p class="text-muted small mb-3">أخصائية مخ وأعصاب — استشارية</p>
+                        <a href="appointment.html?doctor=noura" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="neuro" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=400&fit=crop&crop=face" alt="د. ياسر منصور">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">المخ والأعصاب</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. ياسر منصور</h5>
+                        <p class="text-muted small mb-3">أخصائي جراحة المخ — خبرة 13 عاماً</p>
+                        <a href="appointment.html?doctor=yasser" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الطوارئ -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="emergency" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1638202993928-7267aad84c31?w=400&h=400&fit=crop&crop=face" alt="د. عادل رشاد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block" style="background:#fde8e8;color:#c62828;">الطوارئ</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. عادل رشاد</h5>
+                        <p class="text-muted small mb-3">طبيب طوارئ — خبرة 10 سنوات</p>
+                        <a href="appointment.html?doctor=adel" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الباطنة والمناعة -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="internal" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=400&h=400&fit=crop&crop=face" alt="د. حسن الشريف">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">الباطنة والمناعة</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. حسن الشريف</h5>
+                        <p class="text-muted small mb-3">أخصائي الباطنة والجهاز الهضمي — خبرة 11 عاماً</p>
+                        <a href="appointment.html?doctor=hassan" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="internal" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?w=400&h=400&fit=crop&crop=face" alt="د. دينا مصطفى">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">الباطنة والمناعة</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. دينا مصطفى</h5>
+                        <p class="text-muted small mb-3">أخصائية أمراض الكلى والمناعة — خبرة 9 سنوات</p>
+                        <a href="appointment.html?doctor=dina" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الجلدية والتجميل -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="derma" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1643297654416-05795d62e39c?w=400&h=400&fit=crop&crop=face" alt="د. رانيا فؤاد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">الجلدية والتجميل</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. رانيا فؤاد</h5>
+                        <p class="text-muted small mb-3">أخصائية جلدية وتجميل — خبرة 10 سنوات</p>
+                        <a href="appointment.html?doctor=rania" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="derma" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1622902046580-2b47f47f5471?w=400&h=400&fit=crop&crop=face" alt="د. وائل نجيب">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">الجلدية والتجميل</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. وائل نجيب</h5>
+                        <p class="text-muted small mb-3">أخصائي تجميل طبي — خبرة 8 سنوات</p>
+                        <a href="appointment.html?doctor=wael" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- طب العيون -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="eye" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=400&h=400&fit=crop&crop=face" alt="د. سامح عبدالله">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">طب العيون</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. سامح عبدالله</h5>
+                        <p class="text-muted small mb-3">أخصائي جراحة العيون — خبرة 12 عاماً</p>
+                        <a href="appointment.html?doctor=sameh" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="eye" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1591604021695-0c69b7c05981?w=400&h=400&fit=crop&crop=face" alt="د. إيمان حمدي">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">طب العيون</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. إيمان حمدي</h5>
+                        <p class="text-muted small mb-3">أخصائية أمراض العيون — خبرة 9 سنوات</p>
+                        <a href="appointment.html?doctor=iman" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- النساء والتوليد -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="gynecology" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1623854767648-e7bb8009f0db?w=400&h=400&fit=crop&crop=face" alt="د. هبة الله أحمد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">النساء والتوليد</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. هبة الله أحمد</h5>
+                        <p class="text-muted small mb-3">استشارية نساء وتوليد — خبرة 14 عاماً</p>
+                        <a href="appointment.html?doctor=heba" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="gynecology" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&h=400&fit=crop&crop=face" alt="د. نادية سليم">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">النساء والتوليد</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. نادية سليم</h5>
+                        <p class="text-muted small mb-3">أخصائية علاج العقم — خبرة 10 سنوات</p>
+                        <a href="appointment.html?doctor=nadia" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المسالك البولية -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="urology" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=400&h=400&fit=crop&crop=face" alt="د. أشرف كمال">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">المسالك البولية</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. أشرف كمال</h5>
+                        <p class="text-muted small mb-3">أخصائي المسالك البولية — خبرة 11 عاماً</p>
+                        <a href="appointment.html?doctor=ashraf" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="urology" data-aos="fade-up" data-aos-delay="100">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop&crop=face&flip=h" alt="د. شريف منير">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">المسالك البولية</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. شريف منير</h5>
+                        <p class="text-muted small mb-3">استشاري جراحة المسالك — خبرة 13 عاماً</p>
+                        <a href="appointment.html?doctor=sherif" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الأشعة التشخيصية -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="radiology" data-aos="fade-up">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1559839914-17aae19cec71?w=400&h=400&fit=crop&crop=face" alt="د. مجدي سعد">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block">الأشعة التشخيصية</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. مجدي سعد</h5>
+                        <p class="text-muted small mb-3">أخصائي الأشعة التشخيصية — خبرة 15 عاماً</p>
+                        <a href="appointment.html?doctor=magdy" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- طوارئ - د. ليلى -->
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="emergency" data-aos="fade-up" data-aos-delay="200">
+                <div class="card doctor-card shadow-sm h-100">
+                    <img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&h=400&fit=crop&crop=face&flip=h" alt="د. ليلى منصور">
+                    <div class="card-body text-center p-4">
+                        <span class="spec-badge mb-2 d-inline-block" style="background:#fde8e8;color:#c62828;">الطوارئ</span>
+                        <h5 class="fw-bold mt-2 mb-1">د. ليلى منصور</h5>
+                        <p class="text-muted small mb-3">طبيبة طوارئ وإنعاش — خبرة 8 سنوات</p>
+                        <a href="appointment.html?doctor=layla" class="btn btn-sm w-100 text-white rounded-5" style="background:var(--secondary-blue)">احجز موعد</a>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <i class="bi bi-facebook fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                            <i class="bi bi-whatsapp fs-5 text-success" style="cursor:pointer"></i>
+                            <i class="bi bi-envelope-at-fill fs-5" style="color:var(--primary-blue);cursor:pointer"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end row -->
+    </main>
+
+    <footer class="bg-nav py-3 text-center mt-4">
+        <p class="text-white mb-0">© 2026 عيادة الشفاء. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/doctors-data.js"></script>
+    <script src="../js/script.js"></script>
+    <script>
+        AOS.init({ once: false, duration: 400 });
+
+        // ===== عداد الأطباء على أزرار الفلتر =====
+        function buildFilterCounts() {
+            document.querySelectorAll('.filter-btn[data-spec]').forEach(btn => {
+                const spec = btn.dataset.spec;
+                const count = document.querySelectorAll(`#doctorsGrid [data-spec="${spec}"]`).length;
+                btn.innerHTML = btn.dataset.label + ` <span class="badge bg-white ms-1" style="color:var(--secondary-blue);font-size:.7rem">${count}</span>`;
+            });
+            const total = document.querySelectorAll('#doctorsGrid [data-spec]').length;
+            const allBtn = document.querySelector('.filter-btn[data-spec="all"]');
+            if (allBtn) allBtn.innerHTML = allBtn.dataset.label + ` <span class="badge bg-white ms-1" style="color:var(--secondary-blue);font-size:.7rem">${total}</span>`;
+        }
+
+        // ===== فلترة مع animation =====
+        function filterDoctors(spec, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('#doctorsGrid [data-spec]');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const match = spec === 'all' || card.dataset.spec === spec;
+                if (match) {
+                    card.style.display = '';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(16px)';
+                    setTimeout(() => {
+                        card.style.transition = 'opacity .35s ease, transform .35s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 20);
+                    visibleCount++;
+                } else {
+                    card.style.transition = 'none';
+                    card.style.display = 'none';
+                }
+            });
+
+            // حالة فارغة
+            let empty = document.getElementById('emptyState');
+            if (!empty) {
+                empty = document.createElement('div');
+                empty.id = 'emptyState';
+                empty.className = 'col-12 text-center py-5';
+                empty.innerHTML = '<i class="bi bi-person-x text-muted" style="font-size:4rem"></i><p class="text-muted mt-3 fs-5">لا يوجد أطباء في هذا التخصص</p>';
+                document.getElementById('doctorsGrid').appendChild(empty);
+            }
+            empty.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // ===== إضافة data-label و data-spec للأزرار =====
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            const onclick = btn.getAttribute('onclick') || '';
+            const match = onclick.match(/'([^']+)'/);
+            if (match) {
+                btn.dataset.spec = match[1];
+                btn.dataset.label = btn.textContent.trim();
+            }
+        });
+
+        buildFilterCounts();
+    </script>
+</body>
+</html>
