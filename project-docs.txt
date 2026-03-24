@@ -1,0 +1,547 @@
+================================================================
+         مشروع عيادة الشفاء - شرح الكود بالتفصيل
+================================================================
+المشروع: موقع عيادة طبية (HTML / CSS / JS Vanilla + Firebase)
+الملفات: index.html / login.html / register.html / patient.html
+         appointment.html / doctors.html / specialties.html
+         dashboard.html / css/style.css / js/doctors-data.js
+         js/firebase-config.js
+================================================================
+
+
+================================================================
+1. firebase-config.js
+================================================================
+
+الهدف:
+  ملف مشترك بين كل الصفحات - بيهيئ Firebase ويصدّر auth و db
+
+المكتبات المستخدمة:
+  - initializeApp  : بيهيئ مشروع Firebase بالـ config
+  - getAuth        : بيرجع كائن المصادقة (تسجيل الدخول)
+  - getFirestore   : بيرجع كائن قاعدة البيانات
+
+firebaseConfig:
+  - بيانات المشروع من Firebase Console
+  - هي بيانات عامة (public) وآمنة في الـ frontend
+  - الحماية الحقيقية بتكون في Firestore Security Rules
+
+الـ exports:
+  - auth : بيتستخدم في كل صفحة للتحقق من تسجيل الدخول
+  - db   : بيتستخدم للقراءة والكتابة في Firestore
+
+Firebase بيُستخدم في المشروع لـ:
+  1. Authentication : تسجيل الدخول / إنشاء حساب / إعادة كلمة المرور
+  2. Firestore      : حفظ الحجوزات / بيانات المستخدمين / بيانات الأطباء
+
+
+================================================================
+2. js/doctors-data.js
+================================================================
+
+الهدف:
+  مصدر البيانات المركزي - بيعرّف كل التخصصات والأطباء
+  بيتحمل قبل أي script تاني يحتاج البيانات
+
+SPECIALTIES Array:
+  - مصفوفة فيها 12 تخصص طبي
+  - كل تخصص object فيه:
+    * id      : معرف فريد (heart / dentist / bones ...)
+                بيتستخدم في الـ URL (?doctor=ahmed) والفلترة
+    * name    : اسم التخصص بالعربي
+    * icon    : class أيقونة Bootstrap Icons
+    * img     : صورة التخصص (URL من Unsplash)
+    * desc    : وصف مختصر
+    * doctors : array من الأطباء في هذا التخصص
+
+  كل طبيب في doctors array فيه:
+    * id    : معرف فريد (ahmed / sara / ...) - بيتستخدم في ?doctor=id
+    * name  : اسم الطبيب
+    * title : لقبه الطبي
+    * exp   : خبرته
+    * img   : صورته (URL)
+
+getDoctorById(doctorId):
+  - بتلف على كل التخصصات وتدور على الطبيب بالـ id
+  - لو لقته: بترجع بياناته + اسم تخصصه + id تخصصه
+  - لو مش موجود: بترجع null
+  - بتستخدمها appointment.html لملء بيانات الطبيب
+    لما تيجي من رابط ?doctor=ahmed مثلاً
+
+
+================================================================
+3. css/style.css
+================================================================
+
+الهيكل العام:
+  الملف مقسوم لـ 15 قسم، كل قسم بـ comment واضح
+
+--- القسم 1: CSS Variables ---
+  :root بيعرّف الألوان المستخدمة في الموقع كله
+  - --blue           : الأزرق الرئيسي (#0d47a1)
+  - --blue-dark      : الأزرق الداكن (#0a3161) - للـ gradients
+  - --blue-light     : الأزرق الفاتح (#e8f0fe) - للخلفيات
+  - --blue-acc       : الأزرق المميز (#1a73e8) - للأزرار
+  - --light-gray     : خلفية الصفحات الداخلية (#f4f6fb)
+  ليه CSS Variables؟ عشان نغير اللون من مكان واحد بس
+
+--- القسم 2: إعدادات عامة ---
+  overflow-x: hidden على html و body معاً
+  عشان نمنع الـ scroll الأفقي على الموبايل
+
+--- القسم 3: Navbar ---
+  .bg-nav : gradient من الأزرق للداكن
+
+--- القسم 4: Hero Section ---
+  .hero-section : min-height 92vh + gradient أزرق
+  على الموبايل: min-height: unset عشان المحتوى ما يبقاش فاضي
+  clamp() في font-size: يكيّف الخط تلقائياً مع حجم الشاشة
+  .stat-box : صناديق الإحصائيات - خلفية شفافة فوق الـ gradient
+
+--- القسم 5: كروت التخصصات والأطباء ---
+  transition على transform و box-shadow عشان الـ hover يبان سلس
+  translateY(-6px): يرفع الكارت للأعلى عند hover
+  object-position: top center للأطباء عشان الوجه يبان مش الجسم
+
+--- القسم 6: Badges ---
+  border-radius: 20px يعمل شكل pill (بيضاوي)
+
+--- القسم 7: كروت الخدمات ---
+  border-right بدل border-left عشان الموقع RTL
+  translateX(-4px): يتحرك لليمين عند hover
+
+--- القسم 8: كروت التخصصات بالأيقونات ---
+  .spec-icon-card : border خفيف + transition على 3 خصائص
+  .spec-icon-wrap : الدائرة الملونة - border-radius: 16px
+  scale(1.12) على الأيقونة عند hover للتأكيد البصري
+
+--- القسم 9: Mega Menu ---
+  width: min(96vw, 860px) عشان ما يطلعش برا الشاشة
+  grid-template-columns: repeat(4,1fr) = 4 أعمدة متساوية
+  على الموبايل (< 991px): position static + عمودين بدل 4
+  text-overflow: ellipsis على روابط الأطباء للأسماء الطويلة
+
+--- القسم 10: متفرقات ---
+  .bg-form  : خلفية شفافة مع blur للفورم فوق الـ gradient
+  .footer-h : روابط الـ footer تتوضح عند hover
+
+--- القسم 11: Login / Register ---
+  .page-auth : min-height 100vh + gradient أزرق
+  .divider   : الخط الفاصل "أو" - ::before و ::after يعملوا الخطين
+
+--- القسم 12: صفحة المريض ---
+  .page-patient : خلفية رمادية فاتحة
+  .status-pending / confirmed / cancelled : ألوان حالة الحجز
+  !important عشان يتغلب على Bootstrap classes
+
+--- القسم 13: Dashboard ---
+  .sidebar : width 240px ثابت + gradient عمودي
+  على الموبايل: position fixed + translateX(100%) يخفيه من اليمين
+  .sidebar.show : translateX(0) يجيبه للشاشة
+  .nav-section : عناوين الأقسام - uppercase + letter-spacing
+  .stat-icon : الدائرة الملونة في كروت الإحصائيات
+  .spec-banner : بانر التخصص في أعلى الداشبورد
+  .view-tabs : تابات الفلترة
+  .badge-* : ألوان حالة الحجز في الجداول
+
+--- القسم 14: صفحة الحجز ---
+  .appt-hero : hero أزرق في أعلى الصفحة
+  .appt-card : كارت أبيض بـ margin-top سالب يطلع فوق الـ hero
+  .step-label : عنوان كل خطوة في الفورم
+  .input-icon-wrap : position relative + أيقونة absolute جوا الـ input
+                     padding-right على الـ input عشان النص ما يتغطاش
+  .time-slot : كل وقت على شكل زرار - .selected يبقى أزرق
+  .btn-submit : زرار التأكيد بـ gradient
+
+--- القسم 15: صفحة Admin ---
+  .step-badge : رقم الخطوة في دائرة زرقاء
+  .spec-btn   : كروت اختيار التخصص - .selected يبقى أزرق
+  .doc-card   : كارت الطبيب - .loading شفاف / .created أخضر / .failed أحمر
+  .log-box    : صندوق سجل العمليات - خلفية داكنة + monospace
+               .ok أخضر / .warn أصفر / .err أحمر / .info سماوي
+
+
+================================================================
+4. index.html (الصفحة الرئيسية)
+================================================================
+
+الهدف: Landing Page - الواجهة الأولى للموقع
+
+--- HEAD ---
+  charset="UTF-8"    : عشان المتصفح يقرأ العربي صح
+  viewport           : يكيّف الصفحة مع شاشات الموبايل
+  Bootstrap CSS      : مكتبة التصميم - Grid / Buttons / Cards
+  Bootstrap Icons    : أيقونات بـ class="bi bi-اسم-الأيقونة"
+  style.css          : CSS المخصص للمشروع
+
+--- NAVBAR ---
+  navbar-expand-lg   : يتوسع على الشاشات الكبيرة، hamburger على الموبايل
+  bg-nav             : class في style.css - لون الخلفية الأزرق
+  sticky-top         : يفضل ثابت فوق الصفحة أثناء السكرول
+  data-bs-toggle="collapse" : يفتح/يقفل القائمة على الموبايل
+
+  Mega Menu:
+  - dropdown مع data-bs-auto-close="outside"
+  - mega-menu class : قائمة كبيرة بـ 4 أعمدة
+  - mega-grid : CSS Grid يرتب التخصصات
+  - كل رابط طبيب بيحتوي ?doctor=id عشان صفحة الحجز تملأ البيانات تلقائياً
+
+--- HERO SECTION ---
+  hero-section       : class في style.css - خلفية gradient أزرق
+  d-flex align-items-center : يمركز المحتوى عمودياً
+  col-lg-7           : النص والأزرار
+  col-lg-5           : صناديق الإحصائيات الأربعة
+  clamp()            : font-size يتكيف مع حجم الشاشة
+  stat-box           : صندوق شفاف بـ backdrop-filter
+
+--- SPECIALTIES SECTION ---
+  12 تخصص على شكل أيقونات ملونة
+  spec-icon-card     : كارت بـ hover effect
+  spec-icon-wrap     : الدائرة الملونة اللي فيها الأيقونة
+  col-6 col-md-4 col-lg-2 : موبايل 2 في الصف / تابلت 3 / ديسكتوب 6
+  الطوارئ: رابطه tel: عشان الاتصال الفوري
+
+--- SERVICES SECTION ---
+  service-card       : كارت بـ border-right أزرق (RTL)
+  hover: translateX(-4px) يتحرك لليمين
+
+--- DOCTORS SECTION ---
+  doctor-card        : كارت بـ hover effect
+  object-position: top center : الوجه يبان مش الجسم
+
+--- CONTACT SECTION ---
+  فورم اتصل بنا (للعرض فقط - مش بيبعت)
+
+--- FOOTER ---
+  footer-h           : روابط تتوضح عند hover
+
+--- SCRIPTS ---
+  Bootstrap JS       : لتشغيل الـ navbar والـ dropdowns
+  doctors-data.js    : لتحميل SPECIALTIES للـ Mega Menu
+
+
+================================================================
+5. pages/login.html
+================================================================
+
+الهدف: تسجيل دخول المستخدمين (مريض / طبيب / أدمن)
+
+--- التصميم ---
+  page-auth          : class في style.css - خلفية gradient أزرق
+  d-flex align-items-center justify-content-center : يمركز الكارت
+  max-width: 460px   : عرض مناسب للفورم
+
+--- الفورم ---
+  input-group        : أيقونة على يمين الـ input
+  togglePass         : زرار إظهار/إخفاء كلمة المرور
+  forgotLink         : رابط "نسيت كلمة المرور"
+  btnSpinner         : spinner يظهر أثناء التحقق
+
+--- JavaScript ---
+  signInWithEmailAndPassword : تسجيل الدخول بـ Firebase Auth
+
+  منطق تحديد الـ role:
+  1. بيجيب بيانات المستخدم من users/{uid} في Firestore
+  2. لو مش موجود، بيبحث في doctors collection بالـ email
+     (الأطباء بيتسجلوا بـ {doctorId}@alshifa-clinic.com)
+  3. بيحفظ في users للمرة الجاية عشان يكون أسرع
+
+  التوجيه بعد الدخول:
+  - doctor → dashboard.html
+  - admin  → create-doctors.html
+  - patient → patient.html
+
+  رسائل الخطأ:
+  - auth/user-not-found    : البريد غير مسجّل
+  - auth/wrong-password    : كلمة المرور غير صحيحة
+  - auth/invalid-email     : صيغة البريد غير صحيحة
+  - auth/too-many-requests : تجاوز عدد المحاولات
+  - auth/invalid-credential: البريد أو كلمة المرور غير صحيحة
+
+  sendPasswordResetEmail : بيبعت reset email عبر Firebase
+
+
+================================================================
+6. pages/register.html
+================================================================
+
+الهدف: تسجيل مريض جديد في النظام
+
+--- الفورم (7 حقول) ---
+  1. الاسم الكامل
+  2. البريد الإلكتروني
+  3. كلمة المرور (مع إظهار/إخفاء)
+  4. الرقم القومي (maxlength="14" - 14 رقم فقط)
+  5. رقم الهاتف
+  6. رقم الواتساب (اختياري - لو فاضي بيتحفظ نفس الهاتف)
+  7. العنوان
+
+--- JavaScript ---
+  createUserWithEmailAndPassword : إنشاء حساب في Firebase Auth
+  updateProfile                  : تحديث الاسم في Firebase Auth Profile
+  setDoc(doc(db,'users',uid))    : حفظ بيانات المريض في Firestore
+
+  البيانات المحفوظة في Firestore:
+  { name, email, nationalId, phone, whatsapp, address,
+    role: 'patient', createdAt: serverTimestamp() }
+
+  التحقق:
+  - الرقم القومي: 14 رقم فقط بـ regex
+  - كلمة المرور: 6 أحرف على الأقل (شرط Firebase)
+
+  بعد التسجيل: يحفظ في localStorage ويروح patient.html
+
+
+================================================================
+7. pages/patient.html
+================================================================
+
+الهدف: عرض حجوزات المريض المسجل دخوله
+
+--- التحقق من الدخول ---
+  onAuthStateChanged : بيراقب حالة تسجيل الدخول
+  - مش مسجل → login.html
+  - doctor   → dashboard.html
+  - admin    → create-doctors.html
+  - patient  → يكمل ويحمل الحجوزات
+
+--- الإحصائيات ---
+  4 كروت: إجمالي / انتظار / مؤكدة / ملغية
+  الأرقام بتتحدث بعد تحميل البيانات من Firestore
+
+--- loadAppointments() ---
+  query(collection(db,'appointments'), where('patientId','==',uid))
+  بيجيب الحجوزات من Firestore حيث patientId == uid
+  بيرتبها تنازلياً بـ createdAt (الأحدث أولاً)
+  بدون orderBy في الـ query عشان نتجنب الحاجة لـ Composite Index
+
+--- renderAppointments() ---
+  statusMap : خريطة لكل حالة → class + أيقونة + نص
+  التاريخ بيتحول لصيغة عربية بـ toLocaleDateString('ar-EG')
+
+--- cancelAppt() ---
+  updateDoc(doc(db,'appointments',id), {status:'cancelled'})
+  بيحدث Firestore أولاً ثم يحدث الـ UI بدون reload
+
+
+================================================================
+8. pages/appointment.html
+================================================================
+
+الهدف: تمكين المريض من حجز موعد مع طبيب
+
+--- الفورم (4 خطوات) ---
+  Step 1: البيانات الشخصية (اسم + هاتف)
+  Step 2: التخصص والطبيب (select مترابطين)
+  Step 3: التاريخ والوقت (date input + time slots)
+  Step 4: ملاحظات إضافية (اختياري)
+
+--- Doctor Preview ---
+  مخفي بالـ default (d-none)
+  بيظهر لما المستخدم يختار طبيب
+  فيه: صورة + اسم + لقب + زرار "تغيير"
+
+--- ملء التخصصات ---
+  SPECIALTIES.forEach → يضيف option لكل تخصص
+
+--- ربط التخصص بالطبيب ---
+  لما تختار تخصص → الـ JS يفلتر الأطباء ويملأ الـ select التاني
+
+--- Time Slots ---
+  TIME_SLOTS array : من 9 صباحاً لـ 5:30 مساءً
+  كل وقت بيتحول لـ div قابل للضغط (time-slot class)
+  .selected : الوقت المختار يبقى أزرق
+  مزامنة بين الـ select والـ buttons البصرية
+
+--- URL Params ---
+  ?doctor=ahmed : يملأ التخصص والطبيب تلقائياً
+  dispatchEvent(new Event('change')) : يشغل الـ event listener يدوياً
+  setTimeout 50ms : ينتظر الـ select يتملأ الأول
+
+--- حفظ الحجز ---
+  addDoc(collection(db,'appointments'), {...})
+  البيانات المحفوظة:
+  { patientId, patientName, phone, doctorId, doctorName,
+    specialty, specId, date, time, notes,
+    status: 'pending', createdAt: serverTimestamp() }
+
+  بعد الحفظ: يخفي الفورم ويظهر successBox
+
+--- apptDate.min ---
+  new Date().toISOString().split('T')[0]
+  يمنع اختيار تاريخ في الماضي
+
+
+================================================================
+9. pages/doctors.html
+================================================================
+
+الهدف: عرض كل أطباء العيادة مع فلترة بالتخصص
+
+--- الهيكل ---
+  مفيش HTML ثابت للأطباء - كله JavaScript ديناميكي
+  الكروت والفلاتر بتتبنى من SPECIALTIES array
+
+--- buildFilters() ---
+  بتلف على كل تخصص في SPECIALTIES
+  لو التخصص فيه أطباء، بتضيف زرار فلتر ليه
+  كل زرار عليه onclick بيستدعي filterDoctors()
+
+--- renderDoctors(filter) ---
+  filter='all'   : يعرض كل الأطباء
+  filter='heart' : يعرض أطباء القلب بس
+  flatMap        : بيجمع كل الأطباء من كل التخصصات في array واحدة
+  spread {...d}  : بينسخ بيانات الطبيب ويضيف specId و specName
+  data-spec      : attribute على كل كارت للفلترة
+
+--- defaultImg(name) ---
+  لو الطبيب مالوش صورة، بيعمل avatar بالاسم
+  ui-avatars.com : خدمة مجانية بتعمل صورة بالحروف الأولى
+  encodeURIComponent : بيحول الاسم العربي لـ URL صالح
+
+--- filterDoctors(spec, btn) ---
+  بيشيل active من كل الأزرار
+  بيضيف active على الزرار المضغوط
+  بيستدعي renderDoctors() بالفلتر الجديد
+
+--- onerror على الصور ---
+  لو الصورة مش موجودة، يعرض الـ avatar البديل
+
+
+================================================================
+10. pages/specialties.html
+================================================================
+
+الهدف: عرض كل تخصصات العيادة الـ 12 بشكل مفصل
+
+--- الفرق عن doctors.html ---
+  الكروت ثابتة في HTML (مش ديناميكية)
+  كل كارت فيه: صورة + أيقونة + وصف + زرار حجز + زرار أطباء
+
+--- CSS المحلي ---
+  .spec-card   : hover effect (ارتفاع + ظل)
+  .hero-spec   : خلفية gradient للـ hero
+  .stat-pill   : الـ pills الإحصائية في الـ hero
+
+--- الطوارئ ---
+  زرار "اتصل الآن" بدل "احجز الآن" لأنه طوارئ
+  href="tel:+2010000000" : يفتح الاتصال مباشرة
+
+
+================================================================
+11. pages/dashboard.html
+================================================================
+
+الهدف: لوحة تحكم الطبيب - عرض وإدارة الحجوزات
+
+--- الهيكل ---
+  d-flex : Sidebar + المحتوى جنب بعض أفقياً
+
+--- Sidebar ---
+  - يعرض اسم الطبيب وتخصصه (من Firebase)
+  - روابط التنقل بين الـ Views (بدون reload)
+  - على الموبايل: position fixed + translateX(100%) يخفيه
+  - .show class تجيبه للشاشة
+
+--- Views (5 views) ---
+  overview  : بانر التخصص + 4 إحصائيات + جدول اليوم المختصر
+  today     : جدول حجوزات اليوم الكامل (مع واتساب وعنوان)
+  all       : كل الحجوزات مع تابات فلترة
+  patients  : قائمة المرضى (مريض واحد لكل patientId فريد)
+  specialty : جدول الحجوزات مع أعمدة إضافية خاصة بالتخصص
+
+--- SPEC_CONFIG ---
+  object فيه إعدادات كل تخصص:
+  - icon     : أيقونة Bootstrap Icons
+  - color    : اللون الرئيسي
+  - bg       : لون الخلفية الفاتح
+  - desc     : وصف التخصص
+  - extraCols: أعمدة إضافية في جدول التخصص
+    مثلاً: heart → ['ضغط الدم', 'معدل القلب']
+
+--- Firebase Auth ---
+  onAuthStateChanged : بيراقب حالة تسجيل الدخول
+  - مش مسجل → login.html
+  - يجرب users/{uid} أولاً (أسرع - direct lookup)
+  - لو مش موجود → يبحث في doctors بالـ email
+  - لو مش طبيب → patient.html
+
+--- loadData(doctorId) ---
+  query(collection(db,'appointments'), where('doctorId','==',doctorId))
+  بيجيب كل الحجوزات الخاصة بالطبيب
+  بيرتبها من الأحدث للأقدم بـ createdAt.seconds
+
+--- renderAll() ---
+  بيبني كل الـ Views دفعة واحدة بعد تحميل البيانات
+  Set() عشان نحسب المرضى الفريدين فقط
+
+--- renderTable(tbodyId, appts, mode) ---
+  mode 'short' : أعمدة مختصرة (Overview)
+  mode 'full'  : أعمدة كاملة (Today View)
+  mode 'all'   : أعمدة متوسطة (All View)
+
+--- renderPatientsTable() ---
+  Map() عشان يشيل التكرار (نفس المريض أكثر من حجز)
+  يعرض آخر حجز لكل مريض
+
+--- renderSpecialtyPanel() ---
+  يبني mini-card في Overview
+  يبني جدول كامل في View التخصص مع الأعمدة الإضافية
+
+--- filterAll(status, el) ---
+  فلترة client-side بدون طلب جديد من Firestore
+
+--- switchView(viewName, el) ---
+  يخفي كل الـ Views ويظهر المطلوب فقط
+  يحدث العنوان في الـ Topbar
+
+--- statusBadge(s) ---
+  pending   → badge أصفر
+  confirmed → badge أخضر
+  cancelled → badge أحمر
+
+--- actionBtns(id, status, prefix) ---
+  pending   → زرار تأكيد + إلغاء
+  confirmed → زرار إلغاء فقط
+  cancelled → نص "ملغي" بدون أزرار
+
+--- confirmAppt / cancelAppt ---
+  بيحدث Firestore أولاً ثم يحدث الـ UI بدون reload
+  updateRowUI : بيحدث كل الـ prefixes المحتملة
+  (نفس الحجز ممكن يبان في أكثر من جدول في نفس الوقت)
+
+
+================================================================
+ملاحظات عامة على المشروع
+================================================================
+
+Firebase Collections:
+  - users        : بيانات كل المستخدمين (مرضى + أطباء)
+  - doctors      : بيانات الأطباء (بيتستخدم للبحث بالـ email)
+  - appointments : كل الحجوزات
+
+Roles:
+  - patient : مريض → patient.html
+  - doctor  : طبيب → dashboard.html
+  - admin   : أدمن → create-doctors.html
+
+تسجيل الأطباء:
+  - email    : {doctorId}@alshifa-clinic.com
+  - password : Doctor@123
+
+Admin email: abdelrhmansherif140@gmail.com
+
+localStorage:
+  - currentUser : بيانات المستخدم الحالي (uid / email / name / role)
+  - بيتمسح عند تسجيل الخروج
+
+type="module" في الـ script:
+  - لازم عشان import يشتغل
+  - بيعزل الـ scope عن باقي الـ scripts
+
+RTL (Right to Left):
+  - lang="ar" dir="rtl" على كل صفحة
+  - border-right بدل border-left في الـ CSS
+  - translateX(-4px) بدل (+4px) للـ hover
+
+================================================================

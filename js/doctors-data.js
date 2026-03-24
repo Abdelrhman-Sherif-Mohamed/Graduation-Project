@@ -1,4 +1,3 @@
-// بيانات الأطباء والتخصصات - عيادة الشفاء
 const SPECIALTIES = [
     {
         id: "heart", name: "أمراض القلب", icon: "bi-heart-pulse-fill",
@@ -132,6 +131,11 @@ const SPECIALTIES = [
     }
 ];
 
+/**
+ * Find a doctor by ID across all specialties.
+ * @param {string} doctorId
+ * @returns {object|null} doctor data with specialty info, or null if not found
+ */
 function getDoctorById(doctorId) {
     for (const spec of SPECIALTIES) {
         const doc = spec.doctors.find(d => d.id === doctorId);
@@ -139,26 +143,3 @@ function getDoctorById(doctorId) {
     }
     return null;
 }
-
-// ===== مزامنة بيانات manage-doctors مع SPECIALTIES =====
-(function syncManagedDoctors() {
-    const managed = JSON.parse(localStorage.getItem('managedDoctors') || 'null');
-    if (!managed) return;
-
-    // فاضي كل الأطباء من SPECIALTIES
-    SPECIALTIES.forEach(s => s.doctors = []);
-
-    // أعد توزيع الأطباء المحفوظين على تخصصاتهم
-    managed.forEach(d => {
-        const spec = SPECIALTIES.find(s => s.id === d.specId);
-        if (spec) {
-            spec.doctors.push({
-                id:    d.id,
-                name:  d.name,
-                title: d.title,
-                exp:   d.exp   || '',
-                img:   d.img   || '',
-            });
-        }
-    });
-})();

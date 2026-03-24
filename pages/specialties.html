@@ -1,33 +1,74 @@
 ﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>التخصصات - عيادة الشفاء</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        .spec-card { border:none; border-radius:20px; overflow:hidden; transition:transform .35s, box-shadow .35s; cursor:pointer; }
-        .spec-card:hover { transform:translateY(-8px); box-shadow:0 20px 48px rgba(13,71,161,.22); }
-        .spec-card:hover .spec-overlay { opacity:1; }
-        .spec-card:hover .spec-img { transform:scale(1.07); }
-        .spec-img-wrap { position:relative; overflow:hidden; height:220px; }
-        .spec-img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-        .spec-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(10,49,97,.85) 0%, rgba(10,49,97,.3) 60%, transparent 100%); opacity:.7; transition:opacity .35s; }
-        .spec-overlay-content { position:absolute; bottom:0; left:0; right:0; padding:18px 20px; }
-        .spec-icon-circle { width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.15); backdrop-filter:blur(4px); border:1.5px solid rgba(255,255,255,.3); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-        .spec-body { padding:18px 20px 20px; }
-        .spec-badge-count { background:var(--light-blue); color:var(--secondary-blue); font-size:.75rem; border-radius:20px; padding:2px 10px; font-weight:600; }
-        .hero-spec { background:linear-gradient(135deg,var(--secondary-blue),var(--dark-blue)); padding:70px 0 50px; }
-        .hero-spec .stat-pill { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:30px; padding:8px 20px; display:inline-flex; align-items:center; gap:8px; }
+        .spec-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform .35s, box-shadow .35s;
+            cursor: pointer;
+        }
+
+        .spec-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 48px rgba(13, 71, 161, .22);
+        }
+
+        .spec-img-wrap {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+
+        .spec-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .spec-icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .hero-spec {
+            background: linear-gradient(135deg, var(--secondary-blue), var(--dark-blue));
+            padding: 70px 0 50px;
+        }
+
+        .hero-spec .stat-pill {
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 30px;
+            padding: 8px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg bg-nav sticky-top ">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-nav sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="../index.html"><i class="bi bi-hospital text-white"> <span>عيادة الشفاء</span></i></a>
+            <a class="navbar-brand" href="../index.html"><i class="bi bi-hospital text-white"> <span>عيادة
+                        الشفاء</span></i></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -35,10 +76,10 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link text-white" href="../index.html">الرئيسية</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link active text-white dropdown-toggle" href="specialties.html" role="button" data-bs-toggle="dropdown">التخصصات</a>
-                        <ul class="dropdown-menu dropdown-menu-dark" id="specialtiesDropdown">
+                        <a class="nav-link active text-white dropdown-toggle" href="specialties.html" role="button"
+                            data-bs-toggle="dropdown">التخصصات</a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             <li><a class="dropdown-item" href="specialties.html">كل التخصصات</a></li>
-                            <li><hr class="dropdown-divider"></li>
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link text-white" href="doctors.html">أطباؤنا</a></li>
@@ -49,6 +90,7 @@
         </div>
     </nav>
 
+    <!-- Hero -->
     <div class="hero-spec text-center text-white mb-5">
         <h1 class="fs-1 fw-bold mb-3">تخصصات العيادة</h1>
         <p class="opacity-75 fs-5 mb-4">12 تخصصاً طبياً تحت سقف واحد بأعلى المعايير</p>
@@ -59,226 +101,263 @@
         </div>
     </div>
 
+    <!-- Specialties Grid -->
     <main class="container pb-5">
         <div class="row g-4">
 
-            <!-- أمراض القلب -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://cdn2.tqsan.com/v2/images/procedures/550/1800x1200-cardiac-arrest-what-you-should-know-slideshow_669a48b680947.jpg" alt="أمراض القلب" class="spec-img" style="width:100%;height:220px;object-fit:cover;">
+                    <img src="https://cdn2.tqsan.com/v2/images/procedures/550/1800x1200-cardiac-arrest-what-you-should-know-slideshow_669a48b680947.jpg"
+                        alt="أمراض القلب" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-heart-pulse-fill fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-heart-pulse-fill fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">أمراض القلب</h5>
                         </div>
-                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض القلب والأوعية الدموية باستخدام أحدث الأجهزة الطبية</p>
+                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض القلب والأوعية الدموية باستخدام أحدث الأجهزة
+                            الطبية</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=heart" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- طب الأسنان -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="50">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://wondersdentistry.com/wp-content/uploads/2022/12/%D8%AA%D8%B1%D9%85%D9%8A%D9%85-%D9%84%D8%A3%D8%B3%D9%86%D8%A7%D9%86-1.png" alt="طب الأسنان" class="spec-img" style="width:100%;height:220px;object-fit:cover;">
+                    <img src="https://wondersdentistry.com/wp-content/uploads/2022/12/%D8%AA%D8%B1%D9%85%D9%8A%D9%85-%D9%84%D8%A3%D8%B3%D9%86%D8%A7%D9%86-1.png"
+                        alt="طب الأسنان" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-emoji-smile fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-emoji-smile fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">طب الأسنان</h5>
                         </div>
-                        <p class="text-muted small mb-3">خدمات طب الأسنان التجميلي والعلاجي باستخدام أحدث التقنيات وأفضل المواد الآمنة</p>
+                        <p class="text-muted small mb-3">خدمات طب الأسنان التجميلي والعلاجي باستخدام أحدث التقنيات وأفضل
+                            المواد الآمنة</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=dentist" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- جراحة العظام -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://tedavitr.com/wp-content/uploads/2024/07/6.jpg" alt="جراحة العظام" class="spec-img" style="width:100%;height:220px;object-fit:cover;">
+                    <img src="https://tedavitr.com/wp-content/uploads/2024/07/6.jpg" alt="جراحة العظام"
+                        style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-bandaid-fill fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-bandaid-fill fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">جراحة العظام</h5>
                         </div>
-                        <p class="text-muted small mb-3">علاج الكسور، آلام المفاصل، والعمود الفقري بأحدث التقنيات الجراحية والعلاجية</p>
+                        <p class="text-muted small mb-3">علاج الكسور، آلام المفاصل، والعمود الفقري بأحدث التقنيات
+                            الجراحية والعلاجية</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=bones" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- طب الأطفال -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://ksa-students.com/ksastudentsMopileApp/Blog/1713441418KvTrI9aeh9.jpeg" alt="طب الأطفال" class="spec-img" style="width:100%;height:220px;object-fit:cover;">
+                    <img src="https://ksa-students.com/ksastudentsMopileApp/Blog/1713441418KvTrI9aeh9.jpeg"
+                        alt="طب الأطفال" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-balloon-heart-fill fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-balloon-heart-fill fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">طب الأطفال</h5>
                         </div>
-                        <p class="text-muted small mb-3">رعاية شاملة لصحة أطفالك من الولادة وحتى المراهقة مع أفضل أطباء الأطفال</p>
+                        <p class="text-muted small mb-3">رعاية شاملة لصحة أطفالك من الولادة وحتى المراهقة مع أفضل أطباء
+                            الأطفال</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=children" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- المخ والأعصاب -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrDSLy-qiPlEiGn3fVZuDBCznvQcLW0zv2JQ&s" alt="المخ والأعصاب" class="spec-img" style="width:100%;height:220px;object-fit:cover;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrDSLy-qiPlEiGn3fVZuDBCznvQcLW0zv2JQ&s"
+                        alt="المخ والأعصاب" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-activity fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-activity fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">المخ والأعصاب</h5>
                         </div>
-                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض الجهاز العصبي والصداع والصرع باستخدام أحدث البروتوكولات</p>
+                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض الجهاز العصبي والصداع والصرع باستخدام أحدث
+                            البروتوكولات</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=neuro" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- الباطنة والمناعة -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="250">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://drsamirahmed.com/_next/image?url=https%3A%2F%2Fbackend.drsamirahmed.com%2Fuploads%2Fimages%2Fcms%2F1744640107%D8%AF%D9%83%D8%AA%D9%88%D8%B1%20%D8%A8%D8%A7%D8%B7%D9%86%D8%A9%20%D9%88%D9%82%D9%84%D8%A8.webp&w=3840&q=75" alt="الباطنة والمناعة" class="spec-img" style="width:100%;height:220px;object-fit:cover;">
+                    <img src="https://drsamirahmed.com/_next/image?url=https%3A%2F%2Fbackend.drsamirahmed.com%2Fuploads%2Fimages%2Fcms%2F1744640107%D8%AF%D9%83%D8%AA%D9%88%D8%B1%20%D8%A8%D8%A7%D8%B7%D9%86%D8%A9%20%D9%88%D9%82%D9%84%D8%A8.webp&w=3840&q=75"
+                        alt="الباطنة والمناعة" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-lungs-fill fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-lungs-fill fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">الباطنة والمناعة</h5>
                         </div>
-                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض الجهاز الهضمي والكبد والكلى والجهاز التنفسي وأمراض المناعة</p>
+                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض الجهاز الهضمي والكبد والكلى والجهاز التنفسي
+                            وأمراض المناعة</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=internal" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- الجلدية والتجميل -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://alhanammc.com/wp-content/uploads/2023/07/dermatologist-in-dubai.jpg" alt="الجلدية والتجميل">
+                    <img src="https://alhanammc.com/wp-content/uploads/2023/07/dermatologist-in-dubai.jpg"
+                        alt="الجلدية والتجميل" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-stars fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-stars fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">الجلدية والتجميل</h5>
                         </div>
-                        <p class="text-muted small mb-3">علاج أمراض الجلد والشعر والأظافر وخدمات التجميل الطبي بأحدث التقنيات</p>
+                        <p class="text-muted small mb-3">علاج أمراض الجلد والشعر والأظافر وخدمات التجميل الطبي بأحدث
+                            التقنيات</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=derma" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- طب العيون -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="350">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://med.tanta.edu.eg/depart_eye/images/eye.jpg" alt="طب العيون">
+                    <img src="https://med.tanta.edu.eg/depart_eye/images/eye.jpg" alt="طب العيون"
+                        style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-eye-fill fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-eye-fill fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">طب العيون</h5>
                         </div>
-                        <p class="text-muted small mb-3">فحص وعلاج أمراض العيون وإجراء عمليات الليزك وجراحة الماء الأبيض والزرق</p>
+                        <p class="text-muted small mb-3">فحص وعلاج أمراض العيون وإجراء عمليات الليزك وجراحة الماء الأبيض
+                            والزرق</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=eye" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- النساء والتوليد -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://images.ctfassets.net/szez98lehkfm/7bu3ZdH26EivfjvfQtzF00/b61faf7c07094e9c2ece137e66a4d0ba/MyIC_Article_111101?fm=webp" alt="النساء والتوليد">
+                    <img src="https://images.ctfassets.net/szez98lehkfm/7bu3ZdH26EivfjvfQtzF00/b61faf7c07094e9c2ece137e66a4d0ba/MyIC_Article_111101?fm=webp"
+                        alt="النساء والتوليد" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-gender-female fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-gender-female fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">النساء والتوليد</h5>
                         </div>
-                        <p class="text-muted small mb-3">رعاية صحة المرأة من الحمل والولادة وأمراض الجهاز التناسلي وعلاج العقم</p>
+                        <p class="text-muted small mb-3">رعاية صحة المرأة من الحمل والولادة وأمراض الجهاز التناسلي وعلاج
+                            العقم</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=gynecology" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- المسالك البولية -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="450">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://www.medicabil.com/assets/images/05-09-23-858914531_1700740282.jpg" alt="المسالك البولية">
+                    <img src="https://www.medicabil.com/assets/images/05-09-23-858914531_1700740282.jpg"
+                        alt="المسالك البولية" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-droplet-fill fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-droplet-fill fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">المسالك البولية</h5>
                         </div>
-                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض الكلى والمثانة والبروستاتا وحصوات المسالك البولية</p>
+                        <p class="text-muted small mb-3">تشخيص وعلاج أمراض الكلى والمثانة والبروستاتا وحصوات المسالك
+                            البولية</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=urology" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- الأشعة التشخيصية -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://radspe.com/wp-content/uploads/2016/06/Radiology-600x330.jpeg" alt="الأشعة التشخيصية">
+                    <img src="https://radspe.com/wp-content/uploads/2016/06/Radiology-600x330.jpeg"
+                        alt="الأشعة التشخيصية" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge"><i class="bi bi-radioactive fs-5" style="color:var(--secondary-blue)"></i></div>
+                            <div class="spec-icon-badge"><i class="bi bi-radioactive fs-5"
+                                    style="color:var(--secondary-blue)"></i></div>
                             <h5 class="fw-bold mb-0">الأشعة التشخيصية</h5>
                         </div>
-                        <p class="text-muted small mb-3">تشخيص دقيق بأحدث أجهزة الأشعة المقطعية والرنين المغناطيسي والموجات فوق الصوتية</p>
+                        <p class="text-muted small mb-3">تشخيص دقيق بأحدث أجهزة الأشعة المقطعية والرنين المغناطيسي
+                            والموجات فوق الصوتية</p>
                         <div class="d-flex gap-2">
-                            <a href="appointment.html?specialty=radiology" class="btn btn-sm text-white rounded-5 flex-grow-1" style="background:var(--secondary-blue)">احجز الآن</a>
+                            <a href="appointment.html" class="btn btn-sm text-white rounded-5 flex-grow-1"
+                                style="background:var(--secondary-blue)">احجز الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- الطوارئ -->
-            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="550">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card spec-card shadow-sm h-100">
-                    <img src="https://cdn.altibbi.com/cdn/cache/1000x500/image/2020/05/12/ff9f916b08fdb6f3d5b650868ee0697e.png.webp" alt="الطوارئ">
+                    <img src="https://cdn.altibbi.com/cdn/cache/1000x500/image/2020/05/12/ff9f916b08fdb6f3d5b650868ee0697e.png.webp"
+                        alt="الطوارئ" style="width:100%;height:220px;object-fit:cover;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="spec-icon-badge" style="background:#fde8e8"><i class="bi bi-hospital-fill fs-5 text-danger"></i></div>
+                            <div class="spec-icon-badge" style="background:#fde8e8"><i
+                                    class="bi bi-hospital-fill fs-5 text-danger"></i></div>
                             <h5 class="fw-bold mb-0">الطوارئ</h5>
                         </div>
-                        <p class="text-muted small mb-3">خدمة طوارئ على مدار الساعة مع فريق طبي متخصص للتعامل مع الحالات الحرجة</p>
+                        <p class="text-muted small mb-3">خدمة طوارئ على مدار الساعة مع فريق طبي متخصص للتعامل مع الحالات
+                            الحرجة</p>
                         <div class="d-flex gap-2">
-                            <a href="tel:+2010000000" class="btn btn-sm btn-danger text-white rounded-5 flex-grow-1"><i class="bi bi-telephone-fill me-1"></i>اتصل الآن</a>
+                            <a href="tel:+2010000000" class="btn btn-sm btn-danger text-white rounded-5 flex-grow-1"><i
+                                    class="bi bi-telephone-fill me-1"></i>اتصل الآن</a>
                             <a href="doctors.html" class="btn btn-sm btn-outline-secondary rounded-5">الأطباء</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div><!-- end row -->
+        </div>
     </main>
 
     <footer class="bg-nav py-3 text-center mt-5">
@@ -286,9 +365,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ once: true });</script>
     <script src="../js/doctors-data.js"></script>
-    <script src="../js/script.js"></script>
 </body>
+
 </html>

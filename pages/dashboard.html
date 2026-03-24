@@ -7,12 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css">
-
 </head>
 <body class="page-dashboard">
+
 <div class="d-flex">
 
-    <!-- ===== Sidebar ===== -->
+    <!-- Sidebar -->
     <div class="sidebar p-3 d-flex flex-column" id="sidebar">
         <div class="text-center mb-3 pt-1">
             <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
@@ -25,6 +25,7 @@
         <hr class="border-light opacity-25 my-2">
 
         <span class="nav-section">القائمة الرئيسية</span>
+
         <a href="#" class="mb-1 active" data-view="overview" onclick="switchView('overview',this)">
             <i class="bi bi-grid-fill"></i>الرئيسية
         </a>
@@ -38,18 +39,16 @@
             <i class="bi bi-people-fill"></i>المرضى
         </a>
 
-        <!-- Specialty-specific links (hidden until loaded) -->
         <div id="specNavLinks" class="d-none">
             <hr class="border-light opacity-25 my-2">
             <span class="nav-section" id="specNavTitle">تخصصي</span>
-            <!-- يتعبى ديناميكياً -->
         </div>
 
         <hr class="border-light opacity-25 my-2 mt-auto">
         <a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i>تسجيل الخروج</a>
     </div>
 
-    <!-- ===== Main ===== -->
+    <!-- Main Content -->
     <div class="flex-grow-1 p-3 p-md-4" style="min-width:0">
 
         <!-- Topbar -->
@@ -73,10 +72,8 @@
             <p class="text-muted mt-3">جاري تحميل البيانات...</p>
         </div>
 
-        <!-- ======= VIEW: Overview ======= -->
+        <!-- View: Overview -->
         <div id="view-overview" class="view d-none">
-
-            <!-- Specialty Banner -->
             <div class="spec-banner d-flex align-items-center gap-3" id="specBanner">
                 <i class="spec-icon" id="specBannerIcon"></i>
                 <div>
@@ -141,10 +138,9 @@
                 </div>
             </div>
 
-            <!-- Specialty-specific overview panel -->
             <div id="specOverviewPanel"></div>
 
-            <!-- Quick: today's appointments preview -->
+            <!-- Today's Appointments Preview -->
             <div class="card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center py-3"
                      style="background:var(--secondary-blue)">
@@ -165,7 +161,7 @@
             </div>
         </div>
 
-        <!-- ======= VIEW: Today ======= -->
+        <!-- View: Today (full) -->
         <div id="view-today" class="view d-none">
             <div class="card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center py-3"
@@ -188,9 +184,8 @@
             </div>
         </div>
 
-        <!-- ======= VIEW: All Appointments ======= -->
+        <!-- View: All Appointments -->
         <div id="view-all" class="view d-none">
-            <!-- Filter tabs -->
             <ul class="nav view-tabs mb-3 gap-1">
                 <li class="nav-item"><a class="nav-link active" href="#" onclick="filterAll('all',this)">الكل</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="filterAll('pending',this)">انتظار</a></li>
@@ -215,7 +210,7 @@
             </div>
         </div>
 
-        <!-- ======= VIEW: Patients ======= -->
+        <!-- View: Patients -->
         <div id="view-patients" class="view d-none">
             <div class="card shadow-sm">
                 <div class="card-header py-3" style="background:var(--secondary-blue)">
@@ -235,13 +230,13 @@
             </div>
         </div>
 
-        <!-- ======= VIEW: Specialty-specific ======= -->
+        <!-- View: Specialty -->
         <div id="view-specialty" class="view d-none">
             <div id="specDetailPanel"></div>
         </div>
 
-    </div><!-- /main -->
-</div><!-- /d-flex -->
+    </div>
+</div>
 
 <script type="module">
 import { auth, db } from "../js/firebase-config.js";
@@ -250,7 +245,7 @@ import { onAuthStateChanged, signOut }
 import { collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ===== Specialty config =====
+// Specialty configuration: icon, color, extra columns per specialty
 const SPEC_CONFIG = {
     heart:      { icon:'bi-heart-pulse-fill', color:'#e53935', bg:'#ffebee', desc:'أمراض القلب والأوعية الدموية',
                   extraCols: ['ضغط الدم','معدل القلب'], extraNav: [] },
@@ -278,32 +273,28 @@ const SPEC_CONFIG = {
                   extraCols: ['درجة الطوارئ','الحالة عند الوصول'], extraNav: [] },
 };
 
-// ===== State =====
 let allAppointments = [];
 let currentSpecId   = '';
 
-// ===== Auth =====
+// auth guard + role check
 onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
 
     let data = null;
 
-    // 1. جرب users/{uid} أولاً
+    // try users/{uid} first
     try {
         const snap = await getDoc(doc(db, 'users', user.uid));
-        if (snap.exists() && snap.data().role === 'doctor') {
-            data = snap.data();
-        }
+        if (snap.exists() && snap.data().role === 'doctor') data = snap.data();
     } catch(e) {}
 
-    // 2. لو مش موجود في users كـ doctor، ابحث في doctors بالـ email
+    // fallback: search doctors collection by email
     if (!data) {
         try {
             const q    = query(collection(db, 'doctors'), where('email', '==', user.email));
             const snap = await getDocs(q);
             if (!snap.empty) {
                 data = snap.docs[0].data();
-                // احفظ في users للمرة الجاية
                 try {
                     await setDoc(doc(db, 'users', user.uid), {
                         ...data, uid: user.uid, doctorId: data.id, role: 'doctor'
@@ -313,7 +304,6 @@ onAuthStateChanged(auth, async (user) => {
         } catch(e) {}
     }
 
-    // 3. لو مش طبيب خالص
     if (!data || data.role !== 'doctor') {
         window.location.href = 'patient.html'; return;
     }
@@ -338,17 +328,14 @@ document.getElementById('logoutBtn').onclick = async (e) => {
     window.location.href = 'login.html';
 };
 
-// ===== Setup specialty UI =====
 function setupSpecialtyUI(specId, specName) {
     const cfg = SPEC_CONFIG[specId] || { icon:'bi-hospital-fill', color:'var(--secondary-blue)', bg:'#e3f2fd', desc:'' };
 
-    // Banner
     document.getElementById('specBannerIcon').className = `bi ${cfg.icon} spec-icon`;
     document.getElementById('specBannerIcon').style.color = cfg.color;
     document.getElementById('specBannerName').textContent = specName;
     document.getElementById('specBannerDesc').textContent = cfg.desc;
 
-    // Specialty nav link
     if (specId) {
         const navLinks = document.getElementById('specNavLinks');
         navLinks.classList.remove('d-none');
@@ -360,7 +347,6 @@ function setupSpecialtyUI(specId, specName) {
     }
 }
 
-// ===== Load data =====
 async function loadData(doctorId) {
     try {
         const q    = query(collection(db, 'appointments'), where('doctorId', '==', doctorId));
@@ -378,12 +364,10 @@ async function loadData(doctorId) {
     }
 }
 
-// ===== Render all views =====
 function renderAll() {
     const today      = new Date().toISOString().split('T')[0];
     const todayAppts = allAppointments.filter(a => a.date === today);
 
-    // Stats
     document.getElementById('todayCount').textContent    = todayAppts.length;
     document.getElementById('totalPatients').textContent = new Set(allAppointments.map(a => a.patientId)).size;
     document.getElementById('pendingCount').textContent  = allAppointments.filter(a => a.status === 'pending').length;
@@ -391,24 +375,18 @@ function renderAll() {
     document.getElementById('todayBadge').textContent    = todayAppts.length;
     document.getElementById('todayBadge2').textContent   = todayAppts.length;
 
-    // Today preview (overview)
     renderTable('todayTableBody', todayAppts, 'short');
-    // Today full
     renderTable('todayFullTable', todayAppts, 'full');
-    // All
     renderTable('allTableBody', allAppointments, 'all');
-    // Patients
     renderPatientsTable();
-    // Specialty panel
     renderSpecialtyPanel();
 }
 
-// ===== Render table =====
 function renderTable(tbodyId, appts, mode) {
     const tbody = document.getElementById(tbodyId);
     if (!tbody) return;
     if (!appts.length) {
-        const cols = mode === 'full' ? 8 : mode === 'all' ? 6 : 6;
+        const cols = mode === 'full' ? 8 : 6;
         tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center text-muted py-4">لا توجد حجوزات</td></tr>`;
         return;
     }
@@ -446,7 +424,6 @@ function renderTable(tbodyId, appts, mode) {
     }).join('');
 }
 
-// ===== Patients table =====
 function renderPatientsTable() {
     const seen = new Map();
     allAppointments.forEach(a => { if (!seen.has(a.patientId)) seen.set(a.patientId, a); });
@@ -465,14 +442,13 @@ function renderPatientsTable() {
         : '<tr><td colspan="6" class="text-center text-muted py-4">لا يوجد مرضى بعد</td></tr>';
 }
 
-// ===== Specialty panel =====
 function renderSpecialtyPanel() {
     const cfg     = SPEC_CONFIG[currentSpecId];
     const panel   = document.getElementById('specDetailPanel');
     const oPanel  = document.getElementById('specOverviewPanel');
     if (!cfg || !currentSpecId) { panel.innerHTML = ''; oPanel.innerHTML = ''; return; }
 
-    // Overview mini-card
+    // mini-card in overview
     oPanel.innerHTML = `
         <div class="card shadow-sm mb-4 p-3 d-flex flex-row align-items-center gap-3"
              style="border-right:4px solid ${cfg.color};border-radius:12px">
@@ -489,10 +465,10 @@ function renderSpecialtyPanel() {
             </a>
         </div>`;
 
-    // Specialty detail view — جدول الحجوزات مع الأعمدة الخاصة بالتخصص
+    // specialty detail table with extra columns
     const extraHeaders = cfg.extraCols.map(c => `<th>${c}</th>`).join('');
     const rows = allAppointments.map((a, i) => {
-        const extras = cfg.extraCols.map(c => `<td><span class="text-muted small">—</span></td>`).join('');
+        const extras = cfg.extraCols.map(() => `<td><span class="text-muted small">—</span></td>`).join('');
         return `<tr id="sprow-${a.id}">
             <td>${i+1}</td>
             <td class="fw-semibold">${a.patientName||'—'}</td>
@@ -534,7 +510,7 @@ function renderSpecialtyPanel() {
         </div>`;
 }
 
-// ===== Filter all appointments =====
+// client-side filter for all appointments view
 window.filterAll = (status, el) => {
     document.querySelectorAll('.view-tabs .nav-link').forEach(a => a.classList.remove('active'));
     el.classList.add('active');
@@ -542,7 +518,7 @@ window.filterAll = (status, el) => {
     renderTable('allTableBody', filtered, 'all');
 };
 
-// ===== Switch view =====
+// switch between views
 window.switchView = (viewName, el) => {
     document.querySelectorAll('.view').forEach(v => v.classList.add('d-none'));
     const target = document.getElementById(`view-${viewName}`);
@@ -559,7 +535,6 @@ window.switchView = (viewName, el) => {
     return false;
 };
 
-// ===== Status badge =====
 function statusBadge(s) {
     const m = {
         pending:   '<span class="badge badge-pending px-2 py-1 rounded-3">انتظار</span>',
@@ -569,23 +544,19 @@ function statusBadge(s) {
     return m[s] || m.pending;
 }
 
-// ===== Action buttons =====
 function actionBtns(id, status, prefix) {
     if (status === 'cancelled') return '<span class="text-muted small">ملغي</span>';
     if (status === 'confirmed') return `
         <button class="btn btn-danger btn-sm rounded-3" onclick="cancelAppt('${id}','${prefix}')">إلغاء</button>`;
-    // pending
     return `
         <button class="btn btn-success btn-sm rounded-3 me-1" onclick="confirmAppt('${id}','${prefix}')">تأكيد</button>
         <button class="btn btn-danger btn-sm rounded-3" onclick="cancelAppt('${id}','${prefix}')">إلغاء</button>`;
 }
 
-// ===== Confirm / Cancel =====
 window.confirmAppt = async (id, prefix) => {
     try {
         await updateDoc(doc(db, 'appointments', id), { status: 'confirmed' });
         updateRowUI(id, prefix, 'confirmed');
-        // update state
         const a = allAppointments.find(x => x.id === id);
         if (a) a.status = 'confirmed';
         updateStats();
@@ -604,8 +575,7 @@ window.cancelAppt = async (id, prefix) => {
 };
 
 function updateRowUI(id, prefix, status) {
-    const prefixes = [prefix, 'row', 'arow', 'srow', 'sprow'];
-    prefixes.forEach(p => {
+    ['row', 'arow', 'srow', 'sprow', prefix].forEach(p => {
         const row = document.getElementById(`${p}-${id}`);
         if (!row) return;
         const cells = row.querySelectorAll('td');
@@ -619,6 +589,7 @@ function updateStats() {
     document.getElementById('confirmedCount').textContent = allAppointments.filter(a => a.status === 'confirmed').length;
 }
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

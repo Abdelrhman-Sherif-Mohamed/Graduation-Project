@@ -7,10 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css">
-
 </head>
 <body class="page-auth d-flex align-items-center justify-content-center p-3">
+
     <div class="login-card card p-4 p-md-5" style="width:100%;max-width:460px;">
+
+        <!-- Header -->
         <div class="text-center mb-4">
             <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                  style="width:70px;height:70px;background:var(--light-blue)">
@@ -30,6 +32,7 @@
                     <input type="email" class="form-control p-3" id="emailInput" placeholder="example@email.com" required>
                 </div>
             </div>
+
             <div class="mb-4">
                 <div class="d-flex justify-content-between mb-1">
                     <label class="form-label fw-semibold small mb-0">كلمة المرور</label>
@@ -43,7 +46,9 @@
                     </button>
                 </div>
             </div>
-            <button type="submit" class="btn w-100 py-3 fw-bold text-white rounded-5" style="background:var(--secondary-blue)" id="loginBtn">
+
+            <button type="submit" class="btn w-100 py-3 fw-bold text-white rounded-5"
+                    style="background:var(--secondary-blue)" id="loginBtn">
                 <span id="btnText"><i class="bi bi-box-arrow-in-right me-2"></i>دخول</span>
                 <span id="btnSpinner" class="d-none">
                     <span class="spinner-border spinner-border-sm me-2"></span>جاري التحقق...
@@ -52,6 +57,7 @@
         </form>
 
         <div class="divider my-4">أو</div>
+
         <div class="text-center mb-2">
             <span class="text-muted small">مش عندك حساب؟ </span>
             <a href="register.html" class="fw-semibold small" style="color:var(--secondary-blue)">سجّل دلوقتي</a>
@@ -70,15 +76,15 @@
 
         const db = getFirestore(auth.app);
 
-        // toggle password
+        // toggle password visibility
         document.getElementById('togglePass').onclick = () => {
-            const inp = document.getElementById('passwordInput');
+            const inp  = document.getElementById('passwordInput');
             const show = inp.type === 'password';
-            inp.type = show ? 'text' : 'password';
+            inp.type   = show ? 'text' : 'password';
             document.getElementById('eyeIcon').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
         };
 
-        // forgot password
+        // send password reset email
         document.getElementById('forgotLink').onclick = async (e) => {
             e.preventDefault();
             const email = document.getElementById('emailInput').value.trim();
@@ -89,7 +95,7 @@
             } catch { showAlert('تعذّر إرسال البريد، تحقق من العنوان', 'danger'); }
         };
 
-        // login
+        // login form submit
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             const email    = document.getElementById('emailInput').value.trim();
@@ -100,17 +106,15 @@
             try {
                 const cred = await signInWithEmailAndPassword(auth, email, password);
 
-                // 1. جرب تجيب بيانات المستخدم من users/{uid}
                 let snap = await getDoc(doc(db, 'users', cred.user.uid));
                 let data = snap.exists() ? snap.data() : null;
 
-                // 2. لو مش موجود في users، ابحث في doctors بالـ email
+                // fallback: search doctors collection by email
                 if (!data || !data.role) {
                     const q    = query(collection(db, 'doctors'), where('email', '==', email));
                     const docs = await getDocs(q);
                     if (!docs.empty) {
                         data = docs.docs[0].data();
-                        // احفظ في users عشان المرة الجاية تبقى أسرع
                         await setDoc(doc(db, 'users', cred.user.uid), {
                             ...data, uid: cred.user.uid, doctorId: data.id
                         });
@@ -127,12 +131,16 @@
                     role,
                     doctorId: data.doctorId || data.id || null
                 }));
+
                 showAlert('تم تسجيل الدخول بنجاح ✓', 'success');
+
+                // redirect by role
                 setTimeout(() => {
-                    if (role === 'doctor') window.location.href = 'dashboard.html';
-                    else if (role === 'admin') window.location.href = 'create-doctors.html';
-                    else window.location.href = 'patient.html';
+                    if (role === 'doctor')      window.location.href = 'dashboard.html';
+                    else if (role === 'admin')  window.location.href = 'create-doctors.html';
+                    else                        window.location.href = 'patient.html';
                 }, 800);
+
             } catch (err) {
                 setLoading(false);
                 const msgs = {
@@ -151,6 +159,7 @@
             document.getElementById('btnSpinner').classList.toggle('d-none', !on);
             document.getElementById('loginBtn').disabled = on;
         }
+
         function showAlert(msg, type) {
             const el = document.getElementById('alertBox');
             el.className = `alert alert-${type} py-2 small`;

@@ -6,11 +6,11 @@
     <title>أطباؤنا - عيادة الشفاء</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-nav sticky-top">
         <div class="container">
             <a class="navbar-brand" href="../index.html">
@@ -32,18 +32,18 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero + Filter Buttons -->
     <div style="background:linear-gradient(135deg,var(--blue),var(--blue-dark));padding:60px 0 40px">
         <div class="container text-center text-white">
             <h1 class="fs-1 fw-bold mb-2">فريقنا الطبي</h1>
             <p class="opacity-75 fs-5 mb-4">نخبة من أفضل الأطباء المتخصصين في مختلف المجالات</p>
-            <!-- فلاتر ديناميكية -->
             <div class="d-flex flex-wrap justify-content-center gap-2" id="filterBtns">
                 <button class="filter-btn active" onclick="filterDoctors('all',this)">الكل</button>
             </div>
         </div>
     </div>
 
+    <!-- Doctors Grid -->
     <main class="container py-5">
         <div class="row g-4" id="doctorsGrid"></div>
         <div id="emptyState" class="text-center py-5 d-none">
@@ -57,8 +57,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ once: true });</script>
     <script src="../js/doctors-data.js"></script>
     <script>
     let currentFilter = 'all';
@@ -67,7 +65,6 @@
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=300&background=1565C8&color=fff&bold=true&font-size=0.38`;
     }
 
-    // بناء فلاتر التخصصات ديناميكياً
     function buildFilters() {
         const container = document.getElementById('filterBtns');
         SPECIALTIES.forEach(s => {
@@ -80,9 +77,8 @@
         });
     }
 
-    // رسم الكروت
     function renderDoctors(filter = 'all') {
-        const grid = document.getElementById('doctorsGrid');
+        const grid  = document.getElementById('doctorsGrid');
         const empty = document.getElementById('emptyState');
 
         const allDoctors = SPECIALTIES.flatMap(s =>
@@ -93,8 +89,8 @@
 
         empty.classList.toggle('d-none', list.length > 0);
 
-        grid.innerHTML = list.map((d, i) => `
-            <div class="col-12 col-sm-6 col-lg-4" data-spec="${d.specId}" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
+        grid.innerHTML = list.map((d) => `
+            <div class="col-12 col-sm-6 col-lg-4" data-spec="${d.specId}">
                 <div class="card doctor-card shadow-sm h-100">
                     <img src="${d.img || defaultImg(d.name)}" alt="${d.name}"
                          style="height:260px;object-fit:cover;object-position:top center;width:100%"
@@ -114,8 +110,6 @@
                     </div>
                 </div>
             </div>`).join('');
-
-        AOS.refresh();
     }
 
     function filterDoctors(spec, btn) {
