@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 </head>
 <body class="page-appointment">
 
@@ -36,17 +37,17 @@
 <div class="appt-hero">
     <div class="container text-center">
         <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
-             style="width:64px;height:64px;background:rgba(255,255,255,.15)">
+             style="width:64px;height:64px;background:rgba(255,255,255,.15)" data-aos="zoom-in">
             <i class="bi bi-calendar2-heart text-white fs-2"></i>
         </div>
-        <h2 class="text-white fw-bold mb-2">احجز موعدك الآن</h2>
-        <p class="text-white opacity-75 mb-0">اختر طبيبك والوقت المناسب — نتواصل معك لتأكيد الحجز</p>
+        <h2 class="text-white fw-bold mb-2" data-aos="fade-up" data-aos-delay="100">احجز موعدك الآن</h2>
+        <p class="text-white opacity-75 mb-0" data-aos="fade-up" data-aos-delay="200">اختر طبيبك والوقت المناسب — نتواصل معك لتأكيد الحجز</p>
     </div>
 </div>
 
 <!-- Form Card -->
 <div class="container pb-5">
-    <div class="appt-card card p-4 p-md-5 mx-auto" style="max-width:700px">
+    <div class="appt-card card p-4 p-md-5 mx-auto" style="max-width:700px" data-aos="fade-up" data-aos-delay="100">
 
         <!-- Doctor Preview -->
         <div id="doctorInfo" class="doctor-preview d-none mb-4">
@@ -172,24 +173,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/doctors-data.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 700, once: true, offset: 40 });</script>
 <script type="module">
-import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged }
+import { auth, db } from "../js/firebase-config.js";
+import { onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp }
+import { collection, addDoc, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey:"AIzaSyCOwMMVo4uyqY4g_pDcDFTvwmq1mXzlsbU",
-    authDomain:"al-shifa-clinic-a7816.firebaseapp.com",
-    projectId:"al-shifa-clinic-a7816",
-    storageBucket:"al-shifa-clinic-a7816.firebasestorage.app",
-    messagingSenderId:"867976308051",
-    appId:"1:867976308051:web:b8fcfe1c879ed5c8e42da6"
-};
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
 
 let currentUser  = null;
 let selectedTime = '';

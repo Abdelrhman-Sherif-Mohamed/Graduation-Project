@@ -17,7 +17,7 @@ const SPECIALTIES = [
         doctors: [
             { id:"sara",   name:"د. سارة خالد",     title:"أخصائية طب أسنان",               exp:"حاصلة على البورد الأمريكي في طب الأسنان التجميلي",
               img:"https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face" },
-            { id:"hana",   name:"د. هناء رضا",      title:"أخصائية تقويم أسنان",            exp:"خبرة 8 سنوات في تقويم الأسنان للأطفال والكبار",
+            { id:"hana",   name:"د. ملك سعيد",      title:"أخصائية تقويم أسنان",            exp:"خبرة 8 سنوات في تقويم الأسنان للأطفال والكبار",
               img:"https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop&crop=face" }
         ]
     },
@@ -82,9 +82,9 @@ const SPECIALTIES = [
         desc: "فحص وعلاج أمراض العيون وإجراء عمليات الليزك وجراحة الماء الأبيض والزرق",
         doctors: [
             { id:"sameh",  name:"د. سامح عبدالله",  title:"أخصائي جراحة العيون",            exp:"خبرة 12 عاماً في عمليات الليزك وجراحة الشبكية",
-              img:"https://images.unsplash.com/photo-1638202993928-7267aad84c31?w=400&h=400&fit=crop&crop=face" },
+              img:"https://png.pngtree.com/png-clipart/20230927/original/pngtree-photo-men-doctor-physician-chest-smiling-png-image_13143575.png" },
             { id:"iman",   name:"د. إيمان حمدي",    title:"أخصائية أمراض العيون",           exp:"خبرة 9 سنوات في علاج الجلوكوما وأمراض الشبكية",
-              img:"https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=400&h=400&fit=crop&crop=face" }
+              img:"https://png.pngtree.com/png-vector/20250415/ourmid/pngtree-female-doctor-portrait-in-white-png-image_15971053.png" }
         ]
     },
     {
@@ -106,7 +106,7 @@ const SPECIALTIES = [
             { id:"ashraf", name:"د. أشرف كمال",     title:"أخصائي المسالك البولية",         exp:"خبرة 11 عاماً في تفتيت الحصوات وجراحة البروستاتا",
               img:"https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop&crop=faces&auto=format" },
             { id:"sherif", name:"د. شريف منير",     title:"استشاري جراحة المسالك",          exp:"خبرة 13 عاماً في جراحة الكلى والمنظار البولي",
-              img:"https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=400&h=400&fit=crop&crop=face" }
+              img:"https://static.vecteezy.com/system/resources/thumbnails/026/375/249/small/ai-generative-portrait-of-confident-male-doctor-in-white-coat-and-stethoscope-standing-with-arms-crossed-and-looking-at-camera-photo.jpg" }
         ]
     },
     {
@@ -115,7 +115,7 @@ const SPECIALTIES = [
         desc: "تشخيص دقيق بأحدث أجهزة الأشعة المقطعية والرنين المغناطيسي والموجات فوق الصوتية",
         doctors: [
             { id:"magdy",  name:"د. مجدي سعد",      title:"أخصائي الأشعة التشخيصية",       exp:"خبرة 15 عاماً في الأشعة المقطعية والرنين المغناطيسي",
-              img:"https://images.unsplash.com/photo-1638202993928-7267aad84c31?w=400&h=400&fit=crop&crop=faces&auto=format" }
+              img:"https://plus.unsplash.com/premium_photo-1658506671316-0b293df7c72b?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZG9jdG9yfGVufDB8fDB8fHww" }
         ]
     },
     {

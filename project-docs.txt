@@ -198,7 +198,7 @@ getDoctorById(doctorId):
   12 تخصص على شكل أيقونات ملونة
   spec-icon-card     : كارت بـ hover effect
   spec-icon-wrap     : الدائرة الملونة اللي فيها الأيقونة
-  col-6 col-md-4 col-lg-2 : موبايل 2 في الصف / تابلت 3 / ديسكتوب 6
+  col-6 col-md-4 col-lg-2 : موبايل 2 في الصف / تابلت 34 / ديسكتوب 6
   الطوارئ: رابطه tel: عشان الاتصال الفوري
 
 --- SERVICES SECTION ---

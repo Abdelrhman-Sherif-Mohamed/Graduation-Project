@@ -7,13 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 </head>
 <body class="page-dashboard">
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
 <div class="d-flex">
 
     <!-- Sidebar -->
     <div class="sidebar p-3 d-flex flex-column" id="sidebar">
+        <div class="d-flex justify-content-end d-md-none mb-1">
+            <button class="btn btn-sm sidebar-close-btn text-white opacity-75 p-1" onclick="closeSidebar()" aria-label="إغلاق القائمة">
+                <i class="bi bi-x-lg fs-5"></i>
+            </button>
+        </div>
         <div class="text-center mb-3 pt-1">
             <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
                  style="width:58px;height:58px;background:rgba(255,255,255,.15)">
@@ -55,7 +64,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center gap-2">
                 <button class="btn btn-sm btn-outline-secondary rounded-3" id="sidebarToggle"
-                        onclick="document.getElementById('sidebar').classList.toggle('show')">
+                        onclick="toggleSidebar()">
                     <i class="bi bi-list fs-5"></i>
                 </button>
                 <h5 class="mb-0 fw-bold" style="color:var(--secondary-blue)" id="pageTitle">لوحة التحكم</h5>
@@ -84,7 +93,7 @@
 
             <!-- Stats -->
             <div class="row g-3 mb-4">
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
                     <div class="card stat-card shadow-sm p-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="stat-icon" style="background:#e3f2fd">
@@ -97,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
                     <div class="card stat-card shadow-sm p-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="stat-icon" style="background:#e8f5e9">
@@ -110,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
                     <div class="card stat-card shadow-sm p-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="stat-icon" style="background:#fff8e1">
@@ -123,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
                     <div class="card stat-card shadow-sm p-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="stat-icon" style="background:#e8f5e9">
@@ -532,6 +541,7 @@ window.switchView = (viewName, el) => {
         all: 'كل الحجوزات', patients: 'المرضى', specialty: 'بيانات التخصص'
     };
     document.getElementById('pageTitle').textContent = titles[viewName] || 'لوحة التحكم';
+    if (window.innerWidth <= 768) closeSidebar();
     return false;
 };
 
@@ -552,6 +562,26 @@ function actionBtns(id, status, prefix) {
         <button class="btn btn-success btn-sm rounded-3 me-1" onclick="confirmAppt('${id}','${prefix}')">تأكيد</button>
         <button class="btn btn-danger btn-sm rounded-3" onclick="cancelAppt('${id}','${prefix}')">إلغاء</button>`;
 }
+
+window.toggleSidebar = function() {
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebarOverlay');
+    const isOpen   = sidebar.classList.contains('show');
+    sidebar.classList.toggle('show', !isOpen);
+    overlay.classList.toggle('show', !isOpen);
+};
+
+window.closeSidebar = function() {
+    document.getElementById('sidebar').classList.remove('show');
+    document.getElementById('sidebarOverlay').classList.remove('show');
+};
+
+// close sidebar after nav link click on mobile
+document.querySelectorAll('.sidebar a[data-view]').forEach(a => {
+    a.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
 
 window.confirmAppt = async (id, prefix) => {
     try {
@@ -591,5 +621,7 @@ function updateStats() {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 700, once: true, offset: 50 });</script>
 </body>
 </html>

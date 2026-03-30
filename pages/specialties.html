@@ -8,61 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .spec-card {
-            border: none;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: transform .35s, box-shadow .35s;
-            cursor: pointer;
-        }
-
-        .spec-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 48px rgba(13, 71, 161, .22);
-        }
-
-        .spec-img-wrap {
-            position: relative;
-            overflow: hidden;
-            height: 220px;
-        }
-
-        .spec-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .spec-icon-circle {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .hero-spec {
-            background: linear-gradient(135deg, var(--secondary-blue), var(--dark-blue));
-            padding: 70px 0 50px;
-        }
-
-        .hero-spec .stat-pill {
-            background: rgba(255, 255, 255, .12);
-            border: 1px solid rgba(255, 255, 255, .2);
-            border-radius: 30px;
-            padding: 8px 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 </head>
 
-<body>
+<body class="page-specialties">
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-nav sticky-top">
@@ -92,9 +41,9 @@
 
     <!-- Hero -->
     <div class="hero-spec text-center text-white mb-5">
-        <h1 class="fs-1 fw-bold mb-3">تخصصات العيادة</h1>
-        <p class="opacity-75 fs-5 mb-4">12 تخصصاً طبياً تحت سقف واحد بأعلى المعايير</p>
-        <div class="d-flex flex-wrap justify-content-center gap-3">
+        <h1 class="fs-1 fw-bold mb-3" data-aos="fade-down">تخصصات العيادة</h1>
+        <p class="opacity-75 fs-5 mb-4" data-aos="fade-down" data-aos-delay="100">12 تخصصاً طبياً تحت سقف واحد بأعلى المعايير</p>
+        <div class="d-flex flex-wrap justify-content-center gap-3" data-aos="fade-up" data-aos-delay="200">
             <div class="stat-pill text-white"><i class="bi bi-grid-fill"></i><span>12 تخصص</span></div>
             <div class="stat-pill text-white"><i class="bi bi-person-badge-fill"></i><span>23 طبيب متخصص</span></div>
             <div class="stat-pill text-white"><i class="bi bi-clock-fill"></i><span>خدمة 24/7</span></div>
@@ -105,7 +54,7 @@
     <main class="container pb-5">
         <div class="row g-4">
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://cdn2.tqsan.com/v2/images/procedures/550/1800x1200-cardiac-arrest-what-you-should-know-slideshow_669a48b680947.jpg"
                         alt="أمراض القلب" style="width:100%;height:220px;object-fit:cover;">
@@ -168,7 +117,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://ksa-students.com/ksastudentsMopileApp/Blog/1713441418KvTrI9aeh9.jpeg"
                         alt="طب الأطفال" style="width:100%;height:220px;object-fit:cover;">
@@ -189,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrDSLy-qiPlEiGn3fVZuDBCznvQcLW0zv2JQ&s"
                         alt="المخ والأعصاب" style="width:100%;height:220px;object-fit:cover;">
@@ -210,7 +159,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://drsamirahmed.com/_next/image?url=https%3A%2F%2Fbackend.drsamirahmed.com%2Fuploads%2Fimages%2Fcms%2F1744640107%D8%AF%D9%83%D8%AA%D9%88%D8%B1%20%D8%A8%D8%A7%D8%B7%D9%86%D8%A9%20%D9%88%D9%82%D9%84%D8%A8.webp&w=3840&q=75"
                         alt="الباطنة والمناعة" style="width:100%;height:220px;object-fit:cover;">
@@ -231,7 +180,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://alhanammc.com/wp-content/uploads/2023/07/dermatologist-in-dubai.jpg"
                         alt="الجلدية والتجميل" style="width:100%;height:220px;object-fit:cover;">
@@ -252,7 +201,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://med.tanta.edu.eg/depart_eye/images/eye.jpg" alt="طب العيون"
                         style="width:100%;height:220px;object-fit:cover;">
@@ -273,7 +222,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://images.ctfassets.net/szez98lehkfm/7bu3ZdH26EivfjvfQtzF00/b61faf7c07094e9c2ece137e66a4d0ba/MyIC_Article_111101?fm=webp"
                         alt="النساء والتوليد" style="width:100%;height:220px;object-fit:cover;">
@@ -294,7 +243,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://www.medicabil.com/assets/images/05-09-23-858914531_1700740282.jpg"
                         alt="المسالك البولية" style="width:100%;height:220px;object-fit:cover;">
@@ -315,7 +264,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://radspe.com/wp-content/uploads/2016/06/Radiology-600x330.jpeg"
                         alt="الأشعة التشخيصية" style="width:100%;height:220px;object-fit:cover;">
@@ -336,7 +285,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-12 col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card spec-card shadow-sm h-100">
                     <img src="https://cdn.altibbi.com/cdn/cache/1000x500/image/2020/05/12/ff9f916b08fdb6f3d5b650868ee0697e.png.webp"
                         alt="الطوارئ" style="width:100%;height:220px;object-fit:cover;">
@@ -366,6 +315,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/doctors-data.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ duration: 700, once: true, offset: 60 });</script>
 </body>
 
 </html>

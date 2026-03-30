@@ -7,14 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 </head>
-<body>
+<body class="page-home">
 
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar navbar-expand-lg bg-nav fixed-top top-0 ">
     <div class="container">
         <a class="navbar-brand" href="#home">
-            <i class="bi bi-hospital text-  fs-5"></i>
+            <i class="bi bi-hospital text-white  fs-5"></i>
             <span class="text-white fw-bold ms-1">عيادة الشفاء</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -28,71 +29,70 @@
                        data-bs-toggle="dropdown" data-bs-auto-close="outside">التخصصات</a>
                     <div class="dropdown-menu mega-menu p-3">
                         <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
-                            <span class="fw-bold" style="color:var(--secondary-blue)">
+                            <span class="fw-bold mega-menu-header-title">
                                 <i class="bi bi-grid-fill me-2"></i>كل التخصصات
                             </span>
-                            <a href="pages/specialties.html" class="btn btn-sm text-white rounded-5 px-3"
-                               style="background:var(--secondary-blue);font-size:.78rem">
+                            <a href="pages/specialties.html" class="btn btn-sm text-white rounded-5 px-3 btn-mega-all">
                                 عرض الكل <i class="bi bi-arrow-left ms-1"></i>
                             </a>
                         </div>
                         <div class="mega-grid">
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#e53935"><i class="bi bi-heart-pulse-fill me-1"></i>أمراض القلب</div>
+                                <div class="mega-spec-title mega-spec-heart"><i class="bi bi-heart-pulse-fill me-1"></i>أمراض القلب</div>
                                 <a href="pages/appointment.html?doctor=ahmed" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. أحمد محمد</a>
                                 <a href="pages/appointment.html?doctor=karim" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. كريم حسن</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#1e88e5"><i class="bi bi-emoji-smile me-1"></i>طب الأسنان</div>
+                                <div class="mega-spec-title mega-spec-dentist"><i class="bi bi-emoji-smile me-1"></i>طب الأسنان</div>
                                 <a href="pages/appointment.html?doctor=sara" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. سارة خالد</a>
                                 <a href="pages/appointment.html?doctor=hana" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. هناء رضا</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#6d4c41"><i class="bi bi-bandaid-fill me-1"></i>جراحة العظام</div>
+                                <div class="mega-spec-title mega-spec-bones"><i class="bi bi-bandaid-fill me-1"></i>جراحة العظام</div>
                                 <a href="pages/appointment.html?doctor=mohamed" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. محمد علي</a>
                                 <a href="pages/appointment.html?doctor=tarek" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. طارق سامي</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#e91e63"><i class="bi bi-balloon-heart-fill me-1"></i>طب الأطفال</div>
+                                <div class="mega-spec-title mega-spec-children"><i class="bi bi-balloon-heart-fill me-1"></i>طب الأطفال</div>
                                 <a href="pages/appointment.html?doctor=mona" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. منى إبراهيم</a>
                                 <a href="pages/appointment.html?doctor=omar" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. عمر فاروق</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#7b1fa2"><i class="bi bi-activity me-1"></i>المخ والأعصاب</div>
+                                <div class="mega-spec-title mega-spec-neuro"><i class="bi bi-activity me-1"></i>المخ والأعصاب</div>
                                 <a href="pages/appointment.html?doctor=noura" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. نورا سعيد</a>
                                 <a href="pages/appointment.html?doctor=yasser" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. ياسر منصور</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#00897b"><i class="bi bi-lungs-fill me-1"></i>الباطنة والمناعة</div>
+                                <div class="mega-spec-title mega-spec-internal"><i class="bi bi-lungs-fill me-1"></i>الباطنة والمناعة</div>
                                 <a href="pages/appointment.html?doctor=hassan" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. حسن الشريف</a>
                                 <a href="pages/appointment.html?doctor=dina" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. دينا مصطفى</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#f57c00"><i class="bi bi-stars me-1"></i>الجلدية والتجميل</div>
+                                <div class="mega-spec-title mega-spec-derma"><i class="bi bi-stars me-1"></i>الجلدية والتجميل</div>
                                 <a href="pages/appointment.html?doctor=rania" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. رانيا فؤاد</a>
                                 <a href="pages/appointment.html?doctor=wael" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. وائل نجيب</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#0288d1"><i class="bi bi-eye-fill me-1"></i>طب العيون</div>
+                                <div class="mega-spec-title mega-spec-eye"><i class="bi bi-eye-fill me-1"></i>طب العيون</div>
                                 <a href="pages/appointment.html?doctor=sameh" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. سامح عبدالله</a>
                                 <a href="pages/appointment.html?doctor=iman" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. إيمان حمدي</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#d81b60"><i class="bi bi-gender-female me-1"></i>النساء والتوليد</div>
+                                <div class="mega-spec-title mega-spec-gynecology"><i class="bi bi-gender-female me-1"></i>النساء والتوليد</div>
                                 <a href="pages/appointment.html?doctor=heba" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. هبة الله أحمد</a>
                                 <a href="pages/appointment.html?doctor=nadia" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. نادية سليم</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#1565c0"><i class="bi bi-droplet-fill me-1"></i>المسالك البولية</div>
+                                <div class="mega-spec-title mega-spec-urology"><i class="bi bi-droplet-fill me-1"></i>المسالك البولية</div>
                                 <a href="pages/appointment.html?doctor=ashraf" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. أشرف كمال</a>
                                 <a href="pages/appointment.html?doctor=sherif" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. شريف منير</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#37474f"><i class="bi bi-radioactive me-1"></i>الأشعة التشخيصية</div>
+                                <div class="mega-spec-title mega-spec-radiology"><i class="bi bi-radioactive me-1"></i>الأشعة التشخيصية</div>
                                 <a href="pages/appointment.html?doctor=magdy" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. مجدي سعد</a>
                             </div>
                             <div class="mega-col">
-                                <div class="mega-spec-title" style="color:#c62828"><i class="bi bi-hospital-fill me-1"></i>الطوارئ</div>
+                                <div class="mega-spec-title mega-spec-emergency"><i class="bi bi-hospital-fill me-1"></i>الطوارئ</div>
                                 <a href="pages/appointment.html?doctor=adel" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. عادل رشاد</a>
                                 <a href="pages/appointment.html?doctor=layla" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. ليلى منصور</a>
                             </div>
@@ -106,7 +106,7 @@
             </ul>
             <div class="d-flex gap-2">
                 <a href="pages/login.html" class="btn btn-outline-light rounded-5">دخول</a>
-                <a href="pages/register.html" class="btn btn-light rounded-5" style="color:var(--secondary-blue)">حساب جديد</a>
+                <a href="pages/register.html" class="btn btn-light rounded-5 btn-nav-register">حساب جديد</a>
             </div>
         </div>
     </div>
@@ -116,52 +116,50 @@
 <main>
 
     <!-- ===== HERO ===== -->
-    <section class="hero-section d-flex align-items-center py-5" id="home">
+    <section class="hero-section d-flex align-items-center py-5 mt-3" id="home">
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-12 col-lg-7 text-white">
-                    <span class="badge mb-3 px-3 py-2 rounded-5" style="background:rgba(255,255,255,.15);font-size:.85rem">
+                    <span class="badge mb-3 px-3 py-2 rounded-5 hero-badge" data-aos="fade-down">
                         <i class="bi bi-patch-check-fill me-1"></i> معتمدون من وزارة الصحة
                     </span>
-                    <h1 class="fw-bold mb-3">صحتك أمانة.. وعشان كدة اخترنا لك أحدث الأجهزة</h1>
-                    <p class="opacity-75 mb-4" style="font-size:clamp(.95rem,2vw,1.2rem)">
+                    <h1 class="fw-bold mb-3" data-aos="fade-up" data-aos-delay="100">صحتك أمانة.. وعشان كدة اخترنا لك أحدث الأجهزة</h1>
+                    <p class="opacity-75 mb-4 hero-desc" data-aos="fade-up" data-aos-delay="200">
                         عيادة الشفاء تقدم أفضل الخدمات الطبية المتخصصة في طب الأسنان، القلب، جراحة العظام، الأطفال، المخ والأعصاب والطوارئ تحت سقف واحد
                     </p>
-                    <div class="d-flex flex-wrap gap-2">
-                        <a href="pages/appointment.html" class="btn btn-light fw-bold rounded-5 px-4 py-2"
-                           style="color:var(--secondary-blue);font-size:clamp(.9rem,2vw,1.1rem)">
+                    <div class="d-flex flex-wrap gap-2" data-aos="fade-up" data-aos-delay="300">
+                        <a href="pages/appointment.html" class="btn btn-light fw-bold rounded-5 px-4 py-2 btn-hero-primary">
                             <i class="bi bi-calendar-check me-2"></i>احجز موعدك الآن
                         </a>
-                        <a href="pages/specialties.html" class="btn btn-outline-light fw-bold rounded-5 px-4 py-2"
-                           style="font-size:clamp(.9rem,2vw,1.1rem)">
+                        <a href="pages/specialties.html" class="btn btn-outline-light fw-bold rounded-5 px-4 py-2 btn-hero-outline">
                             <i class="bi bi-grid me-2"></i>تعرف على تخصصاتنا
                         </a>
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">
                     <div class="row g-3">
-                        <div class="col-6">
+                        <div class="col-6" data-aos="zoom-in" data-aos-delay="100">
                             <div class="stat-box text-center text-white">
                                 <i class="bi bi-people-fill fs-2 mb-2 d-block"></i>
-                                <h3 class="fw-bold mb-0">+5000</h3>
+                                <h3 class="fw-bold mb-0"><span class="counter" data-target="5000" data-prefix="+">0</span></h3>
                                 <small class="opacity-75">مريض سنوياً</small>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" data-aos="zoom-in" data-aos-delay="200">
                             <div class="stat-box text-center text-white">
                                 <i class="bi bi-person-badge-fill fs-2 mb-2 d-block"></i>
-                                <h3 class="fw-bold mb-0">23</h3>
+                                <h3 class="fw-bold mb-0"><span class="counter" data-target="23">0</span></h3>
                                 <small class="opacity-75">طبيب متخصص</small>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" data-aos="zoom-in" data-aos-delay="300">
                             <div class="stat-box text-center text-white">
                                 <i class="bi bi-award-fill fs-2 mb-2 d-block"></i>
-                                <h3 class="fw-bold mb-0">15+</h3>
+                                <h3 class="fw-bold mb-0"><span class="counter" data-target="15" data-suffix="+">0</span></h3>
                                 <small class="opacity-75">سنة خبرة</small>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" data-aos="zoom-in" data-aos-delay="400">
                             <div class="stat-box text-center text-white">
                                 <i class="bi bi-clock-fill fs-2 mb-2 d-block"></i>
                                 <h3 class="fw-bold mb-0">24/7</h3>
@@ -176,129 +174,115 @@
     <!-- ===== /HERO ===== -->
 
     <!-- ===== SPECIALTIES ===== -->
-    <section class="py-5" id="Specialties" style="background:var(--light-gray)">
+    <section class="py-5 section-bg-gray" id="Specialties">
         <div class="container">
             <div class="text-center mb-5">
-                <span class="badge rounded-5 px-3 py-2 mb-3 d-inline-block"
-                      style="background:var(--light-blue);color:var(--secondary-blue);font-size:.85rem">
+                <span class="badge rounded-5 px-3 py-2 mb-3 d-inline-block badge-section">
                     <i class="bi bi-grid-fill me-1"></i>تخصصاتنا
                 </span>
                 <h2 class="section-title fs-1 mb-2">رعاية طبية متكاملة</h2>
                 <p class="text-muted fs-5">12 تخصص طبي تحت سقف واحد بأعلى المعايير</p>
             </div>
             <div class="row g-3 justify-content-center">
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="0">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#ffebee"><i class="bi bi-heart-pulse-fill" style="color:#e53935"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-heart">
                             <h6 class="fw-bold mb-1 small">أمراض القلب</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="50">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#e3f2fd"><i class="bi bi-emoji-smile" style="color:#1e88e5"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-dentist">
                             <h6 class="fw-bold mb-1 small">طب الأسنان</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="100">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#efebe9"><i class="bi bi-bandaid-fill" style="color:#6d4c41"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-bones">
                             <h6 class="fw-bold mb-1 small">جراحة العظام</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="150">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#fce4ec"><i class="bi bi-balloon-heart-fill" style="color:#e91e63"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-children">
                             <h6 class="fw-bold mb-1 small">طب الأطفال</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="200">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#f3e5f5"><i class="bi bi-activity" style="color:#7b1fa2"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-neuro">
                             <h6 class="fw-bold mb-1 small">المخ والأعصاب</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="250">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#e0f2f1"><i class="bi bi-lungs-fill" style="color:#00897b"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-internal">
                             <h6 class="fw-bold mb-1 small">الباطنة والمناعة</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="300">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#fff3e0"><i class="bi bi-stars" style="color:#f57c00"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-derma">
                             <h6 class="fw-bold mb-1 small">الجلدية والتجميل</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="350">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#e1f5fe"><i class="bi bi-eye-fill" style="color:#0288d1"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-eye">
                             <h6 class="fw-bold mb-1 small">طب العيون</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="400">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#fce4ec"><i class="bi bi-gender-female" style="color:#d81b60"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-gynecology">
                             <h6 class="fw-bold mb-1 small">النساء والتوليد</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="450">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#e3f2fd"><i class="bi bi-droplet-fill" style="color:#1565c0"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-urology">
                             <h6 class="fw-bold mb-1 small">المسالك البولية</h6>
-                            <small class="text-muted" style="font-size:.72rem">2 طبيب</small>
+                            <small class="text-muted">2 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="500">
                     <a href="pages/specialties.html" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#eceff1"><i class="bi bi-radioactive" style="color:#37474f"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-radiology">
                             <h6 class="fw-bold mb-1 small">الأشعة التشخيصية</h6>
-                            <small class="text-muted" style="font-size:.72rem">1 طبيب</small>
+                            <small class="text-muted">1 طبيب</small>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="550">
                     <a href="tel:+2010000000" class="text-decoration-none">
-                        <div class="spec-icon-card text-center p-3">
-                            <div class="spec-icon-wrap mb-3" style="background:#ffebee"><i class="bi bi-hospital-fill" style="color:#c62828"></i></div>
+                        <div class="spec-icon-card text-center p-3 spec-card-emergency">
                             <h6 class="fw-bold mb-1 small">الطوارئ</h6>
-                            <small class="text-muted" style="font-size:.72rem">24/7</small>
+                            <small class="text-muted">24/7</small>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="pages/specialties.html" class="btn rounded-5 px-5 py-2 fw-bold"
-                   style="background:var(--secondary-blue);color:#fff">
+                <a href="pages/specialties.html" class="btn rounded-5 px-5 py-2 fw-bold btn-primary-blue">
                     <i class="bi bi-grid me-2"></i>عرض كل التخصصات
                 </a>
             </div>
@@ -307,51 +291,51 @@
     <!-- ===== /SPECIALTIES ===== -->
 
     <!-- ===== SERVICES ===== -->
-    <section class="container-fluid py-5" style="background:var(--light-gray)" id="service">
+    <section class="container-fluid py-5 section-bg-gray" id="service">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title fs-1 mb-2">مزايا الخدمة</h2>
                 <p class="text-muted fs-5">لماذا تختار عيادة الشفاء؟</p>
             </div>
             <div class="row g-4">
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                     <div class="card service-card shadow-sm h-100 p-4">
-                        <i class="bi bi-cpu-fill fs-2 mb-3" style="color:var(--primary-blue)"></i>
+                        <i class="bi bi-cpu-fill fs-2 mb-3 service-icon"></i>
                         <h5 class="fw-bold">أحدث الأجهزة الطبية</h5>
                         <p class="text-muted mb-0">نستخدم أحدث التقنيات والأجهزة المعتمدة عالمياً لضمان دقة التشخيص وجودة العلاج</p>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="card service-card shadow-sm h-100 p-4">
-                        <i class="bi bi-people-fill fs-2 mb-3" style="color:var(--primary-blue)"></i>
+                        <i class="bi bi-people-fill fs-2 mb-3 service-icon"></i>
                         <h5 class="fw-bold">فريق طبي متخصص</h5>
                         <p class="text-muted mb-0">أطباء واستشاريون ذوو خبرة واسعة حاصلون على شهادات عالمية معتمدة</p>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="card service-card shadow-sm h-100 p-4">
-                        <i class="bi bi-shield-check fs-2 mb-3" style="color:var(--primary-blue)"></i>
+                        <i class="bi bi-shield-check fs-2 mb-3 service-icon"></i>
                         <h5 class="fw-bold">بيئة علاج مريحة</h5>
                         <p class="text-muted mb-0">عيادتنا مصممة لتوفير بيئة هادئة مع أعلى معايير الخصوصية والتعقيم</p>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                     <div class="card service-card shadow-sm h-100 p-4">
-                        <i class="bi bi-heart-pulse-fill fs-2 mb-3" style="color:var(--primary-blue)"></i>
+                        <i class="bi bi-heart-pulse-fill fs-2 mb-3 service-icon"></i>
                         <h5 class="fw-bold">متابعة ما بعد العلاج</h5>
                         <p class="text-muted mb-0">نظام متابعة متكامل لضمان شفاء المريض وتقديم الدعم اللازم بعد الجلسات</p>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="card service-card shadow-sm h-100 p-4">
-                        <i class="bi bi-tag-fill fs-2 mb-3" style="color:var(--primary-blue)"></i>
+                        <i class="bi bi-tag-fill fs-2 mb-3 service-icon"></i>
                         <h5 class="fw-bold">أسعار تنافسية</h5>
                         <p class="text-muted mb-0">أسعار معقولة لجميع الفئات مع خصومات وعروض خاصة للحالات المستمرة</p>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="card service-card shadow-sm h-100 p-4">
-                        <i class="bi bi-calendar2-check fs-2 mb-3" style="color:var(--primary-blue)"></i>
+                        <i class="bi bi-calendar2-check fs-2 mb-3 service-icon"></i>
                         <h5 class="fw-bold">سهولة الحجز والإلغاء</h5>
                         <p class="text-muted mb-0">نظام حجز إلكتروني مرن يسمح بتحديد المواعيد وتعديلها أو إلغائها بسهولة</p>
                     </div>
@@ -382,11 +366,10 @@
             <p class="text-muted fs-5">لأي استفسار أو مساعدة، لا تتردد في التواصل معنا</p>
         </div>
         <div class="row g-5 align-items-start">
-            <div class="col-12 col-lg-5">
+            <div class="col-12 col-lg-5" data-aos="fade-right">
                 <div class="d-flex gap-3 mb-4">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                         style="width:48px;height:48px;background:var(--light-blue)">
-                        <i class="bi bi-geo-alt-fill" style="color:var(--secondary-blue)"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center contact-icon-wrap">
+                        <i class="bi bi-geo-alt-fill"></i>
                     </div>
                     <div>
                         <h6 class="fw-bold mb-1">العنوان</h6>
@@ -394,9 +377,8 @@
                     </div>
                 </div>
                 <div class="d-flex gap-3 mb-4">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                         style="width:48px;height:48px;background:var(--light-blue)">
-                        <i class="bi bi-telephone-fill" style="color:var(--secondary-blue)"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center contact-icon-wrap">
+                        <i class="bi bi-telephone-fill"></i>
                     </div>
                     <div>
                         <h6 class="fw-bold mb-1">الهاتف</h6>
@@ -404,9 +386,8 @@
                     </div>
                 </div>
                 <div class="d-flex gap-3 mb-4">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                         style="width:48px;height:48px;background:var(--light-blue)">
-                        <i class="bi bi-envelope-fill" style="color:var(--secondary-blue)"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center contact-icon-wrap">
+                        <i class="bi bi-envelope-fill"></i>
                     </div>
                     <div>
                         <h6 class="fw-bold mb-1">البريد الإلكتروني</h6>
@@ -414,9 +395,8 @@
                     </div>
                 </div>
                 <div class="d-flex gap-3">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                         style="width:48px;height:48px;background:var(--light-blue)">
-                        <i class="bi bi-clock-fill" style="color:var(--secondary-blue)"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center contact-icon-wrap">
+                        <i class="bi bi-clock-fill"></i>
                     </div>
                     <div>
                         <h6 class="fw-bold mb-1">ساعات العمل</h6>
@@ -426,8 +406,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-7">
-                <form class="p-4 rounded-4 shadow-sm" style="background:var(--light-gray)">
+            <div class="col-12 col-lg-7" data-aos="fade-left">
+                <form class="p-4 rounded-4 shadow-sm contact-form-bg">
                     <div class="row g-3 mb-3">
                         <div class="col-12 col-md-6">
                             <input type="text" class="form-control p-3" placeholder="اسمك الكامل" required>
@@ -442,8 +422,7 @@
                     <div class="mb-3">
                         <textarea class="form-control p-3" rows="4" placeholder="رسالتك" required></textarea>
                     </div>
-                    <button type="submit" class="btn w-100 py-3 fw-bold text-white rounded-5"
-                            style="background:var(--secondary-blue)">
+                    <button type="submit" class="btn w-100 py-3 fw-bold text-white rounded-5 btn-contact-submit">
                         <i class="bi bi-send me-2"></i>إرسال الرسالة
                     </button>
                 </form>
@@ -501,6 +480,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/doctors-data.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
 (function () {
     const grid = document.getElementById('homeDoctorsGrid');
@@ -510,8 +490,8 @@
     const allDoctors = SPECIALTIES.flatMap(s => s.doctors.map(d => ({ ...d, specName: s.name })));
     const preview    = allDoctors.slice(0, 4);
 
-    grid.innerHTML = preview.map(d => `
-        <div class="col-12 col-sm-6 col-lg-3">
+    grid.innerHTML = preview.map((d, i) => `
+        <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="${i * 100}">
             <div class="card doctor-card shadow-sm h-100">
                 <img src="${d.img || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(d.name) + '&size=300&background=1565C8&color=fff'}"
                      class="card-img-top" alt="${d.name}"
@@ -528,6 +508,36 @@
         </div>`).join('');
 
     btn.textContent = `عرض كل الأطباء (${allDoctors.length} طبيب)`;
+})();
+
+AOS.init({ duration: 700, once: true, offset: 60 });
+
+// ===== Counter Animation =====
+(function () {
+    function animateCounter(el) {
+        const target  = +el.dataset.target;
+        const prefix  = el.dataset.prefix || '';
+        const suffix  = el.dataset.suffix || '';
+        const duration = 1800;
+        const step     = Math.ceil(duration / target);
+        let current    = 0;
+        const timer = setInterval(() => {
+            current += Math.ceil(target / 60);
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = prefix + current.toLocaleString('ar-EG') + suffix;
+        }, step);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                animateCounter(e.target);
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter').forEach(el => observer.observe(el));
 })();
 </script>
 
