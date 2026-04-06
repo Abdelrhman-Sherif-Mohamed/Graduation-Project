@@ -6,6 +6,8 @@
     <title>لوحة التحكم - عيادة الشفاء</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 </head>
@@ -47,6 +49,12 @@
         <a href="#" class="mb-1" data-view="patients" onclick="switchView('patients',this)">
             <i class="bi bi-people-fill"></i>المرضى
         </a>
+        <a href="#" class="mb-1" data-view="prescriptions" onclick="switchView('prescriptions',this)">
+            <i class="bi bi-file-medical-fill"></i>الروشتات
+        </a>
+        <a href="#" class="mb-1" data-view="history" onclick="switchView('history',this)">
+            <i class="bi bi-journal-medical"></i>التاريخ المرضي
+        </a>
 
         <div id="specNavLinks" class="d-none">
             <hr class="border-light opacity-25 my-2">
@@ -61,16 +69,19 @@
     <div class="flex-grow-1 p-3 p-md-4" style="min-width:0">
 
         <!-- Topbar -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded-3 bg-white shadow-sm">
             <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-sm btn-outline-secondary rounded-3" id="sidebarToggle"
-                        onclick="toggleSidebar()">
+                <button class="btn btn-sm rounded-3" id="sidebarToggle"
+                        onclick="toggleSidebar()" style="background:var(--blue-light);color:var(--blue)">
                     <i class="bi bi-list fs-5"></i>
                 </button>
                 <h5 class="mb-0 fw-bold" style="color:var(--secondary-blue)" id="pageTitle">لوحة التحكم</h5>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-person-circle fs-4" style="color:var(--secondary-blue)"></i>
+                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--blue-acc))">
+                    <i class="bi bi-person-fill text-white small"></i>
+                </div>
                 <span class="fw-semibold small" id="topName">...</span>
             </div>
         </div>
@@ -239,9 +250,184 @@
             </div>
         </div>
 
+        <!-- View: Prescriptions -->
+        <div id="view-prescriptions" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0" style="color:var(--secondary-blue)"><i class="bi bi-file-medical-fill me-2"></i>الروشتات الطبية</h6>
+                <button class="btn btn-sm text-white rounded-3" style="background:var(--secondary-blue)" onclick="openPrescriptionModal()">
+                    <i class="bi bi-plus-lg me-1"></i>روشتة جديدة
+                </button>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr>
+                                <th>#</th><th>المريض</th><th>التاريخ</th><th>الأدوية</th><th>ملاحظات</th><th>إجراء</th>
+                            </tr></thead>
+                            <tbody id="prescriptionsTableBody">
+                                <tr><td colspan="6" class="text-center text-muted py-4">لا توجد روشتات بعد</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Medical History -->
+        <div id="view-history" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0" style="color:var(--secondary-blue)"><i class="bi bi-journal-medical me-2"></i>التاريخ المرضي</h6>
+                <button class="btn btn-sm text-white rounded-3" style="background:var(--secondary-blue)" onclick="openHistoryModal()">
+                    <i class="bi bi-plus-lg me-1"></i>إضافة سجل
+                </button>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr>
+                                <th>#</th><th>المريض</th><th>التاريخ</th><th>التشخيص</th><th>الأعراض</th><th>إجراء</th>
+                            </tr></thead>
+                            <tbody id="historyTableBody">
+                                <tr><td colspan="6" class="text-center text-muted py-4">لا يوجد تاريخ مرضي بعد</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- View: Specialty -->
         <div id="view-specialty" class="view d-none">
             <div id="specDetailPanel"></div>
+        </div>
+
+        <!-- Modal: Prescription -->
+        <div class="modal fade" id="prescriptionModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4">
+                    <div class="modal-header text-white rounded-top-4" style="background:var(--secondary-blue)">
+                        <h6 class="modal-title fw-bold"><i class="bi bi-file-medical-fill me-2"></i>كتابة روشتة طبية</h6>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">اسم المريض</label>
+                                <select class="form-select rounded-3" id="rxPatientSelect">
+                                    <option value="">اختر المريض</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">تاريخ الروشتة</label>
+                                <input type="date" class="form-control rounded-3" id="rxDate">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">الأدوية والجرعات</label>
+                                <div id="medicinesList">
+                                    <div class="medicine-row d-flex gap-2 mb-2">
+                                        <input type="text" class="form-control rounded-3" placeholder="اسم الدواء" style="flex:2">
+                                        <input type="text" class="form-control rounded-3" placeholder="الجرعة (مثال: حبة مرتين يومياً)" style="flex:3">
+                                        <button class="btn btn-outline-danger rounded-3 px-2" onclick="removeMedRow(this)"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary rounded-3 mt-1" onclick="addMedRow()">
+                                    <i class="bi bi-plus-lg me-1"></i>إضافة دواء
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">تعليمات إضافية / ملاحظات</label>
+                                <textarea class="form-control rounded-3" id="rxNotes" rows="3" placeholder="مثال: الراحة التامة، الإكثار من السوائل..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button class="btn btn-secondary rounded-3" data-bs-dismiss="modal">إلغاء</button>
+                        <button class="btn text-white rounded-3" style="background:var(--secondary-blue)" onclick="savePrescription()">
+                            <i class="bi bi-save me-1"></i>حفظ الروشتة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Medical History -->
+        <div class="modal fade" id="historyModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4">
+                    <div class="modal-header text-white rounded-top-4" style="background:var(--secondary-blue)">
+                        <h6 class="modal-title fw-bold"><i class="bi bi-journal-medical me-2"></i>إضافة تاريخ مرضي</h6>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">اسم المريض</label>
+                                <select class="form-select rounded-3" id="hxPatientSelect">
+                                    <option value="">اختر المريض</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">تاريخ الزيارة</label>
+                                <input type="date" class="form-control rounded-3" id="hxDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">التشخيص</label>
+                                <input type="text" class="form-control rounded-3" id="hxDiagnosis" placeholder="مثال: التهاب الحلق الحاد">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">درجة الحرارة</label>
+                                <input type="text" class="form-control rounded-3" id="hxTemp" placeholder="مثال: 37.5°C">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">الأعراض</label>
+                                <textarea class="form-control rounded-3" id="hxSymptoms" rows="2" placeholder="اذكر الأعراض التي يعاني منها المريض..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">الأمراض المزمنة / الحساسية</label>
+                                <input type="text" class="form-control rounded-3" id="hxChronic" placeholder="مثال: سكري، ضغط، حساسية من البنسلين">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">ملاحظات الطبيب</label>
+                                <textarea class="form-control rounded-3" id="hxNotes" rows="3" placeholder="ملاحظات إضافية، خطة العلاج، الإحالات..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button class="btn btn-secondary rounded-3" data-bs-dismiss="modal">إلغاء</button>
+                        <button class="btn text-white rounded-3" style="background:var(--secondary-blue)" onclick="saveHistory()">
+                            <i class="bi bi-save me-1"></i>حفظ السجل
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: View Prescription -->
+        <div class="modal fade" id="viewPrescriptionModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4">
+                    <div class="modal-header text-white rounded-top-4" style="background:var(--secondary-blue)">
+                        <h6 class="modal-title fw-bold"><i class="bi bi-file-medical-fill me-2"></i>تفاصيل الروشتة</h6>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4" id="viewPrescriptionBody"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: View History -->
+        <div class="modal fade" id="viewHistoryModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4">
+                    <div class="modal-header text-white rounded-top-4" style="background:var(--secondary-blue)">
+                        <h6 class="modal-title fw-bold"><i class="bi bi-journal-medical me-2"></i>التاريخ المرضي</h6>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4" id="viewHistoryBody"></div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -251,7 +437,7 @@
 import { auth, db } from "../js/firebase-config.js";
 import { onAuthStateChanged, signOut }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc }
+import { collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, orderBy }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Specialty configuration: icon, color, extra columns per specialty
@@ -284,6 +470,9 @@ const SPEC_CONFIG = {
 
 let allAppointments = [];
 let currentSpecId   = '';
+let currentDoctorId = '';
+let allPrescriptions = [];
+let allMedHistory    = [];
 
 // auth guard + role check
 onAuthStateChanged(auth, async (user) => {
@@ -327,6 +516,7 @@ onAuthStateChanged(auth, async (user) => {
     setupSpecialtyUI(currentSpecId, data.specialty || data.specName || '');
 
     const doctorId = data.doctorId || data.id || user.uid;
+    currentDoctorId = doctorId;
     await loadData(doctorId);
 });
 
@@ -364,6 +554,16 @@ async function loadData(doctorId) {
             .map(d => ({ id: d.id, ...d.data() }))
             .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
+        // load prescriptions & history in parallel
+        const [rxSnap, hxSnap] = await Promise.all([
+            getDocs(query(collection(db, 'prescriptions'), where('doctorId', '==', doctorId))),
+            getDocs(query(collection(db, 'medHistory'),    where('doctorId', '==', doctorId)))
+        ]);
+        allPrescriptions = rxSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        allMedHistory = hxSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
         document.getElementById('loadingState').classList.add('d-none');
         renderAll();
         switchView('overview', document.querySelector('[data-view="overview"]'));
@@ -389,6 +589,8 @@ function renderAll() {
     renderTable('allTableBody', allAppointments, 'all');
     renderPatientsTable();
     renderSpecialtyPanel();
+    renderPrescriptionsTable();
+    renderHistoryTable();
 }
 
 function renderTable(tbodyId, appts, mode) {
@@ -538,7 +740,8 @@ window.switchView = (viewName, el) => {
 
     const titles = {
         overview: 'لوحة التحكم', today: 'حجوزات اليوم',
-        all: 'كل الحجوزات', patients: 'المرضى', specialty: 'بيانات التخصص'
+        all: 'كل الحجوزات', patients: 'المرضى', specialty: 'بيانات التخصص',
+        prescriptions: 'الروشتات الطبية', history: 'التاريخ المرضي'
     };
     document.getElementById('pageTitle').textContent = titles[viewName] || 'لوحة التحكم';
     if (window.innerWidth <= 768) closeSidebar();
@@ -618,6 +821,202 @@ function updateStats() {
     document.getElementById('pendingCount').textContent   = allAppointments.filter(a => a.status === 'pending').length;
     document.getElementById('confirmedCount').textContent = allAppointments.filter(a => a.status === 'confirmed').length;
 }
+
+// =============================================
+// Prescriptions
+// =============================================
+function getUniquePatients() {
+    const seen = new Map();
+    allAppointments.forEach(a => { if (a.patientId && !seen.has(a.patientId)) seen.set(a.patientId, a); });
+    return [...seen.values()];
+}
+
+function populatePatientSelects() {
+    const patients = getUniquePatients();
+    const opts = patients.map(p => `<option value="${p.patientId}">${p.patientName || '—'}</option>`).join('');
+    document.getElementById('rxPatientSelect').innerHTML = '<option value="">اختر المريض</option>' + opts;
+    document.getElementById('hxPatientSelect').innerHTML = '<option value="">اختر المريض</option>' + opts;
+}
+
+window.openPrescriptionModal = function() {
+    populatePatientSelects();
+    document.getElementById('rxDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('rxNotes').value = '';
+    document.getElementById('medicinesList').innerHTML = `
+        <div class="medicine-row d-flex gap-2 mb-2">
+            <input type="text" class="form-control rounded-3" placeholder="اسم الدواء" style="flex:2">
+            <input type="text" class="form-control rounded-3" placeholder="الجرعة (مثال: حبة مرتين يومياً)" style="flex:3">
+            <button class="btn btn-outline-danger rounded-3 px-2" onclick="removeMedRow(this)"><i class="bi bi-trash"></i></button>
+        </div>`;
+    new bootstrap.Modal(document.getElementById('prescriptionModal')).show();
+};
+
+window.addMedRow = function() {
+    const row = document.createElement('div');
+    row.className = 'medicine-row d-flex gap-2 mb-2';
+    row.innerHTML = `
+        <input type="text" class="form-control rounded-3" placeholder="اسم الدواء" style="flex:2">
+        <input type="text" class="form-control rounded-3" placeholder="الجرعة (مثال: حبة مرتين يومياً)" style="flex:3">
+        <button class="btn btn-outline-danger rounded-3 px-2" onclick="removeMedRow(this)"><i class="bi bi-trash"></i></button>`;
+    document.getElementById('medicinesList').appendChild(row);
+};
+
+window.removeMedRow = function(btn) {
+    const rows = document.querySelectorAll('.medicine-row');
+    if (rows.length > 1) btn.closest('.medicine-row').remove();
+};
+
+window.savePrescription = async function() {
+    const patientId   = document.getElementById('rxPatientSelect').value;
+    const patientName = document.getElementById('rxPatientSelect').selectedOptions[0]?.text;
+    const date        = document.getElementById('rxDate').value;
+    const notes       = document.getElementById('rxNotes').value.trim();
+
+    if (!patientId || !date) { alert('يرجى اختيار المريض والتاريخ'); return; }
+
+    const medicines = [];
+    document.querySelectorAll('.medicine-row').forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const name = inputs[0].value.trim();
+        const dose = inputs[1].value.trim();
+        if (name) medicines.push({ name, dose });
+    });
+
+    if (!medicines.length) { alert('يرجى إضافة دواء واحد على الأقل'); return; }
+
+    try {
+        const docRef = await addDoc(collection(db, 'prescriptions'), {
+            doctorId: currentDoctorId,
+            patientId, patientName,
+            date, medicines, notes,
+            createdAt: new Date()
+        });
+        const rx = { id: docRef.id, doctorId: currentDoctorId, patientId, patientName, date, medicines, notes };
+        allPrescriptions.unshift(rx);
+        renderPrescriptionsTable();
+        bootstrap.Modal.getInstance(document.getElementById('prescriptionModal')).hide();
+    } catch(e) { alert('حدث خطأ: ' + e.message); }
+};
+
+function renderPrescriptionsTable() {
+    const tbody = document.getElementById('prescriptionsTableBody');
+    if (!tbody) return;
+    if (!allPrescriptions.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">لا توجد روشتات بعد</td></tr>';
+        return;
+    }
+    tbody.innerHTML = allPrescriptions.map((rx, i) => `
+        <tr>
+            <td>${i+1}</td>
+            <td class="fw-semibold">${rx.patientName || '—'}</td>
+            <td>${rx.date || '—'}</td>
+            <td>${rx.medicines?.map(m => `<span class="badge bg-light text-dark border me-1">${m.name}</span>`).join('') || '—'}</td>
+            <td><small class="text-muted">${rx.notes ? rx.notes.substring(0,40)+'...' : '—'}</small></td>
+            <td><button class="btn btn-sm btn-outline-primary rounded-3" onclick="viewPrescription('${rx.id}')">
+                <i class="bi bi-eye"></i>
+            </button></td>
+        </tr>`).join('');
+}
+
+window.viewPrescription = function(id) {
+    const rx = allPrescriptions.find(r => r.id === id);
+    if (!rx) return;
+    const medsHtml = rx.medicines?.map(m => `
+        <div class="d-flex justify-content-between align-items-center p-2 rounded-3 mb-2" style="background:#f8f9fa">
+            <span class="fw-semibold"><i class="bi bi-capsule me-2" style="color:var(--secondary-blue)"></i>${m.name}</span>
+            <span class="text-muted small">${m.dose || '—'}</span>
+        </div>`).join('') || '<p class="text-muted">لا توجد أدوية</p>';
+
+    document.getElementById('viewPrescriptionBody').innerHTML = `
+        <div class="d-flex justify-content-between mb-3">
+            <div><strong>المريض:</strong> ${rx.patientName || '—'}</div>
+            <div><strong>التاريخ:</strong> ${rx.date || '—'}</div>
+        </div>
+        <h6 class="fw-bold mb-2" style="color:var(--secondary-blue)"><i class="bi bi-capsule me-2"></i>الأدوية</h6>
+        ${medsHtml}
+        ${rx.notes ? `<div class="mt-3 p-3 rounded-3" style="background:#e8f0fe">
+            <strong><i class="bi bi-info-circle me-1"></i>ملاحظات:</strong>
+            <p class="mb-0 mt-1 text-muted">${rx.notes}</p>
+        </div>` : ''}`;
+    new bootstrap.Modal(document.getElementById('viewPrescriptionModal')).show();
+};
+
+// =============================================
+// Medical History
+// =============================================
+window.openHistoryModal = function() {
+    populatePatientSelects();
+    document.getElementById('hxDate').value = new Date().toISOString().split('T')[0];
+    ['hxDiagnosis','hxTemp','hxSymptoms','hxChronic','hxNotes'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    new bootstrap.Modal(document.getElementById('historyModal')).show();
+};
+
+window.saveHistory = async function() {
+    const patientId   = document.getElementById('hxPatientSelect').value;
+    const patientName = document.getElementById('hxPatientSelect').selectedOptions[0]?.text;
+    const date        = document.getElementById('hxDate').value;
+    const diagnosis   = document.getElementById('hxDiagnosis').value.trim();
+    const temp        = document.getElementById('hxTemp').value.trim();
+    const symptoms    = document.getElementById('hxSymptoms').value.trim();
+    const chronic     = document.getElementById('hxChronic').value.trim();
+    const notes       = document.getElementById('hxNotes').value.trim();
+
+    if (!patientId || !date || !diagnosis) { alert('يرجى اختيار المريض والتاريخ والتشخيص'); return; }
+
+    try {
+        const docRef = await addDoc(collection(db, 'medHistory'), {
+            doctorId: currentDoctorId,
+            patientId, patientName,
+            date, diagnosis, temp, symptoms, chronic, notes,
+            createdAt: new Date()
+        });
+        const hx = { id: docRef.id, doctorId: currentDoctorId, patientId, patientName, date, diagnosis, temp, symptoms, chronic, notes };
+        allMedHistory.unshift(hx);
+        renderHistoryTable();
+        bootstrap.Modal.getInstance(document.getElementById('historyModal')).hide();
+    } catch(e) { alert('حدث خطأ: ' + e.message); }
+};
+
+function renderHistoryTable() {
+    const tbody = document.getElementById('historyTableBody');
+    if (!tbody) return;
+    if (!allMedHistory.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">لا يوجد تاريخ مرضي بعد</td></tr>';
+        return;
+    }
+    tbody.innerHTML = allMedHistory.map((hx, i) => `
+        <tr>
+            <td>${i+1}</td>
+            <td class="fw-semibold">${hx.patientName || '—'}</td>
+            <td>${hx.date || '—'}</td>
+            <td>${hx.diagnosis || '—'}</td>
+            <td><small class="text-muted">${hx.symptoms ? hx.symptoms.substring(0,40)+'...' : '—'}</small></td>
+            <td><button class="btn btn-sm btn-outline-primary rounded-3" onclick="viewHistory('${hx.id}')">
+                <i class="bi bi-eye"></i>
+            </button></td>
+        </tr>`).join('');
+}
+
+window.viewHistory = function(id) {
+    const hx = allMedHistory.find(h => h.id === id);
+    if (!hx) return;
+    document.getElementById('viewHistoryBody').innerHTML = `
+        <div class="row g-2 mb-3">
+            <div class="col-6"><strong>المريض:</strong> ${hx.patientName || '—'}</div>
+            <div class="col-6"><strong>التاريخ:</strong> ${hx.date || '—'}</div>
+        </div>
+        <div class="p-3 rounded-3 mb-3" style="background:#e8f0fe">
+            <strong><i class="bi bi-clipboard2-pulse me-1" style="color:var(--secondary-blue)"></i>التشخيص:</strong>
+            <p class="mb-0 mt-1 fw-semibold">${hx.diagnosis || '—'}</p>
+        </div>
+        ${hx.temp ? `<p><strong>درجة الحرارة:</strong> ${hx.temp}</p>` : ''}
+        ${hx.symptoms ? `<div class="mb-2"><strong>الأعراض:</strong><p class="text-muted mb-0">${hx.symptoms}</p></div>` : ''}
+        ${hx.chronic ? `<div class="mb-2"><strong>الأمراض المزمنة / الحساسية:</strong><p class="text-muted mb-0">${hx.chronic}</p></div>` : ''}
+        ${hx.notes ? `<div class="p-3 rounded-3" style="background:#f8f9fa"><strong>ملاحظات الطبيب:</strong><p class="text-muted mb-0 mt-1">${hx.notes}</p></div>` : ''}`;
+    new bootstrap.Modal(document.getElementById('viewHistoryModal')).show();
+};
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

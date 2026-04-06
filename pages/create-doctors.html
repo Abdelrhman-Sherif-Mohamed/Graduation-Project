@@ -64,11 +64,7 @@
                     <i class="bi bi-grid-fill me-1"></i>كروت الأطباء
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showTab('manual',this)">
-                    <i class="bi bi-person-plus me-1"></i>إنشاء يدوي
-                </a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="showTab('bulk',this)">
                     <i class="bi bi-lightning-fill me-1"></i>إنشاء جماعي
@@ -89,47 +85,7 @@
             <div class="row g-3" id="docCards"></div>
         </div>
 
-        <!-- Tab: Manual Create -->
-        <div id="tab-manual" class="d-none">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-7 col-lg-5">
-                    <div class="card shadow-sm p-4" style="border-radius:16px;border:none">
 
-                        <h6 class="fw-bold mb-3" style="color:var(--secondary-blue)">
-                            <span class="step-badge me-2">1</span> اختر التخصص
-                        </h6>
-                        <div class="row g-2 mb-4" id="specGrid"></div>
-
-                        <h6 class="fw-bold mb-3" style="color:var(--secondary-blue)">
-                            <span class="step-badge me-2">2</span> اختر الطبيب
-                        </h6>
-                        <select class="form-select mb-4 p-3" id="doctorSelect" style="border-radius:12px">
-                            <option value="">اختر التخصص أولاً</option>
-                        </select>
-
-                        <h6 class="fw-bold mb-3" style="color:var(--secondary-blue)">
-                            <span class="step-badge me-2">3</span> كلمة المرور
-                        </h6>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                            <input type="password" class="form-control p-3" id="passInput" value="Doctor@123">
-                            <button class="btn btn-outline-secondary" type="button" id="togglePass">
-                                <i class="bi bi-eye" id="eyeIcon"></i>
-                            </button>
-                        </div>
-
-                        <button class="btn w-100 py-3 fw-bold text-white rounded-5" id="createBtn"
-                            style="background:var(--secondary-blue)">
-                            <span id="btnText"><i class="bi bi-person-check-fill me-2"></i>إنشاء الحساب</span>
-                            <span id="btnSpinner" class="d-none">
-                                <span class="spinner-border spinner-border-sm me-2"></span>جاري الإنشاء...
-                            </span>
-                        </button>
-                        <div id="alertBox" class="alert py-2 small d-none mt-3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Tab: Bulk Create -->
         <div id="tab-bulk" class="d-none">
@@ -240,8 +196,6 @@
         const ADMIN_EMAIL = 'abdelrhmansherif140@gmail.com';
         const DEFAULT_PASS = 'Doctor@123';
 
-        let selectedSpec = null;
-        let selectedDoctor = null;
         let createdCount = 0;
         let failedCount = 0;
         const createdSet = new Set();
@@ -251,7 +205,6 @@
             if (!user) { window.location.href = 'login.html'; return; }
             if (user.email !== ADMIN_EMAIL) { window.location.href = 'patient.html'; return; }
             document.getElementById('adminName').textContent = user.displayName || user.email.split('@')[0];
-            buildSpecGrid();
             buildDocCards();
             buildSpecFilter();
             buildNdSpecSelect();
@@ -266,7 +219,7 @@
 
         // Tab switching
         window.showTab = (name, el) => {
-            ['cards','manual','bulk','newdoc'].forEach(t => document.getElementById(`tab-${t}`).classList.add('d-none'));
+            ['cards','bulk','newdoc'].forEach(t => document.getElementById(`tab-${t}`).classList.add('d-none'));
             document.getElementById(`tab-${name}`).classList.remove('d-none');
             document.querySelectorAll('.admin-tabs .nav-link').forEach(a => a.classList.remove('active'));
             el.classList.add('active');
@@ -339,53 +292,7 @@
             btn.innerHTML = '<i class="bi bi-check-lg"></i>';
         };
 
-        // Build specialty grid for manual tab
-        function buildSpecGrid() {
-            const grid = document.getElementById('specGrid');
-            grid.innerHTML = SPECIALTIES.map(s => `
-                <div class="col-6 col-md-4">
-                    <div class="spec-btn" id="spec-${s.id}" onclick="selectSpec('${s.id}')">
-                        <i class="bi ${s.icon} fs-4" style="color:var(--secondary-blue)"></i>
-                        <small class="fw-semibold" style="font-size:.72rem">${s.name}</small>
-                    </div>
-                </div>`).join('');
-        }
-
-        window.selectSpec = (specId) => {
-            selectedSpec = SPECIALTIES.find(s => s.id === specId);
-            document.querySelectorAll('.spec-btn').forEach(b => b.classList.remove('selected'));
-            document.getElementById(`spec-${specId}`).classList.add('selected');
-            const sel = document.getElementById('doctorSelect');
-            sel.innerHTML = '<option value="">اختر الطبيب</option>';
-            selectedSpec.doctors.forEach(d => {
-                const opt = document.createElement('option');
-                opt.value = d.id;
-                opt.textContent = d.name;
-                sel.appendChild(opt);
-            });
-            selectedDoctor = null;
-        };
-
-        document.getElementById('doctorSelect').onchange = function () {
-            if (!selectedSpec) return;
-            selectedDoctor = selectedSpec.doctors.find(d => d.id === this.value) || null;
-        };
-
-        document.getElementById('togglePass').onclick = () => {
-            const inp = document.getElementById('passInput');
-            const show = inp.type === 'password';
-            inp.type = show ? 'text' : 'password';
-            document.getElementById('eyeIcon').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
-        };
-
-        document.getElementById('createBtn').onclick = async () => {
-            if (!selectedDoctor || !selectedSpec) { showAlert('اختر التخصص والطبيب أولاً', 'warning'); return; }
-            const pass = document.getElementById('passInput').value;
-            if (!pass || pass.length < 6) { showAlert('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'warning'); return; }
-            setLoading(true);
-            await createDoctor(selectedDoctor, selectedSpec, pass);
-            setLoading(false);
-        };
+        // Build specialty grid for manual tab - REMOVED
 
         document.getElementById('bulkBtn').onclick = async () => {
             const pass = DEFAULT_PASS;
@@ -464,20 +371,6 @@
             line.textContent = `[${new Date().toLocaleTimeString('ar-EG')}] ${msg}`;
             box.appendChild(line);
             box.scrollTop = box.scrollHeight;
-        }
-
-        function setLoading(on) {
-            document.getElementById('btnText').classList.toggle('d-none', on);
-            document.getElementById('btnSpinner').classList.toggle('d-none', !on);
-            document.getElementById('createBtn').disabled = on;
-        }
-
-        function showAlert(msg, type) {
-            const el = document.getElementById('alertBox');
-            el.className = `alert alert-${type} py-2 small`;
-            el.textContent = msg;
-            el.classList.remove('d-none');
-            setTimeout(() => el.classList.add('d-none'), 4000);
         }
 
         // ── New Doctor Tab ──────────────────────────────

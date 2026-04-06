@@ -6,6 +6,8 @@
     <title>عيادة الشفاء</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 </head>
@@ -24,85 +26,12 @@
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link text-white" href="#home">الرئيسية</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link text-white dropdown-toggle" href="pages/specialties.html" role="button"
-                       data-bs-toggle="dropdown" data-bs-auto-close="outside">التخصصات</a>
-                    <div class="dropdown-menu mega-menu p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
-                            <span class="fw-bold mega-menu-header-title">
-                                <i class="bi bi-grid-fill me-2"></i>كل التخصصات
-                            </span>
-                            <a href="pages/specialties.html" class="btn btn-sm text-white rounded-5 px-3 btn-mega-all">
-                                عرض الكل <i class="bi bi-arrow-left ms-1"></i>
-                            </a>
-                        </div>
-                        <div class="mega-grid">
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-heart"><i class="bi bi-heart-pulse-fill me-1"></i>أمراض القلب</div>
-                                <a href="pages/appointment.html?doctor=ahmed" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. أحمد محمد</a>
-                                <a href="pages/appointment.html?doctor=karim" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. كريم حسن</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-dentist"><i class="bi bi-emoji-smile me-1"></i>طب الأسنان</div>
-                                <a href="pages/appointment.html?doctor=sara" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. سارة خالد</a>
-                                <a href="pages/appointment.html?doctor=hana" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. هناء رضا</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-bones"><i class="bi bi-bandaid-fill me-1"></i>جراحة العظام</div>
-                                <a href="pages/appointment.html?doctor=mohamed" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. محمد علي</a>
-                                <a href="pages/appointment.html?doctor=tarek" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. طارق سامي</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-children"><i class="bi bi-balloon-heart-fill me-1"></i>طب الأطفال</div>
-                                <a href="pages/appointment.html?doctor=mona" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. منى إبراهيم</a>
-                                <a href="pages/appointment.html?doctor=omar" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. عمر فاروق</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-neuro"><i class="bi bi-activity me-1"></i>المخ والأعصاب</div>
-                                <a href="pages/appointment.html?doctor=noura" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. نورا سعيد</a>
-                                <a href="pages/appointment.html?doctor=yasser" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. ياسر منصور</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-internal"><i class="bi bi-lungs-fill me-1"></i>الباطنة والمناعة</div>
-                                <a href="pages/appointment.html?doctor=hassan" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. حسن الشريف</a>
-                                <a href="pages/appointment.html?doctor=dina" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. دينا مصطفى</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-derma"><i class="bi bi-stars me-1"></i>الجلدية والتجميل</div>
-                                <a href="pages/appointment.html?doctor=rania" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. رانيا فؤاد</a>
-                                <a href="pages/appointment.html?doctor=wael" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. وائل نجيب</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-eye"><i class="bi bi-eye-fill me-1"></i>طب العيون</div>
-                                <a href="pages/appointment.html?doctor=sameh" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. سامح عبدالله</a>
-                                <a href="pages/appointment.html?doctor=iman" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. إيمان حمدي</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-gynecology"><i class="bi bi-gender-female me-1"></i>النساء والتوليد</div>
-                                <a href="pages/appointment.html?doctor=heba" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. هبة الله أحمد</a>
-                                <a href="pages/appointment.html?doctor=nadia" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. نادية سليم</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-urology"><i class="bi bi-droplet-fill me-1"></i>المسالك البولية</div>
-                                <a href="pages/appointment.html?doctor=ashraf" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. أشرف كمال</a>
-                                <a href="pages/appointment.html?doctor=sherif" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. شريف منير</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-radiology"><i class="bi bi-radioactive me-1"></i>الأشعة التشخيصية</div>
-                                <a href="pages/appointment.html?doctor=magdy" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. مجدي سعد</a>
-                            </div>
-                            <div class="mega-col">
-                                <div class="mega-spec-title mega-spec-emergency"><i class="bi bi-hospital-fill me-1"></i>الطوارئ</div>
-                                <a href="pages/appointment.html?doctor=adel" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. عادل رشاد</a>
-                                <a href="pages/appointment.html?doctor=layla" class="mega-doc-link"><i class="bi bi-person-fill me-1"></i>د. ليلى منصور</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                <li class="nav-item"><a class="nav-link text-white" href="pages/specialties.html">التخصصات</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#service">خدماتنا</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="pages/doctors.html">أطباؤنا</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="pages/appointment.html">حجز موعد</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#contact">اتصل بنا</a></li>
+                <li class="nav-item"><a class="nav-link nav-emergency-link" href="#emergency"><i class="bi bi-hospital-fill me-1"></i>طوارئ 24/7</a></li>
             </ul>
             <div class="d-flex gap-2">
                 <a href="pages/login.html" class="btn btn-outline-light rounded-5">دخول</a>
@@ -358,6 +287,121 @@
         </div>
     </section>
     <!-- ===== /DOCTORS ===== -->
+
+    <!-- ===== EMERGENCY ===== -->
+    <section class="emergency-section py-5" id="emergency">
+        <div class="container">
+
+            <!-- Top alert bar -->
+            <div class="emergency-alert d-flex align-items-center justify-content-between flex-wrap gap-3 rounded-4 p-4 mb-5" data-aos="fade-up">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="emergency-pulse-icon">
+                        <i class="bi bi-hospital-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-white fw-bold mb-0">خدمة الطوارئ متاحة 24/7</h5>
+                        <p class="text-white opacity-75 mb-0 small">فريق طبي متكامل جاهز على مدار الساعة لأي حالة طارئة</p>
+                    </div>
+                </div>
+                <a href="tel:+2010000000" class="btn btn-light fw-bold rounded-5 px-4 py-2 emergency-call-btn">
+                    <i class="bi bi-telephone-fill me-2"></i>اتصل الآن: 010-000-0000
+                </a>
+            </div>
+
+            <!-- Section title -->
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="badge rounded-5 px-3 py-2 mb-3 d-inline-block" style="background:#fff0f0;color:#c62828;border:1px solid #ffcdd2;font-size:.85rem;font-weight:700">
+                    <i class="bi bi-hospital-fill me-1"></i>خدمة الطوارئ
+                </span>
+                <h2 class="fw-bold mb-2" style="color:#b71c1c">نحن هنا في أصعب اللحظات</h2>
+                <p class="text-muted fs-5">وحدة طوارئ متكاملة بأحدث المعدات وأمهر الأطباء</p>
+            </div>
+
+            <!-- Feature cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                    <div class="emergency-card text-center p-4 h-100">
+                        <div class="emergency-icon-wrap mx-auto mb-3" style="background:#fff0f0">
+                            <i class="bi bi-clock-fill" style="color:#c62828"></i>
+                        </div>
+                        <h6 class="fw-bold mb-2">استجابة فورية</h6>
+                        <p class="text-muted small mb-0">فريق الطوارئ يستجيب خلال دقائق من وصول المريض على مدار 24 ساعة</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="emergency-card text-center p-4 h-100">
+                        <div class="emergency-icon-wrap mx-auto mb-3" style="background:#fff8e1">
+                            <i class="bi bi-heart-pulse-fill" style="color:#e65100"></i>
+                        </div>
+                        <h6 class="fw-bold mb-2">أجهزة إنعاش متطورة</h6>
+                        <p class="text-muted small mb-0">أحدث أجهزة الإنعاش القلبي الرئوي والمراقبة المستمرة لحالات الطوارئ</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="emergency-card text-center p-4 h-100">
+                        <div class="emergency-icon-wrap mx-auto mb-3" style="background:#e8f5e9">
+                            <i class="bi bi-person-badge-fill" style="color:#1b5e20"></i>
+                        </div>
+                        <h6 class="fw-bold mb-2">أطباء متخصصون</h6>
+                        <p class="text-muted small mb-0">فريق من أطباء الطوارئ المعتمدين بخبرة واسعة في التعامل مع الحالات الحرجة</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="emergency-card text-center p-4 h-100">
+                        <div class="emergency-icon-wrap mx-auto mb-3" style="background:#e3f2fd">
+                            <i class="bi bi-ambulance" style="color:#0d47a1"></i>
+                        </div>
+                        <h6 class="fw-bold mb-2">سيارة إسعاف مجهزة</h6>
+                        <p class="text-muted small mb-0">أسطول من سيارات الإسعاف المجهزة بالكامل لنقل الحالات الطارئة بأمان</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps row -->
+            <div class="emergency-steps rounded-4 p-4 p-md-5" data-aos="fade-up">
+                <div class="text-center mb-4">
+                    <h5 class="fw-bold text-white mb-1">ماذا تفعل في حالة الطوارئ؟</h5>
+                    <p class="text-white opacity-75 small mb-0">اتبع هذه الخطوات للحصول على المساعدة الفورية</p>
+                </div>
+                <div class="row g-3 text-center">
+                    <div class="col-6 col-md-3">
+                        <div class="emergency-step">
+                            <div class="step-num">١</div>
+                            <i class="bi bi-telephone-fill fs-3 text-white mb-2 d-block"></i>
+                            <p class="text-white small fw-semibold mb-0">اتصل فوراً</p>
+                            <small class="text-white opacity-60">010-000-0000</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="emergency-step">
+                            <div class="step-num">٢</div>
+                            <i class="bi bi-geo-alt-fill fs-3 text-white mb-2 d-block"></i>
+                            <p class="text-white small fw-semibold mb-0">أخبرنا بموقعك</p>
+                            <small class="text-white opacity-60">سنصلك في أسرع وقت</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="emergency-step">
+                            <div class="step-num">٣</div>
+                            <i class="bi bi-heart-pulse-fill fs-3 text-white mb-2 d-block"></i>
+                            <p class="text-white small fw-semibold mb-0">اتبع تعليماتنا</p>
+                            <small class="text-white opacity-60">فريقنا يرشدك هاتفياً</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="emergency-step">
+                            <div class="step-num">٤</div>
+                            <i class="bi bi-hospital-fill fs-3 text-white mb-2 d-block"></i>
+                            <p class="text-white small fw-semibold mb-0">نستقبلك فوراً</p>
+                            <small class="text-white opacity-60">فريق جاهز لاستقبالك</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- ===== /EMERGENCY ===== -->
 
     <!-- ===== CONTACT ===== -->
     <section class="container py-5" id="contact">

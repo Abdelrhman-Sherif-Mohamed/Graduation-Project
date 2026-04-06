@@ -6,169 +6,319 @@
     <title>تسجيل الدخول - عيادة الشفاء</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <style>
+        body { min-height: 100vh; background: linear-gradient(135deg, #0d47a1 0%, #0a3161 55%, #051d3d 100%); font-family: 'Cairo', sans-serif; }
+
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* Left panel */
+        .login-panel {
+            width: 400px;
+            flex-shrink: 0;
+            background: rgba(255,255,255,.06);
+            border-left: 1px solid rgba(255,255,255,.1);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 48px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-panel::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.04);
+        }
+        .login-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: -80px;
+            width: 240px; height: 240px;
+            border-radius: 50%;
+            background: rgba(26,115,232,.1);
+        }
+
+        .panel-stat {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.1);
+            margin-bottom: 12px;
+            transition: background .2s;
+        }
+        .panel-stat:hover { background: rgba(255,255,255,.12); }
+        .panel-stat-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.12);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: #fff; flex-shrink: 0;
+        }
+
+        /* Right form side */
+        .login-form-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 24px;
+        }
+
+        .login-card {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 24px 64px rgba(0,0,0,.25);
+            padding: 40px 44px;
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .input-group-text {
+            background: var(--blue-light);
+            border-color: #e0e8ff;
+            color: var(--blue-mid);
+        }
+        .form-control {
+            border-color: #e0e8ff;
+            transition: all .25s;
+        }
+        .form-control:focus {
+            border-color: var(--blue-mid);
+            box-shadow: 0 0 0 3px rgba(21,101,192,.12);
+        }
+
+        .divider {
+            display: flex; align-items: center; gap: 12px;
+            color: #bbb; font-size: .82rem;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+        }
+
+        @media (max-width: 860px) {
+            .login-panel { display: none; }
+            .login-form-side { padding: 24px 16px; }
+            .login-card { padding: 32px 24px; }
+        }
+    </style>
 </head>
-<body class="page-auth d-flex align-items-center justify-content-center p-3">
+<body>
 
-    <div class="login-card card p-4 p-md-5" style="width:100%;max-width:460px;" data-aos="zoom-in">
+<div class="login-wrapper">
 
-        <!-- Header -->
-        <div class="text-center mb-4">
-            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                 style="width:70px;height:70px;background:var(--light-blue)">
-                <i class="bi bi-hospital-fill fs-2" style="color:var(--secondary-blue)"></i>
-            </div>
-            <h4 class="fw-bold mb-1" style="color:var(--secondary-blue)">عيادة الشفاء</h4>
-            <p class="text-muted small mb-0">سجّل دخولك للمتابعة</p>
-        </div>
-
-        <div id="alertBox" class="alert py-2 small d-none"></div>
-
-        <form id="loginForm" novalidate>
-            <div class="mb-3">
-                <label class="form-label fw-semibold small">البريد الإلكتروني</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                    <input type="email" class="form-control p-3" id="emailInput" placeholder="example@email.com" required>
+    <!-- Info Panel -->
+    <div class="login-panel">
+        <div style="position:relative;z-index:1">
+            <div class="d-flex align-items-center gap-3 mb-5">
+                <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff">
+                    <i class="bi bi-hospital-fill"></i>
+                </div>
+                <div>
+                    <h5 class="text-white fw-bold mb-0">عيادة الشفاء</h5>
+                    <small class="text-white opacity-60">رعاية طبية متكاملة</small>
                 </div>
             </div>
 
-            <div class="mb-4">
-                <div class="d-flex justify-content-between mb-1">
-                    <label class="form-label fw-semibold small mb-0">كلمة المرور</label>
-                    <a href="#" id="forgotLink" class="small" style="color:var(--primary-blue)">نسيت كلمة المرور؟</a>
+            <h3 class="text-white fw-bold mb-2" style="line-height:1.4">أهلاً بعودتك<br><span style="opacity:.7;font-size:.85em">سعداء بتواجدك معنا</span></h3>
+            <p class="text-white opacity-60 small mb-5">سجّل دخولك للوصول إلى حجوزاتك وسجلك الطبي</p>
+
+            <div class="panel-stat">
+                <div class="panel-stat-icon"><i class="bi bi-people-fill"></i></div>
+                <div>
+                    <p class="text-white fw-bold mb-0">+5,000 مريض</p>
+                    <small class="text-white opacity-60">يثقون في عيادة الشفاء</small>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                    <input type="password" class="form-control p-3" id="passwordInput" placeholder="••••••••" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePass" tabindex="-1">
-                        <i class="bi bi-eye" id="eyeIcon"></i>
-                    </button>
+            </div>
+            <div class="panel-stat">
+                <div class="panel-stat-icon"><i class="bi bi-person-badge-fill"></i></div>
+                <div>
+                    <p class="text-white fw-bold mb-0">23 طبيب متخصص</p>
+                    <small class="text-white opacity-60">في 12 تخصص طبي مختلف</small>
+                </div>
+            </div>
+            <div class="panel-stat">
+                <div class="panel-stat-icon"><i class="bi bi-hospital-fill"></i></div>
+                <div>
+                    <p class="text-white fw-bold mb-0">طوارئ 24/7</p>
+                    <small class="text-white opacity-60">فريق جاهز على مدار الساعة</small>
+                </div>
+            </div>
+            <div class="panel-stat">
+                <div class="panel-stat-icon"><i class="bi bi-award-fill"></i></div>
+                <div>
+                    <p class="text-white fw-bold mb-0">+15 سنة خبرة</p>
+                    <small class="text-white opacity-60">معتمدون من وزارة الصحة</small>
                 </div>
             </div>
 
-            <button type="submit" class="btn w-100 py-3 fw-bold text-white rounded-5"
-                    style="background:var(--secondary-blue)" id="loginBtn">
-                <span id="btnText"><i class="bi bi-box-arrow-in-right me-2"></i>دخول</span>
-                <span id="btnSpinner" class="d-none">
-                    <span class="spinner-border spinner-border-sm me-2"></span>جاري التحقق...
-                </span>
-            </button>
-        </form>
-
-        <div class="divider my-4">أو</div>
-
-        <div class="text-center mb-2">
-            <span class="text-muted small">مش عندك حساب؟ </span>
-            <a href="register.html" class="fw-semibold small" style="color:var(--secondary-blue)">سجّل دلوقتي</a>
-        </div>
-        <div class="text-center">
-            <a href="../index.html" class="text-muted small"><i class="bi bi-arrow-right me-1"></i>الرجوع للرئيسية</a>
+            <div class="mt-5 pt-3" style="border-top:1px solid rgba(255,255,255,.1)">
+                <p class="text-white opacity-40 small mb-0 text-center">© 2026 عيادة الشفاء</p>
+            </div>
         </div>
     </div>
 
-    <script type="module">
-        import { auth } from "../js/firebase-config.js";
-        import { signInWithEmailAndPassword, sendPasswordResetEmail }
-            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc }
-            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <!-- Form Side -->
+    <div class="login-form-side">
+        <div class="login-card">
 
-        const db = getFirestore(auth.app);
+            <div class="text-center mb-4">
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:72px;height:72px;background:linear-gradient(135deg,var(--blue),var(--blue-acc));box-shadow:0 8px 24px rgba(13,71,161,.3)">
+                    <i class="bi bi-hospital-fill fs-2 text-white"></i>
+                </div>
+                <h4 class="fw-bold mb-1" style="color:var(--secondary-blue)">تسجيل الدخول</h4>
+                <p class="text-muted small mb-0">أدخل بياناتك للمتابعة</p>
+            </div>
 
-        // toggle password visibility
-        document.getElementById('togglePass').onclick = () => {
-            const inp  = document.getElementById('passwordInput');
-            const show = inp.type === 'password';
-            inp.type   = show ? 'text' : 'password';
-            document.getElementById('eyeIcon').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
-        };
+            <div id="alertBox" class="alert py-2 small d-none mb-3"></div>
 
-        // send password reset email
-        document.getElementById('forgotLink').onclick = async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('emailInput').value.trim();
-            if (!email) { showAlert('أدخل بريدك الإلكتروني أولاً', 'warning'); return; }
-            try {
-                await sendPasswordResetEmail(auth, email);
-                showAlert('تم إرسال رابط إعادة التعيين على بريدك ✓', 'success');
-            } catch { showAlert('تعذّر إرسال البريد، تحقق من العنوان', 'danger'); }
-        };
+            <form id="loginForm" novalidate>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">البريد الإلكتروني</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                        <input type="email" class="form-control p-3" id="emailInput" placeholder="example@email.com" required>
+                    </div>
+                </div>
 
-        // login form submit
-        document.getElementById('loginForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const email    = document.getElementById('emailInput').value.trim();
-            const password = document.getElementById('passwordInput').value;
-            if (!email || !password) { showAlert('يرجى ملء جميع الحقول', 'warning'); return; }
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label fw-semibold small mb-0">كلمة المرور</label>
+                        <a href="#" id="forgotLink" class="small fw-semibold" style="color:var(--blue-acc)">نسيت كلمة المرور؟</a>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                        <input type="password" class="form-control p-3" id="passwordInput" placeholder="••••••••" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePass" tabindex="-1">
+                            <i class="bi bi-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
 
-            setLoading(true);
-            try {
-                const cred = await signInWithEmailAndPassword(auth, email, password);
+                <button type="submit" class="btn w-100 py-3 fw-bold text-white rounded-5" id="loginBtn"
+                        style="background:linear-gradient(135deg,var(--blue),var(--blue-acc));box-shadow:0 4px 16px rgba(13,71,161,.3);font-size:1rem">
+                    <span id="btnText"><i class="bi bi-box-arrow-in-right me-2"></i>دخول</span>
+                    <span id="btnSpinner" class="d-none">
+                        <span class="spinner-border spinner-border-sm me-2"></span>جاري التحقق...
+                    </span>
+                </button>
+            </form>
 
-                let snap = await getDoc(doc(db, 'users', cred.user.uid));
-                let data = snap.exists() ? snap.data() : null;
+            <div class="divider my-4">أو</div>
 
-                // fallback: search doctors collection by email
-                if (!data || !data.role) {
-                    const q    = query(collection(db, 'doctors'), where('email', '==', email));
-                    const docs = await getDocs(q);
-                    if (!docs.empty) {
-                        data = docs.docs[0].data();
-                        await setDoc(doc(db, 'users', cred.user.uid), {
-                            ...data, uid: cred.user.uid, doctorId: data.id
-                        });
-                    } else {
-                        data = {};
-                    }
-                }
+            <div class="text-center">
+                <span class="text-muted small">مش عندك حساب؟ </span>
+                <a href="register.html" class="fw-bold small" style="color:var(--secondary-blue)">سجّل دلوقتي</a>
+                <span class="text-muted small mx-2">|</span>
+                <a href="../index.html" class="text-muted small"><i class="bi bi-arrow-right me-1"></i>الرئيسية</a>
+            </div>
+        </div>
+    </div>
 
-                const role = data.role || 'patient';
-                localStorage.setItem('currentUser', JSON.stringify({
-                    uid:      cred.user.uid,
-                    email:    cred.user.email,
-                    name:     data.name || cred.user.displayName || email.split('@')[0],
-                    role,
-                    doctorId: data.doctorId || data.id || null
-                }));
+</div>
 
-                showAlert('تم تسجيل الدخول بنجاح ✓', 'success');
+<script type="module">
+    import { auth } from "../js/firebase-config.js";
+    import { signInWithEmailAndPassword, sendPasswordResetEmail }
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc }
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-                // redirect by role
-                setTimeout(() => {
-                    if (role === 'doctor')      window.location.href = 'dashboard.html';
-                    else if (role === 'admin')  window.location.href = 'create-doctors.html';
-                    else                        window.location.href = 'patient.html';
-                }, 800);
+    const db = getFirestore(auth.app);
 
-            } catch (err) {
-                setLoading(false);
-                const msgs = {
-                    'auth/user-not-found':    'البريد الإلكتروني غير مسجّل',
-                    'auth/wrong-password':    'كلمة المرور غير صحيحة',
-                    'auth/invalid-email':     'صيغة البريد الإلكتروني غير صحيحة',
-                    'auth/too-many-requests': 'تم تجاوز عدد المحاولات، حاول لاحقاً',
-                    'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة',
-                };
-                showAlert(msgs[err.code] || 'حدث خطأ، حاول مرة أخرى', 'danger');
+    document.getElementById('togglePass').onclick = () => {
+        const inp  = document.getElementById('passwordInput');
+        const show = inp.type === 'password';
+        inp.type   = show ? 'text' : 'password';
+        document.getElementById('eyeIcon').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+    };
+
+    document.getElementById('forgotLink').onclick = async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('emailInput').value.trim();
+        if (!email) { showAlert('أدخل بريدك الإلكتروني أولاً', 'warning'); return; }
+        try {
+            await sendPasswordResetEmail(auth, email);
+            showAlert('تم إرسال رابط إعادة التعيين على بريدك ✓', 'success');
+        } catch { showAlert('تعذّر إرسال البريد، تحقق من العنوان', 'danger'); }
+    };
+
+    document.getElementById('loginForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const email    = document.getElementById('emailInput').value.trim();
+        const password = document.getElementById('passwordInput').value;
+        if (!email || !password) { showAlert('يرجى ملء جميع الحقول', 'warning'); return; }
+
+        setLoading(true);
+        try {
+            const cred = await signInWithEmailAndPassword(auth, email, password);
+
+            let snap = await getDoc(doc(db, 'users', cred.user.uid));
+            let data = snap.exists() ? snap.data() : null;
+
+            if (!data || !data.role) {
+                const q    = query(collection(db, 'doctors'), where('email', '==', email));
+                const docs = await getDocs(q);
+                if (!docs.empty) {
+                    data = docs.docs[0].data();
+                    await setDoc(doc(db, 'users', cred.user.uid), { ...data, uid: cred.user.uid, doctorId: data.id });
+                } else { data = {}; }
             }
-        };
 
-        function setLoading(on) {
-            document.getElementById('btnText').classList.toggle('d-none', on);
-            document.getElementById('btnSpinner').classList.toggle('d-none', !on);
-            document.getElementById('loginBtn').disabled = on;
-        }
+            const role = data.role || 'patient';
+            localStorage.setItem('currentUser', JSON.stringify({
+                uid: cred.user.uid, email: cred.user.email,
+                name: data.name || cred.user.displayName || email.split('@')[0],
+                role, doctorId: data.doctorId || data.id || null
+            }));
 
-        function showAlert(msg, type) {
-            const el = document.getElementById('alertBox');
-            el.className = `alert alert-${type} py-2 small`;
-            el.textContent = msg;
+            showAlert('تم تسجيل الدخول بنجاح ✓', 'success');
+            setTimeout(() => {
+                if (role === 'doctor')     window.location.href = 'dashboard.html';
+                else if (role === 'admin') window.location.href = 'create-doctors.html';
+                else                       window.location.href = 'patient.html';
+            }, 800);
+
+        } catch (err) {
+            setLoading(false);
+            const msgs = {
+                'auth/user-not-found':    'البريد الإلكتروني غير مسجّل',
+                'auth/wrong-password':    'كلمة المرور غير صحيحة',
+                'auth/invalid-email':     'صيغة البريد الإلكتروني غير صحيحة',
+                'auth/too-many-requests': 'تم تجاوز عدد المحاولات، حاول لاحقاً',
+                'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة',
+            };
+            showAlert(msgs[err.code] || 'حدث خطأ، حاول مرة أخرى', 'danger');
         }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <script>AOS.init({ duration: 600, once: true });</script>
+    };
+
+    function setLoading(on) {
+        document.getElementById('btnText').classList.toggle('d-none', on);
+        document.getElementById('btnSpinner').classList.toggle('d-none', !on);
+        document.getElementById('loginBtn').disabled = on;
+    }
+    function showAlert(msg, type) {
+        const el = document.getElementById('alertBox');
+        el.className = `alert alert-${type} py-2 small`;
+        el.textContent = msg;
+        el.classList.remove('d-none');
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
