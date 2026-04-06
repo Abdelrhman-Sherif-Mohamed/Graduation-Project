@@ -1312,3 +1312,83 @@ body {
     color: #fff !important;
 }
 .nav-emergency-link::after { display: none !important; }
+
+/* =============================================
+   Patient Page Tabs
+   ============================================= */
+.patient-tabs { flex-wrap: wrap; gap: 6px; }
+.patient-tabs .nav-link {
+    border-radius: 12px;
+    color: #555;
+    font-size: .88rem;
+    padding: 8px 18px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: 1.5px solid #e0e8ff;
+    background: #fff;
+}
+.patient-tabs .nav-link:hover { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
+.patient-tabs .nav-link.active {
+    background: linear-gradient(135deg, var(--blue), var(--blue-acc));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(13,71,161,.3);
+}
+
+/* Prescription card */
+.rx-card {
+    border: 1.5px solid #f8bbd0;
+    border-radius: 18px !important;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+.rx-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #c2185b, #e91e63);
+}
+.rx-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(194,24,91,.15) !important; }
+
+.rx-icon-wrap {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: #fce4ec;
+    color: #c2185b;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+.rx-card:hover .rx-icon-wrap { transform: scale(1.1) rotate(-5deg); }
+
+/* Medical history card */
+.hx-card {
+    border: 1.5px solid #c8e6c9;
+    border-radius: 18px !important;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+.hx-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1b5e20, #2e7d32);
+}
+.hx-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(27,94,32,.15) !important; }
+
+.hx-icon-wrap {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+.hx-card:hover .hx-icon-wrap { transform: scale(1.1) rotate(-5deg); }
